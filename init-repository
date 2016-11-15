@@ -145,7 +145,7 @@ Options:
 
         ...will use the following as a mirror for qtbase:
 
-          user\@machine:/foo/bar/qt/qtbase.git
+          user\@machine:/foo/bar/qtbase.git
 
         The mirror is permitted to contain a subset of the submodules; any
         missing modules will fall back to the canonical URLs.
@@ -590,14 +590,18 @@ sub run
     chomp(my $url = `git config remote.origin.url`);
     die("Have no origin remote.\n") if (!$url);
     $url =~ s,\.git$,,;
-    $url =~ s,qt/qt5$,,;
-    $self->{'base-url'} = $url;
+    $url =~ s,qt5$,,;
+    $self->{'mirror-url'} = $url;
 
-    $self->git_clone_all_submodules('qt/qt5', $self->{branch}, @{$self->{'module-subset'}});
+    $self->{'base-url'} = 'https://code.qt.io/cgit/qt/';
+    
 
-    $self->git_add_remotes('qt/qt5');
+    $self->git_clone_all_submodules('qt5', $self->{branch}, @{$self->{'module-subset'}});
 
-    $self->git_install_hooks;
+    $self->git_add_remotes('qt5');
+
+    # we do not ned the Qt5 internal hooks installed
+    # $self->git_install_hooks;
 
     return;
 }
