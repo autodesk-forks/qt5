@@ -31,6 +31,8 @@ OPENSSL_INCLUDE_PATH = os.path.realpath(
     os.path.join(SCRIPT_PATH, OPENSSL_DIR, 'include'))
 OPENSSL_LIB_PATH = os.path.realpath(
     os.path.join(SCRIPT_PATH, OPENSSL_DIR, 'lib'))
+OPENSSL_LIB_PATH_DEBUG = os.path.realpath(
+    os.path.join(SCRIPT_PATH, OPENSSL_DIR, 'debug', 'lib'))
 
 ICU_INCLUDE_PATH = os.path.realpath(
     os.path.join(SCRIPT_PATH, ICU_DIR, 'include'))
@@ -60,9 +62,9 @@ subprocess.check_call(
     ' -opengl dynamic '
     ' -mp -prefix \"' + PREFIX_PATH + '\" '
     ' -openssl '
-    ' OPENSSL_LIBS_DEBUG="-llibeay32d -lssleay32d" ' +
+    ' OPENSSL_LIBS_DEBUG="-llibeay32 -lssleay32" ' +
     ' OPENSSL_LIBS_RELEASE="-llibeay32 -lssleay32" ' +
-    ' -I \"' + OPENSSL_INCLUDE_PATH + '\" -L \"' + OPENSSL_LIB_PATH + '\"' +
+    ' -I \"' + OPENSSL_INCLUDE_PATH + '\" -L \"' + OPENSSL_LIB_PATH_DEBUG + '\"' +
     ' -no-icu ' +  # we just enable icu for the webkit module that we compile
                    # in a separate step
     # ' -icu ' +
@@ -115,7 +117,7 @@ subprocess.check_call(
     ' -qt-zlib -qt-libpng ' +
     ' -opengl dynamic ' +
     ' -mp -prefix \"' + PREFIX_PATH + '\" ' +
-    ' -openssl OPENSSL_LIBS_DEBUG="-llibeay32d -lssleay32d" ' +
+    ' -openssl OPENSSL_LIBS_DEBUG="-llibeay32 -lssleay32" ' +
     ' OPENSSL_LIBS_RELEASE="-llibeay32 -lssleay32" ' +
     ' -I \"' + OPENSSL_INCLUDE_PATH + '\" -L \"' + OPENSSL_LIB_PATH + '\"' +
     ' -no-icu ' +  # we just enable icu for the webkit module that we compile
