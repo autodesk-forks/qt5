@@ -152,7 +152,8 @@ if MODE == 'release' or MODE == 'debug_and_release':
                     # in a separate step
         # ' -icu ' +
         # ' -I \"' + ICU_INCLUDE_PATH + '\" -L \"' + ICU_LIB_PATH + '\"'
-        ' -make tests'
+        ' -make tests '
+        ' -force-debug-info '
         ' -release ', env=BUILD_ENV, shell=True)
 
     subprocess.check_call('jom', env=BUILD_ENV, shell=True)
@@ -166,8 +167,9 @@ if MODE == 'release' or MODE == 'debug_and_release':
 # -----------------------------------------------------------------------------
 for f in os.listdir(os.path.join(PREFIX_PATH, 'bin')):
     if f.endswith('.pdb') and not f.endswith('d.pdb'):
-        print 'deleting unwanted ' + f + '\n'
-        os.remove(os.path.join(PREFIX_PATH, 'bin', f))
+        if os.path.exists( os.path.join(PREFIX_PATH, 'bin', f[:-4] + '.exe' ) ):
+            print 'deleting unwanted ' + f
+            os.remove(os.path.join(PREFIX_PATH, 'bin', f))
 # -----------------------------------------------------------------------------
 
 
