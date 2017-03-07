@@ -47,7 +47,7 @@
 	depends = qtbase
 	path = qtxmlpatterns
 	url = ../qtxmlpatterns.git
-	branch = 5.6.2
+	branch = 5.6
 	status = addon
 [submodule "qttranslations"]
 	depends = qttools
@@ -60,7 +60,7 @@
 	depends = qtdeclarative
 	path = qtdoc
 	url = ../qtdoc.git
-	branch = 5.6.2
+	branch = 5.6
 	status = essential
 	priority = 40
 [submodule "qtrepotools"]
@@ -143,7 +143,7 @@
 	recommends = qtdeclarative
 	path = qtwayland
 	url = ../qtwayland.git
-	branch = 5.6.2
+	branch = 5.6
 	status = addon
 [submodule "qt3d"]
 	depends = qtdeclarative qtimageformats
@@ -168,20 +168,20 @@
 	depends = qtdeclarative
 	path = qtgraphicaleffects
 	url = ../qtgraphicaleffects.git
-	branch = 5.6.2
+	branch = 5.6
 	status = addon
 [submodule "qtquickcontrols"]
 	depends = qtdeclarative
 	recommends = qtgraphicaleffects
 	path = qtquickcontrols
 	url = ../qtquickcontrols.git
-	branch = 5.6.2
+	branch = 5.6
 	status = essential
 [submodule "qtserialbus"]
 	depends = qtserialport
 	path = qtserialbus
 	url = ../qtserialbus.git
-	branch = 5.6.2
+	branch = 5.6
 	status = preview
 [submodule "qtserialport"]
 	depends = qtbase
@@ -199,7 +199,7 @@
 	depends = qtbase
 	path = qtmacextras
 	url = ../qtmacextras.git
-	branch = 5.6.2
+	branch = 5.6
 	status = addon
 [submodule "qtwinextras"]
 	depends = qtbase
@@ -212,7 +212,7 @@
 	depends = qtbase
 	path = qtandroidextras
 	url = ../qtandroidextras.git
-	branch = 5.6.2
+	branch = 5.6
 	status = addon
 [submodule "qtenginio"]
 	depends = qtdeclarative
@@ -246,20 +246,20 @@
 	depends = qtdeclarative
 	path = qtcanvas3d
 	url = ../qtcanvas3d.git
-	branch = 5.6.2
+	branch = 5.6
 	status = addon
 [submodule "qtwebview"]
 	depends = qtdeclarative
 	recommends = qtwebengine
 	path = qtwebview
 	url = ../qtwebview.git
-	branch = 5.6.2
+	branch = 5.6
 	status = addon
 [submodule "qtquickcontrols2"]
 	depends = qtquickcontrols
 	path = qtquickcontrols2
 	url = ../qtquickcontrols2.git
-	branch = 5.6.2
+	branch = 5.6
 	status = preview
 [submodule "qtpurchasing"]
 	depends = qtbase
