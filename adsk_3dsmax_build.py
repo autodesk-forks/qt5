@@ -9,11 +9,10 @@ import getopt
 OPENSSL_DIR = '../openssl/1.0.2j'
 ICU_DIR = '../icu'
 
-TARGET_DIR = '../qt5_dist'
+TARGET_DIR = 'dist/Qt/5.6.2'
 
-BUILD_DIR_DEBUG = '../qt5_build_debug'
-BUILD_DIR_RELEASE = '../qt5_build_release'
-BUILD_DIR = '../qt5_build'
+BUILD_DIR_DEBUG = 'build_debug'
+BUILD_DIR_RELEASE = 'build_release'
 
 # ----------------------------------------------------------------------------
 try:
@@ -152,7 +151,7 @@ if MODE == 'release' or MODE == 'debug_and_release':
                     # in a separate step
         # ' -icu ' +
         # ' -I \"' + ICU_INCLUDE_PATH + '\" -L \"' + ICU_LIB_PATH + '\"'
-        ' -make tests '
+        # ' -make tests '
         ' -force-debug-info '
         ' -release ', env=BUILD_ENV, shell=True)
 
