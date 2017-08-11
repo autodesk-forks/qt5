@@ -1,3 +1,7 @@
 Makefile
 .qmake.cache
 .qmake.super
+/dist/
+/build_debug/
+/build_release/
+jom.exe
