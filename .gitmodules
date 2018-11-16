@@ -1,7 +1,7 @@
 [submodule "qtbase"]
 	path = qtbase
 	url = ../qtbase.git
-	branch = 5.11.2
+	branch = adsk-contrib/3dsmax/5.11.2
 	status = essential
 [submodule "qtsvg"]
 	depends = qtbase
@@ -53,7 +53,7 @@
 	depends = qttools
 	path = qttranslations
 	url = ../qttranslations.git
-	branch = 5.11.2
+	branch = adsk-contrib/3dsmax/5.11.2
 	status = essential
 	priority = 30
 [submodule "qtdoc"]
@@ -193,12 +193,6 @@
 	url = ../qtandroidextras.git
 	branch = 5.11.2
 	status = addon
-[submodule "qtenginio"]
-	depends = qtdeclarative
-	path = qtenginio
-	url = ../qtenginio.git
-	branch = dev
-	status = ignore
 [submodule "qtwebsockets"]
 	depends = qtbase
 	recommends = qtdeclarative

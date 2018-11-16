@@ -286,6 +286,8 @@ sub git_submodule_init
         $self->exe('git', 'config', 'commit.template', $template);
     }
 
+    $self->exe('git', 'config', 'credential.helper', 'wincred');
+
     return;
 }
 
@@ -417,6 +419,7 @@ sub git_clone_all_submodules
             my $module_dir = $subdirs{$module};
             chdir($module_dir) or confess "chdir $module_dir: $OS_ERROR";
             my $br = qx(git rev-parse -q --verify $branch);
+            print "Checking out submodule $module.\n";
             if (!$br) {
                 $self->exe('git', 'checkout', '-b', $branch, "origin/$branch");
             } else {
@@ -458,8 +461,8 @@ sub git_add_remotes
     }
 
     $gerrit_repo_url .= $gerrit_repo_basename;
-    $self->exe('git', 'config', 'remote.gerrit.url', $gerrit_repo_url);
-    $self->exe('git', 'config', 'remote.gerrit.fetch', '+refs/heads/*:refs/remotes/gerrit/*', '/heads/');
+    # $self->exe('git', 'config', 'remote.gerrit.url', $gerrit_repo_url);
+    # $self->exe('git', 'config', 'remote.gerrit.fetch', '+refs/heads/*:refs/remotes/gerrit/*', '/heads/');
 }
 
 sub git_stat_one_submodule
@@ -533,6 +536,7 @@ sub git_clone_one_submodule
         } else {
             push @reference_args, '--no-checkout';
         }
+        $self->exe('git', 'config', 'credential.helper', 'wincred');
         $self->exe('git', 'clone', @reference_args,
                    ($mirror ? $mirror : $url), $submodule);
     }
@@ -647,7 +651,8 @@ sub run
 
     $self->git_add_remotes('qt5');
 
-    $self->git_install_hooks;
+    # we do not ned the Qt5 internal hooks installed
+    # $self->git_install_hooks;
 
     return;
 }
