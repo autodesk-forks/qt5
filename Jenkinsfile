@@ -39,14 +39,14 @@ node('OSS-Win10-VS2017U6')
         // download packages from artifactory -----------------------------
         artifactDownload = new ors.utils.common_artifactory(steps, env, Artifactory, 'airbuild-svc-user')
         def downloadspec = """{
-                "files": [{ "pattern": "team-3dsmax-generic/3dsmax/openssl/1.0.2j/openssl-1.0.2j.zip",
-                            "target": "deps/" }
+                "files": [{ "pattern": "team-3dsmax-generic/3dsmax/openssl/1.0.2p/openssl-1.0.2p-win_intel64_v140-2.zip",
+                            "target": "deps/openssl/" }
                     ]
                 }"""
         buildInfo.append(artifactDownload.download('https://art-bobcat.autodesk.com/artifactory/', downloadspec))
         // unzip artifacts ------------------------------------------------
-        dir('deps') {
-            bat '7z x 3dsmax\\openssl\\1.0.2j\\openssl-1.0.2j.zip'
+        dir('deps/openssl') {
+            bat '7z x 3dsmax\\openssl\\1.0.2p\\openssl-1.0.2p-win_intel64_v140-2.zip'
         }
     }
     //---------------------------------------------------------------------
@@ -85,6 +85,12 @@ node('OSS-Win10-VS2017U6')
         buildInfo.append(artifactUpload.upload('https://art-bobcat.autodesk.com/artifactory/', uploadSpec))
         def server = Artifactory.newServer url: 'https://art-bobcat.autodesk.com/artifactory/', credentialsId: 'airbuild-svc-user'
         server.publishBuildInfo(buildInfo)
+    }
+    //---------------------------------------------------------------------
+    stage ('Cleanup')
+    {
+        bat 'git submodule foreach --recursive "git clean -dfx" && git clean -dfx'
+        bat 'git clean -dfx'
     }
     } // workspace end
 }

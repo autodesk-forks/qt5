@@ -6,7 +6,7 @@ import subprocess
 import sys
 import getopt
 
-OPENSSL_DIR = 'deps/openssl/1.0.2j'
+OPENSSL_DIR = 'deps/openssl'
 #ICU_DIR = '../icu'
 
 TARGET_DIR = 'dist/Qt/5.11.2'

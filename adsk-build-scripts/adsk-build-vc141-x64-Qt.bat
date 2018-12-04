@@ -4,11 +4,11 @@ cmake --version
 ninja --version
 C:\bin\jom.exe /VERSION
 
-@REM use the power of mighty python to find our installation :)
-FOR /F "tokens=*" %%F IN ('python adsk-build-scripts\find_vs2017.py') do SET vs2017_path=%%F
-
-@REM call "%vs2017_path%\VC\Auxiliary\Build\vcvarsall.bat" amd64 10.0.17134.0
-call "%vs2017_path%\VC\Auxiliary\Build\vcvarsall.bat" amd64
+for /f "usebackq delims=" %%i in (`"C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe" -prerelease -latest -property installationPath`) do (
+  IF exist "%%i\VC\Auxiliary\Build\vcvarsall.bat" (
+    CALL "%%i\VC\Auxiliary\Build\vcvarsall.bat" amd64 10.0.17134.0
+  )
+)
 
 SET
 
