@@ -18,8 +18,6 @@ SET
 CHCP
 CHCP 65001
 
-
-perl ./init-repository -f --branch
 perl ./init-repository -f
 
 @REM git submodule update --init qtbase
