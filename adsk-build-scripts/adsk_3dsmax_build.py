@@ -59,7 +59,7 @@ OPENSSL_INCLUDE_PATH = os.path.realpath(
 OPENSSL_LIB_PATH = os.path.realpath(
     os.path.join(ROOT_PATH, OPENSSL_DIR, 'lib'))
 OPENSSL_LIB_PATH_DEBUG = os.path.realpath(
-    os.path.join(ROOT_PATH, OPENSSL_DIR, 'debug', 'lib'))
+    os.path.join(ROOT_PATH, OPENSSL_DIR, 'lib', 'debug'))
 
 # ICU_INCLUDE_PATH = os.path.realpath(
 #    os.path.join(ROOT_PATH, ICU_DIR, 'include'))
@@ -90,9 +90,11 @@ try:
         ' -qt-zlib -qt-libpng '
         ' -opengl dynamic '
         ' -mp -prefix \"' + PREFIX_PATH + '\" '
-        ' -openssl '
+        ' -ssl -openssl '
         ' OPENSSL_LIBS_DEBUG="-llibeay32 -lssleay32" ' +
         ' OPENSSL_LIBS_RELEASE="-llibeay32 -lssleay32" ' +
+        ' OPENSSL_LIBDIR=\"' + OPENSSL_LIB_PATH_DEBUG + '\" ' +
+        ' OPENSSL_INCDIR=\"' + OPENSSL_INCLUDE_PATH + '\\openssl\" ' +
         ' -I \"' + OPENSSL_INCLUDE_PATH + '\" -L \"' + OPENSSL_LIB_PATH_DEBUG + '\"' +
         # ' -no-icu ' +  # we just enable icu for the webkit module that we compile
         # in a separate step
