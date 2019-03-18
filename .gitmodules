@@ -1,7 +1,7 @@
 [submodule "qtbase"]
 	path = qtbase
 	url = ../qtbase.git
-	branch = 5.12.2
+	branch = adsk-contrib/3dsmax/5.12.2
 	status = essential
 [submodule "qtsvg"]
 	depends = qtbase
@@ -54,7 +54,7 @@
 	depends = qttools
 	path = qttranslations
 	url = ../qttranslations.git
-	branch = 5.12.2
+	branch = adsk-contrib/3dsmax/5.12.2
 	status = essential
 	priority = 30
 [submodule "qtdoc"]
