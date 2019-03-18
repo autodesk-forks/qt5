@@ -13,7 +13,7 @@ def getWorkspace() {
 
     // IMPORTANT: Please change branch name here below else it might mix the previous branch
 
-    root.take(count) + "qt5-3dsmax5121"
+    root.take(count) + "qt5-3dsmax5122"
 }
 //-----------------------------------------------------------------------------
 node('OSS-Win10-VS2017U6')
@@ -71,14 +71,14 @@ node('OSS-Win10-VS2017U6')
         bat 'mkdir stage'
         // create the final zip file --------------------------------------
         dir( 'dist' ) {
-            bat '7z a ..\\stage\\Qt-5.12.1-3dsmax-%BUILD_NUMBER%-vc141-10.0.17134.0.7z *'
+            bat '7z a ..\\stage\\Qt-5.12.2-3dsmax-%BUILD_NUMBER%-vc141-10.0.17134.0.7z *'
         }
         // deploy package to artifactory ----------------------------------
         artifactUpload = new ors.utils.common_artifactory(steps, env, Artifactory, 'airbuild-svc-user')
         def uploadSpec = """{ "files": [
                     {
                         "pattern": "stage/*.7z",
-                        "target": "oss-stg-generic/Qt/5.12.1/3dsmax/",
+                        "target": "oss-stg-generic/Qt/5.12.2/3dsmax/",
                         "recursive": "false"
                     }
                 ]}"""

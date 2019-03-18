@@ -9,7 +9,7 @@ import getopt
 OPENSSL_DIR = 'deps/openssl'
 #ICU_DIR = '../icu'
 
-TARGET_DIR = 'dist/Qt/5.12.1'
+TARGET_DIR = 'dist/Qt/5.12.2'
 BUILD_DIR = 'build'
 
 # ----------------------------------------------------------------------------
