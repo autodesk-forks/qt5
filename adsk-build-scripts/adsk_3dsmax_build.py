@@ -100,10 +100,10 @@ try:
         # in a separate step
         # ' -icu ' +
         # ' -I \"' + ICU_INCLUDE_PATH + '\" -L \"' + ICU_LIB_PATH + '\"'
-        ' -make tests '
+        ' -nomake tests '
         ' -make tools '
-        ' -force-debug-info '
-        '-' + MODE,
+        ' -force-debug-info -separate-debug-info -strip '
+        ' -' + MODE,
         env=BUILD_ENV, shell=True)
 except subprocess.CalledProcessError as exc:
     print('\n\n-----------------------------------------------------------------------------\n'
