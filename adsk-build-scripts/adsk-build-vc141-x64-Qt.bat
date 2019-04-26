@@ -13,7 +13,7 @@ for /f "usebackq delims=" %%i in (`"C:\Program Files (x86)\Microsoft Visual Stud
 SET
 
 @REM NEEDED TO BE REMOVED ONCE SINCE IT WAS SCREWED UP - SUBMODULES MAY FAIL :(
-@REM RMDIR /s /q qt3d
+RMDIR /s /q qt3d
 
 CHCP
 CHCP 65001
