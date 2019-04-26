@@ -40,13 +40,18 @@ node('OSS-Win10-VS2017U6')
         artifactDownload = new ors.utils.common_artifactory(steps, env, Artifactory, 'airbuild-svc-user')
         def downloadspec = """{
                 "files": [{ "pattern": "team-3dsmax-generic/3dsmax/openssl/1.0.2p/openssl-1.0.2p-win_intel64_v140-2.zip",
-                            "target": "deps/openssl/" }
+                            "target": "deps/openssl/" },
+                            { "pattern": "team-3dsmax-generic/3dsmax/llvm/4.0.1/llvm-4.0.1-3dsmax-001a-vc140-10.0.10586.0.zip",
+                            "target": "deps/llvm/" }
                     ]
                 }"""
         buildInfo.append(artifactDownload.download('https://art-bobcat.autodesk.com/artifactory/', downloadspec))
         // unzip artifacts ------------------------------------------------
         dir('deps/openssl') {
             bat '7z x 3dsmax\\openssl\\1.0.2p\\openssl-1.0.2p-win_intel64_v140-2.zip'
+        }
+        dir('deps/llvm') {
+            bat '7z x 3dsmax\\llvm\\4.0.1\\llvm-4.0.1-3dsmax-001a-vc140-10.0.10586.0.zip'
         }
     }
     //---------------------------------------------------------------------

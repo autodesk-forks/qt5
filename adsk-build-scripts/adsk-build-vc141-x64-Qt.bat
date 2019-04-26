@@ -26,9 +26,6 @@ perl ./init-repository -f
 @REM git submodule update --init
 @REM popd
 
-SET _ROOT=%WORKSPACE%
-SET PATH=%_ROOT%\qtbase\bin;%_ROOT%\gnuwin32\bin;%PATH%
-
-copy /V C:\bin\jom.exe %_ROOT%\jom.exe
+copy /V C:\bin\jom.exe %WORKSPACE%\jom.exe
 
 python adsk-build-scripts\adsk_3dsmax_build.py

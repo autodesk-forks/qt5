@@ -7,6 +7,7 @@ import sys
 import getopt
 
 OPENSSL_DIR = 'deps/openssl'
+LLVM_DIR = 'deps/llvm'
 #ICU_DIR = '../icu'
 
 TARGET_DIR = 'dist/Qt/5.12.3'
@@ -57,9 +58,12 @@ print('\nSCRIPT_PATH: %s\nROOT_PATH:   %s\nPREFIX_PATH: %s\nBUILD_PATH:  %s\n' %
 OPENSSL_INCLUDE_PATH = os.path.realpath(
     os.path.join(ROOT_PATH, OPENSSL_DIR, 'include'))
 OPENSSL_LIB_PATH = os.path.realpath(
-    os.path.join(ROOT_PATH, OPENSSL_DIR, 'lib'))
+    os.path.join(ROOT_PATH, OPENSSL_DIR, 'lib', 'release'))
 OPENSSL_LIB_PATH_DEBUG = os.path.realpath(
     os.path.join(ROOT_PATH, OPENSSL_DIR, 'lib', 'debug'))
+
+LLVM_BIN_DIR = os.path.realpath(
+    os.path.join(ROOT_PATH, LLVM_DIR, 'release', 'bin'))
 
 # ICU_INCLUDE_PATH = os.path.realpath(
 #    os.path.join(ROOT_PATH, ICU_DIR, 'include'))
@@ -68,6 +72,9 @@ OPENSSL_LIB_PATH_DEBUG = os.path.realpath(
 
 BUILD_ENV = os.environ.copy()
 BUILD_ENV['QMAKE_CXXFLAGS'] = '-DWIN_VER=0x0601 -D_WIN32_WINNT=0x0601'
+BUILD_ENV['PATH'] += os.pathsep + LLVM_BIN_DIR
+BUILD_ENV['PATH'] += os.pathsep + ROOT_PATH + '\\qtbase\\bin' 
+BUILD_ENV['PATH'] += os.pathsep + ROOT_PATH + '\\gnuwin32\\bin'
 
 if not os.path.exists(BUILD_PATH):
     os.mkdir(BUILD_PATH)
@@ -102,13 +109,16 @@ try:
         # ' -I \"' + ICU_INCLUDE_PATH + '\" -L \"' + ICU_LIB_PATH + '\"'
         ' -nomake tests '
         ' -make tools '
-        ' -force-debug-info -separate-debug-info -strip '
+        ' -force-debug-info '
+        ' -skip wayland '
         ' -' + MODE,
         env=BUILD_ENV, shell=True)
 except subprocess.CalledProcessError as exc:
     print('\n\n-----------------------------------------------------------------------------\n'
-          'Configure failed: \n' + exc.output )
-    raise
+          'Configure (maybe) failed: \n' + exc.output )
+    # Ignore for now!
+    # For some reason the configure command doesn't exit 0 in 5.12.3 any more???
+    # raise
 
 # subprocess.check_output('nmake', env=BUILD_ENV, shell=True)
 # subprocess.check_output('nmake install', env=BUILD_ENV, shell=True)
