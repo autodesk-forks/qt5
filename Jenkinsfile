@@ -25,7 +25,7 @@ config = "Release"  //We always build Release for this package.  Set build param
 gitCommit = ""
 
 product = "qt"
-branch = "5.12.2" //Used for workspace
+branch = "5.12.4" //Used for workspace
 qtVersion = "${product}_${branch}" //Sub-folder name in zip/tar files
 gitBranch = env.BRANCH_NAME  //Actual branch name in GIT repo
 
