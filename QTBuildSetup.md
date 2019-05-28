@@ -1,6 +1,6 @@
-# Qt5 5.12.2 Build instructions
+# Qt5 5.12.4 Build instructions
 
-This document provides instructions for building Qt5 (5.12.2) including setting up build machines, building Qt5 via Jenkins and localtion of build artifacts.
+This document provides instructions for building Qt5 (5.12.4) including setting up build machines, building Qt5 via Jenkins and localtion of build artifacts.
 
 ## Links
 
@@ -29,10 +29,10 @@ Since we didn't have time to create a separate Qt5 Ansible playbook where it wil
 
 ### Jenkins
 
-- Login this [QT5.12.2 build](https://master-11.jenkins.autodesk.com/job/Maya-Qt5/job/qt5/job/adsk-contrib-maya-v5.12.2/)
+- Login this [QT5.12.4 build](https://master-11.jenkins.autodesk.com/job/Maya-Qt5/job/qt5/job/adsk-contrib-maya-v5.12.4/)
 - Select 'Build with Parameters' where you can specify the commit hash you want build or leave it blank which will build from the HEAD commit.
 
 ## Build artifacts 
 
 Build artifacts will be uploaded [here](
-https://art-bobcat.autodesk.com:443/artifactory/oss-stg-generic/Qt/5.12.2/Maya)
+https://art-bobcat.autodesk.com:443/artifactory/oss-stg-generic/Qt/5.12.4/Maya)
