@@ -4,7 +4,7 @@ if [%1]==[] (
 )
 
 if not defined QTVERSION (
-	echo QTVERSION is NOT defined.  Example: SET QTVERSION=qt_5.12.2
+	echo QTVERSION is NOT defined.  Example: SET QTVERSION=5.12.2
 	exit /b 1
 )
 else (
@@ -16,7 +16,7 @@ call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\VC\Auxili
 
 set WORKDIR=%1
 set SRCDIR=%WORKDIR%\src
-set INSTALLDIR=%WORKDIR%\install\%QTVERSION%
+set INSTALLDIR=%WORKDIR%\install\qt_%QTVERSION%
 set BUILDDIR=%WORKDIR%\build
 
 echo %SRCDIR%
@@ -34,7 +34,7 @@ nmake || echo "**** Failed to build ****" && exit /b 1
 nmake install || echo "**** Failed to create install ****" && exit /b 1
 
 cd %INSTALLDIR%
-7z a -tzip %QTVERSION%_vc14-include.zip .\include\* && ^
-7z a -tzip %QTVERSION%_vc14-cmake.zip .\lib\cmake\* && ^
-7z a -tzip %QTVERSION%_vc14-mkspecs.zip .\mkspecs\* && ^
+7z a -tzip qt_%QTVERSION%_vc14-include.zip .\include\* && ^
+7z a -tzip qt_%QTVERSION%_vc14-cmake.zip .\lib\cmake\* && ^
+7z a -tzip qt_%QTVERSION%_vc14-mkspecs.zip .\mkspecs\* && ^
 echo "==== Success ====" || echo "**** Failed to create zip files ****" && exit /b 1
