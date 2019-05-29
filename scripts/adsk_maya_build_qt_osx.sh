@@ -4,7 +4,7 @@ if [ $# -eq 0 ]; then
 fi
 
 if [[ -z "${QTVERSION}" ]]; then
-	echo "QTVERSION is undefined.  Example: export QTVERSION=qt_5.12.2"
+	echo "QTVERSION is undefined.  Example: export QTVERSION=5.12.2"
 	exit 1
 else
 	echo "QTVERSION=${QTVERSION}"
@@ -12,7 +12,7 @@ fi
 
 export WORKDIR=$1
 export SRCDIR=$WORKDIR/src
-export INSTALLDIR=$WORKDIR/install/$QTVERSION
+export INSTALLDIR=$WORKDIR/install/qt_$QTVERSION
 export BUILDDIR=$WORKDIR/build
 
 export NUMBER_OF_PROCESSORS=`sysctl -n hw.ncpu`
@@ -47,9 +47,9 @@ if [ $? -eq 0 ]; then
                         # more than half of the artifact
                         rm -vf lib/libQt5Web*.dSYM.tgz
 
-                        tar -czf $QTVERSION-include.tar.gz --directory=include/ . && \
-                        tar -czf $QTVERSION-cmake.tar.gz --directory=lib/cmake/ . && \
-                        tar -czf $QTVERSION-mkspecs.tar.gz --directory=mkspecs/ . && \
+                        tar -czf qt_$QTVERSION-include.tar.gz --directory=include/ . && \
+                        tar -czf qt_$QTVERSION-cmake.tar.gz --directory=lib/cmake/ . && \
+                        tar -czf qt_$QTVERSION-mkspecs.tar.gz --directory=mkspecs/ . && \
                         echo "==== Success ====" || echo "**** Failed to create tar files ****"
                 else
                         echo "**** Failed to create install ****"
