@@ -26,7 +26,7 @@ gitCommit = ""
 
 product = "qt"
 branch = "5.12.4" //Used for workspace
-qtVersion = "${product}_${branch}" //Sub-folder name in zip/tar files
+qtVersion = "${branch}" //Sub-folder name in zip/tar files
 gitBranch = env.BRANCH_NAME  //Actual branch name in GIT repo
 
 default_Recipients = ["Bang.Nguyen@autodesk.com"]
@@ -89,7 +89,7 @@ def notifyBuild(buildStatus, String gitBranch) {
 	buildStatus =  buildStatus ?: 'SUCCESSFUL'
 
 	// Default values
-	def subject = "[${qtVersion}] - ${buildStatus}: Job - '${gitBranch} [${env.BUILD_NUMBER}]'"
+	def subject = "[${product}_${qtVersion}] - ${buildStatus}: Job - '${gitBranch} [${env.BUILD_NUMBER}]'"
 	def emailTO
 	def color
 
@@ -553,11 +553,11 @@ def Package(String workDir, String buildConfig)
 			dir('install') {
 				if (isUnix()){
 					runOSCommand("""mkdir ../out""")  //Create 'out' folder where zip files will be created.
-					runOSCommand("""tar -czf ../out/${QtPackage[buildConfig]} ${qtVersion}""")
+					runOSCommand("""tar -czf ../out/${QtPackage[buildConfig]} ${product}_${qtVersion}""")
 				} else {
-					runOSCommand("""7z a -tzip ../out/${QtPackage[buildConfig]} ${qtVersion} -xr!examples""")
-					runOSCommand("""7z a -tzip ../out/${QtexamplesPackage[buildConfig]} ${qtVersion}/examples -xr!${qtVersion}/examples/webengine/*.pdb""")
-					runOSCommand("""7z a -tzip ../out/${QtWebengineDebugInfoPackage[buildConfig]} -ir!${qtVersion}/examples/webengine/*.pdb""")
+					runOSCommand("""7z a -tzip ../out/${QtPackage[buildConfig]} ${product}_${qtVersion} -xr!examples""")
+					runOSCommand("""7z a -tzip ../out/${QtexamplesPackage[buildConfig]} ${product}_${qtVersion}/examples -xr!${product}_${qtVersion}/examples/webengine/*.pdb""")
+					runOSCommand("""7z a -tzip ../out/${QtWebengineDebugInfoPackage[buildConfig]} -ir!${product}_${qtVersion}/examples/webengine/*.pdb""")
 				}
 			}
 		}

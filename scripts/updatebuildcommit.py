@@ -2,7 +2,7 @@ import argparse
 import os
 import json
 
-gitCommitLog = '../../commit.log'
+gitCommitLog = '../commit.log'
 
 class commitInfo:
     def getGitCommitLog(self, product, branch, buildType, buildConfig):
