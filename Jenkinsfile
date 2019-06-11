@@ -221,7 +221,7 @@ def getBuildLocation() {
 			outputString += "https://art-bobcat.autodesk.com:443/artifactory/oss-stg-generic/Qt/${branch}/Maya/${QtPackage[it.key]}<br>"
 			if (it.value.contains("Win")) {
 				outputString += "https://art-bobcat.autodesk.com:443/artifactory/oss-stg-generic/Qt/${branch}/Maya/${QtexamplesPackage[it.key]}<br>"
-				outputString += "https://art-bobcat.autodesk.com:443/artifactory/oss-stg-generic/Qt/${branch}/Maya/${QtWebengineDebugInfoPackage[it.key]}<br>"
+				//outputString += "https://art-bobcat.autodesk.com:443/artifactory/oss-stg-generic/Qt/${branch}/Maya/${QtWebengineDebugInfoPackage[it.key]}<br>"
 			}
 		}
 	}
@@ -555,7 +555,7 @@ def Package(String workDir, String buildConfig)
 				} else {
 					runOSCommand("""7z a -tzip ../out/${QtPackage[buildConfig]} ${product}_${qtVersion} -xr!examples""")
 					runOSCommand("""7z a -tzip ../out/${QtexamplesPackage[buildConfig]} ${product}_${qtVersion}/examples -xr!${product}_${qtVersion}/examples/webengine/*.pdb""")
-					runOSCommand("""7z a -tzip ../out/${QtWebengineDebugInfoPackage[buildConfig]} -ir!${product}_${qtVersion}/examples/webengine/*.pdb""")
+					//runOSCommand("""7z a -tzip ../out/${QtWebengineDebugInfoPackage[buildConfig]} -ir!${product}_${qtVersion}/examples/webengine/*.pdb""")
 				}
 			}
 		}
