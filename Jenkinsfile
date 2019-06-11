@@ -436,9 +436,10 @@ def Setup(String buildConfig)
 		def workDir = getWorkspace(buildConfig)
 		ws(workDir) {
 			//Delete 'build', 'install' and 'art-bobcat-downloads' folders before build
-			dir ('build') {
-				deleteDir()
-			}
+// TEMPORARILY LEAVE BUILD DIR AROUND FOR INCREMENTAL BUILD
+//			dir ('build') {
+//				deleteDir()
+//			}
 			dir ('install') {
 				deleteDir()
 			}
