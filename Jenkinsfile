@@ -500,7 +500,7 @@ def Sync(String workDir, String buildConfig)
 
 			// Remove all private files first
 			runOSCommand("git submodule foreach --recursive \"git clean -dfx\" && git clean -dfx")
-			runOSCommand("perl ./init-repository --module-subset=default")
+			runOSCommand("perl ./init-repository --force --module-subset=default")
 		}
 
 		print "--- Download Packages ---"
