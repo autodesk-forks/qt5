@@ -21,8 +21,22 @@ set BUILDDIR=%WORKDIR%\build
 
 echo %SRCDIR%
 SET _ROOT=%SRCDIR%
-SET PATH=%_ROOT%\qtbase\bin;%_ROOT%\gnuwin32\bin;%PATH%
+SET PATH=%BUILDDIR%;%_ROOT%\qtbase\bin;%_ROOT%\gnuwin32\bin;%PATH%
 set OPENSSL_INCLUDE=%WORKDIR%\artifactory\openssl\1.0.2h\include
+
+REM Make sure there's a "python2.exe" in the path that isn't the Git
+REM mingw version (which was the cause of errors previously).
+REM Make sure it's in a path without spaces (webkit barfs on paths with spaces).
+if exist %BUILDDIR%\python2.exe (
+    rm %BUILDDIR%\python2.exe
+) >nul 2>&1
+copy C:\Python27\python.exe %BUILDDIR%\python2.exe >nul 2>&1
+
+python2 -c "print('test Python')" >nul 2>&1
+IF %ERRORLEVEL% NEQ 0 (
+    echo Python2 executable invalid!
+    exit /b 1
+)
 
 cd /d %BUILDDIR%
 
