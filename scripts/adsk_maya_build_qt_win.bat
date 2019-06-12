@@ -52,3 +52,4 @@ cd %INSTALLDIR%
 7z a -tzip qt_%QTVERSION%_vc14-cmake.zip .\lib\cmake\* && ^
 7z a -tzip qt_%QTVERSION%_vc14-mkspecs.zip .\mkspecs\* && ^
 echo "==== Success ====" || echo "**** Failed to create zip files ****" && exit /b 1
+
