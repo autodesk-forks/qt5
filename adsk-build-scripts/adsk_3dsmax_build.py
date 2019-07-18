@@ -128,12 +128,10 @@ except subprocess.CalledProcessError as exc:
           'jom build failed: \n' + exc.output + '\nretrying with nmake...' )
     subprocess.check_output('nmake', env=BUILD_ENV, shell=True)
 
-try:
-    subprocess.check_output('jom install', env=BUILD_ENV, shell=True)
-except subprocess.CalledProcessError as exc:
-    print('\n\n-----------------------------------------------------------------------------\n'
-          'jom install failed: \n' + exc.output + '\nretrying with nmake...' )
-    subprocess.check_output('nmake install', env=BUILD_ENV, shell=True)
+# -----------------------------------------------------------------------------
+# we install using nmake since jom seems to have issues during installation by
+# trying to write the same file from parallel processes
+subprocess.check_output('nmake install', env=BUILD_ENV, shell=True)
 
 # -----------------------------------------------------------------------------
 # -----------------------------------------------------------------------------
