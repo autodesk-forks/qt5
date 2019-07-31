@@ -92,11 +92,10 @@ node('OSS-Win10-VS2017U6')
         server.publishBuildInfo(buildInfo)
     }
     //---------------------------------------------------------------------
-    // temporary removing cleanup for debugging purposes...
-    // stage ('Cleanup')
-    // {
-    //     bat 'git submodule foreach --recursive "git clean -dfx" && git clean -dfx'
-    //     bat 'git clean -dfx'
-    // }
+    stage ('Cleanup')
+    {
+        bat 'git submodule foreach --recursive "git clean -dfx" && git clean -dfx'
+        bat 'git clean -dfx'
+    }
     } // workspace end
 }
