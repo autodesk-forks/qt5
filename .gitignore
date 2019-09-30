@@ -2,3 +2,7 @@ Makefile
 .qmake.cache
 .qmake.super
 *.pro.user*
+/dist/
+/build/
+/deps/
+jom.exe
