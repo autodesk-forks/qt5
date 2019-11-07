@@ -39,7 +39,7 @@ node('OSS-Win10-VS2017U6')
         // download packages from artifactory -----------------------------
         artifactDownload = new ors.utils.common_artifactory(steps, env, Artifactory, 'airbuild-svc-user')
         def downloadspec = """{
-                "files": [{ "pattern": "team-3dsmax-generic/3dsmax/openssl/1.1.1c/openssl-1.1.1c-win_intel64_v141-1.zip",
+                "files": [{ "pattern": "team-3dsmax-generic/3dsmax/openssl/1.1.1d/openssl-1.1.1d-win_intel64_v141-1.zip",
                             "target": "deps/openssl/" },
                             { "pattern": "team-3dsmax-generic/3dsmax/llvm/4.0.1/llvm-4.0.1-3dsmax-001a-vc140-10.0.10586.0.zip",
                             "target": "deps/llvm/" }
@@ -48,7 +48,7 @@ node('OSS-Win10-VS2017U6')
         buildInfo.append(artifactDownload.download('https://art-bobcat.autodesk.com/artifactory/', downloadspec))
         // unzip artifacts ------------------------------------------------
         dir('deps/openssl') {
-            bat '7z x 3dsmax\\openssl\\1.1.1c\\openssl-1.1.1c-win_intel64_v141-1.zip'
+            bat '7z x 3dsmax\\openssl\\1.1.1d\\openssl-1.1.1d-win_intel64_v141-1.zip'
         }
         dir('deps/llvm') {
             bat '7z x 3dsmax\\llvm\\4.0.1\\llvm-4.0.1-3dsmax-001a-vc140-10.0.10586.0.zip'
@@ -59,7 +59,7 @@ node('OSS-Win10-VS2017U6')
         // compile, run tests and install ---------------------------------
         env.PYTHON3_HOME="C:\\Users\\Administrator\\AppData\\Local\\Programs\\Python\\Python37"
         env.PYTHON2_HOME="C:\\Python27"
-        withEnv(["PATH+PYTHON=${env.PYTHON2_HOME}","PATH+BIN=C:\\bin"]) {
+        withEnv(["PATH+PYTHON=${env.PYTHON2_HOME}","PATH+BIN=C:\\bin","BUILD_NUMBER=${BUILD_NUMBER}"]) {
             bat 'adsk-build-scripts\\adsk-build-vc141-x64-Qt.bat'
         }
     }
@@ -94,6 +94,10 @@ node('OSS-Win10-VS2017U6')
     //---------------------------------------------------------------------
     stage ('Cleanup')
     {
+        dir( 'qtbase') {
+            // revert out build number version change ---------------------
+            bat 'git checkout -- qmake/generators/win32/winmakefile.cpp'
+        }
         bat 'git submodule foreach --recursive "git clean -dfx" && git clean -dfx'
         bat 'git clean -dfx'
     }

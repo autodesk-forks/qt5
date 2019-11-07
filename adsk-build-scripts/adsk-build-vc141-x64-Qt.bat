@@ -18,6 +18,13 @@ SET
 CHCP
 CHCP 65001
 
+@REM reset version change that might have been there from the last build
+IF exist qtbase\qmake\generators\win32\winmakefile.cpp (
+  pushd qtbase
+  git checkout -- qmake/generators/win32/winmakefile.cpp
+  popd
+)
+
 perl ./init-repository -f
 
 @REM git submodule update --init qtbase

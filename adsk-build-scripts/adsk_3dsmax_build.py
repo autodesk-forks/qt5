@@ -12,6 +12,7 @@ LLVM_DIR = 'deps/llvm'
 
 TARGET_DIR = 'dist/Qt/5.12.5'
 BUILD_DIR = 'build'
+BUILD_NUMBER = os.environ['BUILD_NUMBER']
 
 # ----------------------------------------------------------------------------
 try:
@@ -52,15 +53,20 @@ PREFIX_PATH = os.path.realpath(os.path.join(ROOT_PATH, TARGET_DIR))
 BUILD_PATH = os.path.realpath(
     os.path.join(ROOT_PATH, BUILD_DIR))
 
-print('\nSCRIPT_PATH: %s\nROOT_PATH:   %s\nPREFIX_PATH: %s\nBUILD_PATH:  %s\n' % (
-    SCRIPT_PATH, ROOT_PATH, PREFIX_PATH, BUILD_PATH))
+print('\n')
+print('SCRIPT_PATH:  %s\n' % (SCRIPT_PATH))
+print('ROOT_PATH:    %s\n' % (ROOT_PATH))
+print('PREFIX_PATH:  %s\n' % (PREFIX_PATH))
+print('BUILD_PATH:   %s\n' % (BUILD_PATH))
+print('BUILD_NUMBER: %s\n' % (BUILD_NUMBER))
+print('\n')
 
 OPENSSL_INCLUDE_PATH = os.path.realpath(
-    os.path.join(ROOT_PATH, OPENSSL_DIR, 'include_x64'))
+    os.path.join(ROOT_PATH, OPENSSL_DIR, 'include'))
 OPENSSL_LIB_PATH = os.path.realpath(
-    os.path.join(ROOT_PATH, OPENSSL_DIR, 'release', 'lib'))
+    os.path.join(ROOT_PATH, OPENSSL_DIR, 'lib', 'release'))
 OPENSSL_LIB_PATH_DEBUG = os.path.realpath(
-    os.path.join(ROOT_PATH, OPENSSL_DIR, 'debug', 'lib'))
+    os.path.join(ROOT_PATH, OPENSSL_DIR, 'lib', 'debug'))
 
 LLVM_BIN_DIR = os.path.realpath(
     os.path.join(ROOT_PATH, LLVM_DIR, 'release', 'bin'))
@@ -69,6 +75,17 @@ LLVM_BIN_DIR = os.path.realpath(
 #    os.path.join(ROOT_PATH, ICU_DIR, 'include'))
 # ICU_LIB_PATH = os.path.realpath(
 #    os.path.join(ROOT_PATH, ICU_DIR, 'lib'))
+
+# -------------------------------------------------------------------------
+# patch our version information to include the build number!
+# -------------------------------------------------------------------------
+with open(os.path.join(ROOT_PATH, 'qtbase', 'qmake', 'generators', 'win32', 'winmakefile.cpp'), "r+") as f:
+    current_file = f.read()
+    f.seek(0)
+    f.write(current_file.replace(
+        '            vers += "0"; //for 3ds Max',
+        '            vers += "{}"; //for 3ds Max'.format(BUILD_NUMBER), 1))
+# -------------------------------------------------------------------------
 
 BUILD_ENV = os.environ.copy()
 BUILD_ENV['QMAKE_CXXFLAGS'] = '-DWIN_VER=0x0601 -D_WIN32_WINNT=0x0601'
