@@ -577,7 +577,7 @@ def Build(String workDir, String buildConfig)
 					runOSCommand("""bash $scriptDir/adsk_maya_build_qt_osx.sh ${workDir}""")
 				}
 				else if (checkOS() == "Linux") {
-					runOSCommand("scl enable devtoolset-6 'bash $scriptDir/adsk_maya_build_qt_lnx.sh ${workDir}'")
+					runOSCommand("scl enable devtoolset-9 'bash $scriptDir/adsk_maya_build_qt_lnx.sh ${workDir}'")
 				}
 				else {
 					runOSCommand("""$scriptDir\\adsk_maya_build_qt_win.bat ${workDir}""")
@@ -634,7 +634,7 @@ def Publish(String workDir, String buildConfig)
 			}
 			else if (checkOS() == "Linux") {
 				pattern = "out/*.tar.gz"
-				props = "commit=${gitCommit};OS=Rhel7.3;Compiler=gcc6.3.1"
+				props = "commit=${gitCommit};OS=Rhel7.6;Compiler=gcc9.3.1"
 				if (artifactProps != "") {
 					props = String.format("%s;%s", props, artifactProps)
 				}
@@ -696,7 +696,7 @@ def Finalize(String buildConfig)
 //-----------------------------------------------------------------------------
 
 def generateSteps = {qt_lnx, qt_mac, qt_win ->
-    return [ "qt_Lnx" : { node("OSS-Maya-CentOS73") { qt_lnx() }},
+    return [ "qt_Lnx" : { node("OSS-Maya-CentOS76_02") { qt_lnx() }},
              "qt_Mac": { node("OSS-Maya-OSX10.14.1-Xcode10.1") { qt_mac() }},
              "qt_Win" : { node("OSS-Maya_2022_Win10-vs2019_01") { qt_win() }}
            ]
