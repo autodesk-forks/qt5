@@ -483,7 +483,13 @@ def Setup(String buildConfig)
 	try {
 		def workDir = getWorkspace(buildConfig)
 		ws(workDir) {
-			//Delete 'build', 'install' and 'art-bobcat-downloads' folders before build
+			// Remove the /src directory to have a clean version of the code to build the artifact.
+			// This step is performed to prevent having problems with submodules (inconsistent state) 
+			// when building with a different branch from the previous build.
+			dir ('src') {
+				deleteDir()
+			}
+			// Delete 'build', 'install' and 'art-bobcat-downloads' folders before build
 			dir ('build') {
 				deleteDir()
 			}
