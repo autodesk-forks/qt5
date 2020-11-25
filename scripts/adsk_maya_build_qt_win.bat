@@ -28,8 +28,7 @@ set BUILDDIR=%WORKDIR%\build
 echo %SRCDIR%
 set _ROOT=%SRCDIR%
 set PATH=%BUILDDIR%;%_ROOT%\qtbase\bin;%_ROOT%\gnuwin32\bin;%PATH%
-REM TODO : Include OpenSSL from artifactory once artifact is created
-REM set OPENSSL_INCLUDE=%WORKDIR%\artifactory\openssl\1.0.2h\include
+set OPENSSL_INCLUDEDIR=%WORKDIR%\artifactory\openssl\1.1.1g\RelWithDebInfo\include
 
 REM Make sure there's a "python2.exe" in the path that isn't the Git
 REM mingw version (which was the cause of errors previously).
@@ -47,9 +46,7 @@ if %ERRORLEVEL% NEQ 0 (
 
 cd /d %BUILDDIR%
 
-REM TODO : Include OpenSSL from artifactory once artifact is created
-REM To have OpenSSL, add the following before "-no-warnings-are-errors": -I %OPENSSL_INCLUDE% -openssl-runtime 
-call %SRCDIR%\configure -opensource -confirm-license -prefix %INSTALLDIR% -debug-and-release -force-debug-info -mp -optimized-tools -opengl desktop -directwrite -plugin-sql-sqlite -skip qtnetworkauth -skip qtpurchasing -no-warnings-are-errors || ^
+call %SRCDIR%\configure -opensource -confirm-license -prefix %INSTALLDIR% -debug-and-release -force-debug-info -mp -optimized-tools -opengl desktop -directwrite -plugin-sql-sqlite -skip qtnetworkauth -skip qtpurchasing -I %OPENSSL_INCLUDEDIR% -openssl-runtime -no-warnings-are-errors || ^
 echo "**** Failed to configure build ****" && exit /b 1
 
 nmake || echo "**** Failed to build ****" && exit /b 1

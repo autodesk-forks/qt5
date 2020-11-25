@@ -510,13 +510,13 @@ def Setup(String buildConfig)
 			QtPackage[buildConfig] = "${artifactName}-Maya-Qt-Linux.tar.gz"
 			QtexamplesPackage[buildConfig] = "${artifactName}-Maya-Qt-examples-Linux.tar.gz"
 			QtWebengineDebugInfoPackage[buildConfig] = "${artifactName}-Maya-Qt-webengine-debuginfo-Linux.tar.gz"
-			artifacts[buildConfig]  = []
+			artifacts[buildConfig]  = ["team-maya-generic/openssl/1.1.1g/openssl-1.1.1g-lnx-centos76-gcc485.tar.gz"]
 		}
 		else {
 			QtPackage[buildConfig] = "${artifactName}-Maya-Qt-Windows.zip"
 			QtexamplesPackage[buildConfig] = "${artifactName}-Maya-Qt-examples-Windows.zip"
 			QtWebengineDebugInfoPackage[buildConfig] = "${artifactName}-Maya-Qt-webengine-debuginfo-Windows.zip"
-			artifacts[buildConfig]  = ["team-asrd-pilots/openssl/102h/openssl-1.0.2h-win-vc14.zip"]
+			artifacts[buildConfig]  = ["team-maya-generic/openssl/1.1.1g/openssl-1.1.1g-win-vc140.zip"]
 		}
 
 		results[buildConfig][stage] = "Success"
