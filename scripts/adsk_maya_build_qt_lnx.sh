@@ -28,7 +28,7 @@ export NUMBER_OF_PROCESSORS=$((NUMBER_OF_PROCESSORS_TOTAL * 1/2))
 # 60588e1a5dd9b10803e078c741271cbe5713a51b - for qt 5.15, -qt-xcb is removed.
 # Options that are used in https://wiki.qt.io/Qt_5.15_Tools_and_Versions:
 # -opensource -confirm-license -verbose -prefix /home/qt/work/install -release -nomake tests -nomake examples -no-libudev -no-use-gold-linker -force-debug-info -separate-debug-info -no-sql-mysql -plugin-sql-psql -plugin-sql-sqlite -qt-libjpeg -qt-libpng -xcb -bundled-xcb-xinput -sysconfdir /etc/xdg -qt-pcre -qt-harfbuzz -R . -openssl -I {{.Env.OPENSSL_HOME}}/include -L {{.Env.OPENSSL_HOME}}/lib QMAKE_LFLAGS_APP+=-s
-$SRCDIR/configure -opensource -confirm-license -verbose -prefix $INSTALLDIR -release -nomake tests -nomake examples -no-libudev -no-use-gold-linker -force-debug-info -separate-debug-info -no-sql-mysql -plugin-sql-psql -plugin-sql-sqlite -qt-libjpeg -qt-libpng -xcb -bundled-xcb-xinput -sysconfdir /etc/xdg -qt-pcre -qt-harfbuzz -R . -icu -opengl desktop -skip qtnetworkauth -skip qtpurchasing -openssl -I $OPENSSLDIR/include -L $OPENSSLDIR/lib
+$SRCDIR/configure -opensource -confirm-license -verbose -prefix $INSTALLDIR -release -nomake tests -nomake examples -no-libudev -no-use-gold-linker -force-debug-info -separate-debug-info -no-sql-mysql -plugin-sql-psql -plugin-sql-sqlite -qt-libjpeg -qt-libpng -xcb -bundled-xcb-xinput -sysconfdir /etc/xdg -qt-pcre -qt-harfbuzz -R . -icu -opengl desktop -qt-qt3d-assimp -skip qtnetworkauth -skip qtpurchasing -openssl -I $OPENSSLDIR/include -L $OPENSSLDIR/lib
 if [ $? -eq 0 ]; then
     make -j $NUMBER_OF_PROCESSORS
         if [ $? -eq 0 ]; then
