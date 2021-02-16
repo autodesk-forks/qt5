@@ -19,7 +19,7 @@ export BUILDDIR=$WORKDIR/build
 # -opensource -confirm-license -verbose -prefix /Users/qt/work/install -debug-and-release -release -nomake tests -no-sql-mysql -plugin-sql-psql -plugin-sql-sqlite -sysconfdir /Library/Preferences/Qt -I/usr/local/opt/openssl/include
 export NUMBER_OF_PROCESSORS=`sysctl -n hw.ncpu`
 echo "make -j$NUMBER_OF_PROCESSORS"
-$SRCDIR/configure -opensource -confirm-license -verbose -prefix $INSTALLDIR -debug-and-release -force-debug-info -nomake tests -nomake examples -plugin-sql-sqlite -silent -no-strip -no-framework -opengl desktop -skip qtnetworkauth -skip qtpurchasing -no-warnings-are-errors
+$SRCDIR/configure -opensource -confirm-license -verbose -prefix $INSTALLDIR -debug-and-release -force-debug-info -nomake tests -nomake examples -plugin-sql-sqlite -silent -no-strip -opengl desktop -skip qtnetworkauth -skip qtpurchasing -no-warnings-are-errors
 if [ $? -eq 0 ]; then
     make -j$NUMBER_OF_PROCESSORS
         if [ $? -eq 0 ]; then

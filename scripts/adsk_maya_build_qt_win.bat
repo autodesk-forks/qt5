@@ -46,7 +46,7 @@ if %ERRORLEVEL% NEQ 0 (
 
 cd /d %BUILDDIR%
 
-call %SRCDIR%\configure -opensource -confirm-license -prefix %INSTALLDIR% -debug-and-release -force-debug-info -mp -optimized-tools -opengl desktop -directwrite -plugin-sql-sqlite -skip qtnetworkauth -skip qtpurchasing -I %OPENSSL_INCLUDEDIR% -openssl-runtime -no-warnings-are-errors || ^
+call %SRCDIR%\configure -opensource -confirm-license -prefix %INSTALLDIR% -debug-and-release -force-debug-info -mp -optimized-tools -opengl dynamic -directwrite -plugin-sql-sqlite -skip qtnetworkauth -skip qtpurchasing -I %OPENSSL_INCLUDEDIR% -openssl-runtime -no-warnings-are-errors || ^
 echo "**** Failed to configure build ****" && exit /b 1
 
 nmake || echo "**** Failed to build ****" && exit /b 1
