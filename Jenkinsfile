@@ -784,9 +784,6 @@ try {
 		{
 			parallel generateSteps(
 				{
-					Publish(workspaceRoot['qt_Lnx'], 'qt_Lnx')
-				},
-				{
 					Publish(workspaceRoot['qt_Mac'], 'qt_Mac')
 				},
 				{
