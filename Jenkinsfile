@@ -61,7 +61,10 @@ buildConfigs = [
 //-----------------------------------------------------------------------------
 def getQTVersion(gitBranch) {
     println "gitBranch: ${gitBranch}\n"
-	def found = (gitBranch =~ /.*adsk-contrib-maya-v{0,1}(.*)$/)
+	// Capture Group (?:\d+\.*){1,} => Extract the version X.Y.Z
+	// Allows strings at the end
+	// ex: adsk-contrib-maya-v5.15.2-testrun
+	def found = (gitBranch =~ /.*adsk-contrib-maya-v{0,1}((?:\d+\.*){1,}).*$/)
     if (found.matches()) {
         def version = found[0]
 		println "version: ${version[1]}\n"
