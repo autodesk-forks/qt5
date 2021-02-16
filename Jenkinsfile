@@ -736,9 +736,6 @@ try {
 		{
 			parallel generateSteps(
 				{
-					Setup('qt_Lnx')
-				},
-				{
 					Setup('qt_Mac')
 				},
 				{
@@ -750,9 +747,6 @@ try {
 		stage (buildStages['Sync'].name)
 		{
 			parallel generateSteps(
-				{
-					Sync(workspaceRoot['qt_Lnx'], 'qt_Lnx')
-				},
 				{
 					Sync(workspaceRoot['qt_Mac'], 'qt_Mac')
 				},
@@ -766,9 +760,6 @@ try {
 		{
 			parallel generateSteps(
 				{
-					Build(workspaceRoot['qt_Lnx'], 'qt_Lnx')
-				},
-				{
 					Build(workspaceRoot['qt_Mac'], 'qt_Mac')
 				},
 				{
@@ -780,9 +771,6 @@ try {
 		stage (buildStages['Package'].name)
 		{
 			parallel generateSteps(
-				{
-					Package(workspaceRoot['qt_Lnx'], 'qt_Lnx')
-				},
 				{
 					Package(workspaceRoot['qt_Mac'], 'qt_Mac')
 				},
