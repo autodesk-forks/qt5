@@ -54,10 +54,10 @@ function buildQt
 
   # Configure the build
   # Configure options: https://wiki.qt.io/Qt_5.15_Tools_and_Versions
-  $SOURCE_DIR/configure -opensource -confirm-license -verbose -prefix $3 -device-option QMAKE_APPLE_DEVICE_ARCHS=$1 QMAKE_MACOSX_DEPLOYMENT_TARGET=$2 -debug-and-release -force-debug-info -nomake tests -nomake examples -plugin-sql-sqlite -silent -no-strip -no-framework -opengl desktop -no-warnings-are-errors $MODULES_TO_SKIP
+  export FORCED_ARCH=$1
+  $SOURCE_DIR/configure -opensource -confirm-license -verbose -prefix $3 QMAKE_APPLE_DEVICE_ARCHS=$1 -device-option QMAKE_MACOSX_DEPLOYMENT_TARGET=$2 -debug-and-release -force-debug-info -nomake tests -nomake examples -plugin-sql-sqlite -silent -no-strip -no-framework -opengl desktop -no-warnings-are-errors $MODULES_TO_SKIP
 
   exitIfFailed "configure ${1}"
-
 
   # Build
   make -j$NUMBER_OF_PROCESSORS
