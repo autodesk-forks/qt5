@@ -70,6 +70,11 @@ if [ $? -eq 0 ]; then
             cd $INSTALL_DIR
             set +e
 
+            # Copy system ICU libs into the package.
+            for iculib in icui18n icuuc icudata ; do
+                cp --preserve=mode -P /lib64/lib${iculib}.so.* lib/
+            done
+
             find . -name libQt?Core.so.$QTVERSION | xargs patchelf --set-rpath "\$ORIGIN"
             if [ $? -ne 0 ]; then
                 echo "**** Failed to set qtbase/core rpath ****"
