@@ -24,6 +24,10 @@ set CONFIGURE_ERR_LOG=BuildQt.bat.Configure.Error.log
 set BUILD_LOG=BuildQt.bat.Build.Log
 set BUILD_ERR_LOG=BuildQt.bat.Build.Error.log
 
+@rem BUILD_DOC_LOG stores the filename of building doc output log 
+set BUILD_DOC_LOG=BuildQt.bat.BuildDoc.Log
+set BUILD_DOC_ERR_LOG=BuildQt.bat.BuildBuildDoc.Error.log
+
 @rem INSTALL_LOG stores the filename of installation output log
 set INSTALL_LOG=BuildQt.bat.Install.log
 set INSTALL_ERR_LOG=BuildQt.bat.Install.Error.log
@@ -155,6 +159,15 @@ cmake --build . --parallel 1>%BUILD_LOG% 2>%BUILD_ERR_LOG%
 
 @rem Build single module
 @rem cmake --build . --target qtmqtt
+@rem #################################################
+
+
+:LabelBuildDocs
+@rem #################################################
+@rem Build Qt document
+@echo Building Qt documents...
+@rem If you want to generate the docs, you shoude uncomment the next statement
+@rem ninja docs 1>%BUILD_DOC_LOG% 2>%BUILD_DOC_ERR_LOG%
 @rem #################################################
 
 
