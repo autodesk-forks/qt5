@@ -143,7 +143,7 @@ git submodule update --init --recursive
 
 call  %comspec% /k "configure -opensource -confirm-license -prefix %CONFIG_PREFIX%  -platform win32-msvc " ^
                    " -opengl dynamic -plugin-sql-sqlite  -sql-psql -plugin-sql-psql -openssl-runtime -qt-libjpeg -qt-zlib  " ^
-                   " -debug-and-release -force-debug-info -nomake examples -nomake tests -no-warnings-are-errors  " ^
+                   " -debug-and-release -force-debug-info -nomake examples -nomake tests -no-warnings-are-errors  -no-wmf " ^
                    " %QT_MODULE_SIKPPED% " ^
                    " 1>%CONFIGURE_LOG% 2>%CONFIGURE_ERR_LOG% & exit "
 			      
