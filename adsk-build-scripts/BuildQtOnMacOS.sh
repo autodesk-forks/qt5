@@ -151,3 +151,22 @@ cmake --build . --parallel
 #Install Qt build output to the directory of prefix option
 ninja install
 #################################################
+
+
+#################################################
+#Delete all "*-debug.cmake" files
+pushd ${QT_INSTALL_PATH}
+find ./lib/cmake -type file -name "*-debug.cmake" -delete
+
+#Delete all "*_debug" files
+find . -type file -name "*_debug" -delete
+popd 
+#################################################
+
+
+#################################################
+#Change the rpath of QtWebEngine
+pushd ${QT_INSTALL_PATH}
+
+popd
+#################################################
