@@ -5,6 +5,7 @@ set -u # Terminate with failure any time an undefined variable is expanded
 
 SCRIPT_DIR="$(cd -P "$(dirname "$BASH_SOURCE")" >/dev/null 2>&1 && pwd)"
 
+echo -n "Start timestamp: "; date
 # Parameter 1 - Absolute path to workspace directory
 if [ $# -eq 0 ]; then
     echo "Need to pass workspace directory to the script"
@@ -43,9 +44,31 @@ fi
 export OPENSSL_DIR=$WORKSPACE_DIR/external_dependencies/openssl/1.1.1g/RelWithDebInfo
 
 # Print GCC, Python and patchelf versions
-gcc --version
+set +e
+gcc --version | head -1
+gcc --version >/dev/null 2>&1
+compiler_ret=$?
 python --version
+python_ret=$?
 patchelf --version
+patchelf_ret=$?
+set -e
+
+if [ $compiler_ret -ne 0 ]; then
+    echo "Compiler (xcode, gcc, msvc) not present. Aborting."
+    exit 1
+fi
+
+if [ $python_ret -ne 0 ]; then
+    echo "python not present. Aborting."
+    exit 1
+fi
+
+# Only applies to Linux
+if [ $patchelf_ret -ne 0 ]; then
+    echo "patchelf not present. Aborting."
+    exit 1
+fi
 
 # To prevent an out-of-memory error when building Chromium, we do not use all available processors to build Qt.
 export NUMBER_OF_PROCESSORS_TOTAL=`cat /proc/cpuinfo | grep processor | wc -l`
@@ -59,12 +82,18 @@ export MODULES_TO_SKIP="-skip qtnetworkauth -skip qtpurchasing -skip qtquickcont
 # Note: Flag -qt-xcb is removed in Qt 5.15
 set +e # Continue if commands fail, as we have explicit failure handling
 $SOURCE_DIR/configure -opensource -confirm-license -verbose -prefix $INSTALL_DIR -release -nomake tests -nomake examples -no-libudev -no-use-gold-linker -force-debug-info -separate-debug-info -no-sql-mysql -plugin-sql-psql -plugin-sql-sqlite -qt-libjpeg -qt-libpng -xcb -bundled-xcb-xinput -sysconfdir /etc/xdg -qt-pcre -qt-harfbuzz -R . -icu -opengl desktop -qt-qt3d-assimp $MODULES_TO_SKIP -openssl -I $OPENSSL_DIR/include -L $OPENSSL_DIR/lib
-if [ $? -eq 0 ]; then
+CONFIGURE_RETURNCODE=$?
+echo -n "End Configure timestamp: "; date
+if [ $CONFIGURE_RETURNCODE -eq 0 ]; then
     # Build
     make -j $NUMBER_OF_PROCESSORS
-    if [ $? -eq 0 ]; then
+    BUILD_RETURNCODE=$?
+    echo -n "End Build timestamp: "; date
+    if [ $BUILD_RETURNCODE -eq 0 ]; then
         make install
-        if [ $? -eq 0 ]; then
+        INSTALL_RETURNCODE=$?
+        echo -n "End make install timestamp: "; date
+        if [ $INSTALL_RETURNCODE -eq 0 ]; then
             # Adjust RUNPATHS of libraries in install directory
             set -e
             cd $INSTALL_DIR
@@ -106,3 +135,5 @@ else
     echo "**** Failed to configure build ****"
     exit 1
 fi
+
+echo -n "End timestamp: "; date
