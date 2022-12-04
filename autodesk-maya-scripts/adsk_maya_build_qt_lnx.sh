@@ -75,17 +75,19 @@ if [ $? -eq 0 ]; then
                 cp --preserve=mode -P /lib64/lib${iculib}.so.* lib/
             done
 
-            find . -name libQt?Core.so.$QTVERSION | xargs patchelf --set-rpath "\$ORIGIN"
+            set +e
+            find . -name libQt?Core.so | xargs patchelf --set-rpath "\$ORIGIN"
             if [ $? -ne 0 ]; then
                 echo "**** Failed to set qtbase/core rpath ****"
                 exit 1
             fi
 
-            find . -name libQt?WebEngineCore.so.$QTVERSION | xargs patchelf --set-rpath "\$ORIGIN"
+            find . -name libQt?WebEngineCore.so | xargs patchelf --set-rpath "\$ORIGIN"
             if [ $? -ne 0 ]; then
                 echo "**** Failed to set qtwebengine/core rpath ****"
                 exit 1
             fi
+            set -e
 
             # Compress folders for Maya devkit
             tar -czf qt_$QTVERSION-include.tar.gz --directory=include/ . && \
