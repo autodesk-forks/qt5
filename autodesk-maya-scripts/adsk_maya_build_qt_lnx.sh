@@ -42,6 +42,8 @@ fi
 
 # Location of openssl include directory (optional) within the external dependencies directory
 export OPENSSL_DIR=$WORKSPACE_DIR/external_dependencies/openssl/1.1.1g/RelWithDebInfo
+export NODE_DIR=$WORKSPACE_DIR/external_dependencies/node-v16.14.0-linux-x64
+export PATH=$NODE_DIR/bin:$PATH
 
 # Print GCC, Python and patchelf versions
 set +e
@@ -52,6 +54,9 @@ python --version
 python_ret=$?
 patchelf --version
 patchelf_ret=$?
+echo -n "node "
+node --version
+node_ret=$?
 set -e
 
 if [ $compiler_ret -ne 0 ]; then
@@ -67,6 +72,11 @@ fi
 # Only applies to Linux
 if [ $patchelf_ret -ne 0 ]; then
     echo "patchelf not present. Aborting."
+    exit 1
+fi
+
+if [ $node_ret -ne 0 ]; then
+    echo "nodejs not present. Aborting."
     exit 1
 fi
 
