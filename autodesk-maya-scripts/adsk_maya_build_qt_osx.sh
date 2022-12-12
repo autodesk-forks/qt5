@@ -24,6 +24,16 @@ INSTALL_DIR_x86=$WORKSPACE_DIR/install_x86
 BUILD_DIR_x86=$WORKSPACE_DIR/build_x86
 BUILD_DIR_ARM=$WORKSPACE_DIR/build_ARM
 
+export NODE_DIR=$WORKSPACE_DIR/external_dependencies/node-v16.14.0-darwin-x64
+export PATH=$NODE_DIR/bin:$PATH
+
+node --version
+node_ret=$?
+if [ $node_ret -ne 0 ]; then
+    echo "nodejs not present. Aborting."
+    exit 1
+fi
+
 # Get the number of processors available to build Qt
 export NUMBER_OF_PROCESSORS=`sysctl -n hw.ncpu`
 echo "make -j$NUMBER_OF_PROCESSORS"

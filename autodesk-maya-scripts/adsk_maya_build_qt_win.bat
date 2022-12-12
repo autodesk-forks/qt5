@@ -33,6 +33,7 @@ set PYTHON_EXE_DIR="C:\Python27\python.exe"
 
 REM Location of openssl include directory (optional) within the external dependencies directory
 set OPENSSL_INCLUDE_DIR=%WORKSPACE_DIR%\external_dependencies\openssl\1.1.1g\RelWithDebInfo\include
+set NODE_DIR=%WORKSPACE_DIR%\external_dependencies\node-v16.14.0-win-x64
 
 REM Python is a dependency required to build Qt
 REM - To make sure there is a "python2.exe" in the PATH that is not Git's mingw version (causes errors),
@@ -53,7 +54,17 @@ REM Set Cmake _ROOT environment variable to source code directory
 set _ROOT=%SOURCE_DIR%
 
 REM Prepend to PATH
-set PATH=%BUILD_DIR%;%_ROOT%\qtbase\bin;%_ROOT%\gnuwin32\bin;%PATH%
+echo PATH before amending: %PATH%
+path | find /i "%BUILD_DIR%" >nul 2>&1 || set PATH=%BUILD_DIR%;%PATH%
+path | find /i "%_ROOT%\qtbase\bin" >nul 2>&1 || set PATH=%_ROOT%\qtbase\bin;%PATH%
+path | find /i "%_ROOT%\gnuwin32\bin" >nul 2>&1 || set PATH=%_ROOT%\gnuwin32\bin;%PATH%
+path | find /i "%NODE_DIR%" >nul 2>&1 || set PATH=%NODE_DIR%;%PATH%
+echo PATH after amending: %PATH%
+
+FOR /F "delims=" %%v IN ('node --version') DO set NODE_VERSION=%%v
+python2 --version
+which python2
+echo nodejs %NODE_VERSION%
 
 REM Move to build directory (where python2.exe was copied)
 cd /d %BUILD_DIR%
