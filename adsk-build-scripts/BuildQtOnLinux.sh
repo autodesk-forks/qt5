@@ -10,69 +10,7 @@
 
 #################################################
 #Common Functions
-have_sudo_access() {
-  if [[ ! -x "/usr/bin/sudo" ]]
-  then
-    return 1
-  fi
 
-  local -a SUDO=("/usr/bin/sudo")
-  if [[ -n "${SUDO_ASKPASS-}" ]]
-  then
-    SUDO+=("-A")
-  elif [[ -n "${NONINTERACTIVE-}" ]]
-  then
-    SUDO+=("-n")
-  fi
-
-  if [[ -z "${HAVE_SUDO_ACCESS-}" ]]
-  then
-    if [[ -n "${NONINTERACTIVE-}" ]]
-    then
-      "${SUDO[@]}" -l mkdir &>/dev/null
-    else
-      "${SUDO[@]}" -v && "${SUDO[@]}" -l mkdir &>/dev/null
-    fi
-    HAVE_SUDO_ACCESS="$?"
-  fi
-
-  if [[ -z "${HOMEBREW_ON_LINUX-}" ]] && [[ "${HAVE_SUDO_ACCESS}" -ne 0 ]]
-  then
-    abort "Need sudo access on macOS (e.g. the user ${USER} needs to be an Administrator)!"
-  fi
-
-  return "${HAVE_SUDO_ACCESS}"
-}
-
-shell_join() {
-  local arg
-  printf "%s" "$1"
-  shift
-  for arg in "$@"
-  do
-    printf " "
-    printf "%s" "${arg// /\ }"
-  done
-}
-
-chomp() {
-  printf "%s" "${1/"$'\n'"/}"
-}
-
-ohai() {
-  printf "${tty_blue}==>${tty_bold} %s${tty_reset}\n" "$(shell_join "$@")"
-}
-
-warn() {
-  printf "${tty_red}Warning${tty_reset}: %s\n" "$(chomp "$1")"
-}
-
-execute() {
-  if ! "$@"
-  then
-    abort "$(printf "Failed during: %s" "$(shell_join "$@")")"
-  fi
-}
 #################################################
 
 
