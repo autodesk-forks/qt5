@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #################################################
 #@file BuildQtOnLinux.sh
 #@brief Build script for Qt 6.2.4 universal version on Linux
@@ -6,6 +6,24 @@
 #@author Huimin Wen(Jess)                                                             
 #@date 1/3/2023
 #################################################
+
+
+#################################################
+#Setup environment
+#Set the number of openning files' limit to 4096 
+ulimit -n 4096
+#################################################
+
+
+#################################################
+#Setup environment variables
+export PATH=/DATA/wenhm/CWorkSpace/Qt6/tools/CMake/bin/:$PATH
+export CMAKE_TOOL=/DATA/wenhm/CWorkSpace/Qt6/tools/CMake/bin/cmake
+export LLVM_INSTALL_DIR=/usr/lib/llvm-10
+#export PostgreSQL_ROOT=/usr/local/Cellar/postgresql@11/11.14_1
+#################################################
+#cmake --version
+#exit
 
 
 #################################################
@@ -75,13 +93,18 @@ git submodule update --init --recursive
 
 #################################################
 #Configure the Qt options 
-./configure -opensource -confirm-license -prefix ${CONFIG_PREFIX} -opengl desktop -plugin-sql-sqlite -sql-psql -plugin-sql-psql -openssl-runtime -qt-libjpeg -qt-zlib -debug-and-release -force-debug-info -nomake examples -nomake tests -no-warnings-are-errors ${QT_MODULE_SKIPPED} -- -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64"
+#./configure -opensource -confirm-license -prefix ${CONFIG_PREFIX} -opengl desktop -plugin-sql-sqlite -sql-psql -plugin-sql-psql -openssl-runtime -qt-libjpeg -qt-zlib -debug-and-release -force-debug-info -nomake examples -nomake tests -no-warnings-are-errors ${QT_MODULE_SKIPPED} -- -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64"
+#./configure -opensource -confirm-license -prefix ${CONFIG_PREFIX} -opengl desktop -plugin-sql-sqlite -sql-psql -plugin-sql-psql -openssl-runtime -qt-libjpeg -qt-zlib -debug-and-release -force-debug-info -nomake examples -nomake tests -no-warnings-are-errors ${QT_MODULE_SKIPPED} -- -DCMAKE_OSX_ARCHITECTURES="x86_64"
+#./configure -opensource -confirm-license -prefix ${CONFIG_PREFIX} -opengl desktop -plugin-sql-sqlite -sql-psql -plugin-sql-psql -openssl-runtime -qt-libjpeg -qt-zlib -debug -force-debug-info -nomake examples -nomake tests -no-warnings-are-errors ${QT_MODULE_SKIPPED} -- -DCMAKE_OSX_ARCHITECTURES="x86_64" -DCMAKE_PREFIX_PATH=${LLVM_INSTALL_DIR}  -DCMAKE_BUILD_TYPE=RelWithDebInfo
+./configure -opensource -confirm-license -prefix ${CONFIG_PREFIX} -opengl desktop -plugin-sql-sqlite -sql-psql -plugin-sql-psql -openssl-runtime -qt-libjpeg -qt-zlib -debug -force-debug-info -nomake examples -nomake tests -no-warnings-are-errors ${QT_MODULE_SKIPPED} -- -DCMAKE_PREFIX_PATH=${LLVM_INSTALL_DIR}  -DCMAKE_BUILD_TYPE=RelWithDebInfo
 #################################################
+#exit
 
 
 #################################################
 #Build Qt with the configuration options
-cmake --build . --parallel
+#cmake --build . --parallel
+${CMAKE_TOOL}   --build . --parallel
 #################################################
 
 
