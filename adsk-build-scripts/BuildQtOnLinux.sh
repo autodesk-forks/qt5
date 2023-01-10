@@ -1,7 +1,7 @@
 #!/bin/bash
 #################################################
 #@file BuildQtOnLinux.sh
-#@brief Build script for Qt 6.2.4 universal version on Linux
+#@brief Build script for Qt 6.2.4 version on Linux
 #@team FARA/CM (Consistant Material scrum team)                 
 #@author Huimin Wen(Jess)                                                             
 #@date 1/3/2023
@@ -104,12 +104,15 @@ git submodule update --init --recursive
 #################################################
 #Build Qt with the configuration options
 #cmake --build . --parallel
-${CMAKE_TOOL}   --build . --parallel
+#${CMAKE_TOOL}   --build . --parallel
+#${CMAKE_TOOL}   --build . --parallel 4
+${CMAKE_TOOL}   --build . --parallel 4 -- -j 4
 #################################################
 
 
 #################################################
 #Install Qt build output to the directory of prefix option
+#cmake --install .
 ninja install
 #################################################
 
