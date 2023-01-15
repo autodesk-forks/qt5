@@ -156,10 +156,11 @@ ninja install
 #################################################
 #Delete all "*-debug.cmake" files
 pushd ${QT_INSTALL_PATH}
-find ./lib/cmake -type file -name "*-debug.cmake" -delete
+find ./lib/cmake -type f -name "*-debug.cmake" -delete
 
 #Delete all "*_debug" files
-find . -type file -name "*_debug" -delete
+find . -type f -name "*_debug" -delete
+find . -type l -name "*_debug" -delete
 popd 
 #################################################
 

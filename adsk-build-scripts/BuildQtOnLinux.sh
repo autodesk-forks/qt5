@@ -179,6 +179,7 @@ find ./lib/cmake -type f -name "*-debug.cmake" -delete
 
 #Delete all "*_debug" files
 find . -type f -name "*_debug" -delete
+find . -type l -name "*_debug" -delete
 popd
 
 
@@ -187,6 +188,7 @@ find ./lib/cmake -type f -name "*-debug.cmake" -delete
 
 #Delete all "*_debug" files
 find . -type f -name "*_debug" -delete
+find . -type l -name "*_debug" -delete
 popd 
 #################################################
 
