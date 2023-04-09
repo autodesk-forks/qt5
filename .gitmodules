@@ -319,7 +319,7 @@
 [submodule "qtgrpc"]
 	depends = qtbase
 	path = qtgrpc
-	url = ../qtgrpc.git
+	url = https://code.qt.io/qt/qtgrpc.git
 	branch = 6.5.0
 	status = preview
 [submodule "qtquickeffectmaker"]
