@@ -326,6 +326,6 @@
 	depends = qtbase qtdeclarative qtshadertools
 	recommends = qtquick3d
 	path = qtquickeffectmaker
-	url = ../qtquickeffectmaker.git
+	url = https://code.qt.io/qt/qtquickeffectmaker.git
 	branch = 6.5.0
 	status = addon
