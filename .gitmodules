@@ -231,7 +231,7 @@
 [submodule "qtnetworkauth"]
 	depends = qtbase
 	path = qtnetworkauth
-	url = ../qtnetworkauth.git
+	url = https://code.qt.io/qt/qtnetworkauth.git
 	branch = 6.5.0
 	status = addon
 [submodule "qtremoteobjects"]
