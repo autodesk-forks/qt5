@@ -89,7 +89,7 @@ CUR_SCRIPT_PATH=`(cd "$srcpath"; pwd)`
 #################################################
 #Set Qt configuration option variables
 QT_ROOT_PATH="$CUR_SCRIPT_PATH/.."
-QT_INSTALL_PATH="$QT_ROOT_PATH/../qt_macOS_universal_opensource_v140.6.2.4.0"
+QT_INSTALL_PATH="$QT_ROOT_PATH/../qt_macOS_opensource_universal.6.2.4.0"
 QT_3RDPARTY_PATH="${CUR_BAT_PATH}/3rdParty"
 #Set CONFIG_PREFIX="${QT_ROOT_PATH}/qtbase"
 CONFIG_PREFIX=$QT_INSTALL_PATH

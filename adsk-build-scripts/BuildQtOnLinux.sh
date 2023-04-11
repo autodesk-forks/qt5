@@ -3,7 +3,8 @@
 #@file BuildQtOnLinux.sh
 #@brief Build script for Qt 6.2.4 version on Linux
 #@team FARA/CM (Consistant Material scrum team)                 
-#@author Huimin Wen(Jess)                                                             
+#@author Huimin Wen(Jess)
+#@email huimin.wen@autodesk.com
 #@date 1/3/2023
 #################################################
 
@@ -134,23 +135,65 @@ popd
 
 
 #################################################
-#Build Qt with the configuration options
-#cmake --build . --parallel
-#${CMAKE_TOOL}   --build . --parallel
-#${CMAKE_TOOL}   --build . --parallel 4
-#${CMAKE_TOOL}   --build . --parallel 4 -- -j 4
+# Build Qt with the configuration options
+# cmake --build . --parallel
+# ${CMAKE_TOOL}   --build . --parallel
+# ${CMAKE_TOOL}   --build . --parallel 4
+# ${CMAKE_TOOL}   --build . --parallel 4 -- -j 4
 
-#Build for release version
-pushd $QT_BUILD_PATH_RELEASE
-${CMAKE_TOOL}   --build . --parallel
-#${CMAKE_TOOL}   --build . --parallel 4 -- -j 4
-popd
+# #Build for release version
+# pushd $QT_BUILD_PATH_RELEASE
+# ${CMAKE_TOOL}   --build . --parallel
+# #${CMAKE_TOOL}   --build . --parallel 4 -- -j 4
+# popd
+# 
+# #Build for debug version
+# pushd $QT_BUILD_PATH_DEBUG
+# ${CMAKE_TOOL}   --build . --parallel
+# #${CMAKE_TOOL}   --build . --parallel 4 -- -j 4
+# popd
 
-#Build for debug version
-pushd $QT_BUILD_PATH_DEBUG
-${CMAKE_TOOL}   --build . --parallel
-#${CMAKE_TOOL}   --build . --parallel 4 -- -j 4
-popd
+# QtWebEngine module will always failed for out of memory.
+# Everytime there would be out of memory after building some source files.
+# So we will try 100 times when encounter an error exit code.
+error_code1=1
+error_code2=1
+echo error_code1:$error_code1
+echo error_code2:$error_code2
+max_loop_count=100
+loop_count=0
+#while [[ $error_code1 -ne 0 && ${loop_count} -lt ${max_loop_count} ]] ; do
+#while [[ ${loop_count} -lt ${max_loop_count} ]] ; do
+#while [[ $((${error_code1} -ne 0 || {error_code2} -ne 0)) && ${loop_count} -lt ${max_loop_count} ]] ; do
+#while [[ ( ${error_code1} -ne 0 || ${error_code2} -ne 0 ) && ${loop_count} -lt ${max_loop_count} ]]
+while [[ ( ${error_code1} -ne 0 || ${error_code2} -ne 0 ) && ${loop_count} -lt ${max_loop_count} ]]
+do
+  # your unix command here #
+  echo "Retried times: ${loop_count}"
+  (( loop_count += 1 ))
+
+  #Build for release version
+  if [[ ${error_code1} -ne 0 ]] 
+  then
+      pushd $QT_BUILD_PATH_RELEASE
+      ${CMAKE_TOOL}   --build . --parallel
+      #${CMAKE_TOOL}   --build . --parallel 4 -- -j 4
+      error_code1=$?  
+      echo error_code1:$error_code1
+      popd
+  fi
+
+  #Build for debug version
+  if [[ ${error_code2} -ne 0 ]] 
+  then
+      pushd $QT_BUILD_PATH_DEBUG
+      ${CMAKE_TOOL}   --build . --parallel
+      #${CMAKE_TOOL}   --build . --parallel 4 -- -j 4
+      error_code2=$?  
+      echo error_code2:$error_code2
+      popd
+  fi
+done
 #################################################
 #exit
 
@@ -211,6 +254,73 @@ else
 fi
 
 popd
+#################################################
+
+
+#################################################
+# Copy some corresponding files to the Compilers folder
+
+# number=4
+# for k in $(seq 1 $number); do echo $k; donefor ()
+for BUILD_PATH in ${QT_INSTALL_PATH_RELEASE} ${QT_INSTALL_PATH_DEBUG} 
+do
+    echo BUILD_PATH:${BUILD_PATH} ...
+
+    QT_INSTALL_COMPILER_PATH=${BUILD_PATH}/compilers
+    # Create compilers directory
+    mkdir ${QT_INSTALL_COMPILER_PATH}
+    echo QT_INSTALL_COMPILER_PATH:${QT_INSTALL_COMPILER_PATH} ...
+
+    cp -rf ${BUILD_PATH}/bin/androiddeployqt ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/bin/androidtestrunner ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/bin/lconvert ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/bin/lrelease ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/bin/lupdate ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/bin/qmake ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/bin/qml ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/bin/qmldom ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/bin/qmlformat ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/bin/qmllint ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/bin/qmlplugindump ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/bin/qmlpreview ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/bin/qmlprofiler ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/bin/qmlscene ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/bin/qmltestrunner ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/bin/qmltime ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/bin/qtpaths ${QT_INSTALL_COMPILER_PATH}
+
+    cp -rf ${BUILD_PATH}/libexec/cmake_automoc_parser ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/libexec/lprodump ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/libexec/lrelease-pro ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/libexec/lupdate-pro ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/libexec/moc ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/libexec/qlalr ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/libexec/qmlcachegen ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/libexec/qmlimportscanner ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/libexec/qmltyperegistrar ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/libexec/qvkgen ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/libexec/qwebengine_convert_dict ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/libexec/rcc ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/libexec/tracegen ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/libexec/uic ${QT_INSTALL_COMPILER_PATH}
+
+    cp -rf ${BUILD_PATH}/lib/libQt6Core.prl ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/lib/libQt6Core.so ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/lib/libQt6Core.so.6 ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/lib/libQt6Core.so.6.2.4 ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/lib/libQt6WebEngineCore.prl ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/lib/libQt6WebEngineCore.so ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/lib/libQt6WebEngineCore.so.6 ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/lib/libQt6WebEngineCore.so.6.2.4 ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/lib/libQt6Xml.prl ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/lib/libQt6Xml.so ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/lib/libQt6Xml.so.6 ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/lib/libQt6Xml.so.6.2.4 ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/lib/libQt63DCore.prl ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/lib/libQt63DCore.so ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/lib/libQt63DCore.so.6 ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/lib/libQt63DCore.so.6.2.4 ${QT_INSTALL_COMPILER_PATH}
+done
 #################################################
 
 

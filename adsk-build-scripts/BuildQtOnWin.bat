@@ -206,6 +206,17 @@ echo F| xcopy /d /y /h "%QT_INSTALL_PATH%\bin\lprodump.exe"  %QT_INSTALL_COMPILE
 echo F| xcopy /d /y /h "%QT_INSTALL_PATH%\bin\lconvert.exe"  %QT_INSTALL_COMPILER_PATH%
 echo F| xcopy /d /y /h "%QT_INSTALL_PATH%\bin\idc.exe"  %QT_INSTALL_COMPILER_PATH%
 
+echo F| xcopy /d /y /h "%QT_INSTALL_PATH%\bin\androiddeployqt.exe"  %QT_INSTALL_COMPILER_PATH%
+echo F| xcopy /d /y /h "%QT_INSTALL_PATH%\bin\androidtestrunner.exe"  %QT_INSTALL_COMPILER_PATH%
+echo F| xcopy /d /y /h "%QT_INSTALL_PATH%\bin\cmake_automoc_parser.exe"  %QT_INSTALL_COMPILER_PATH%
+echo F| xcopy /d /y /h "%QT_INSTALL_PATH%\bin\lrelease-pro.exe"  %QT_INSTALL_COMPILER_PATH%
+echo F| xcopy /d /y /h "%QT_INSTALL_PATH%\bin\qlalr.exe"  %QT_INSTALL_COMPILER_PATH%
+echo F| xcopy /d /y /h "%QT_INSTALL_PATH%\bin\qml.exe"  %QT_INSTALL_COMPILER_PATH%
+echo F| xcopy /d /y /h "%QT_INSTALL_PATH%\bin\qtpaths.exe"  %QT_INSTALL_COMPILER_PATH%
+echo F| xcopy /d /y /h "%QT_INSTALL_PATH%\bin\qvkgen.exe"  %QT_INSTALL_COMPILER_PATH%
+echo F| xcopy /d /y /h "%QT_INSTALL_PATH%\bin\qwebengine_convert_dict.exe"  %QT_INSTALL_COMPILER_PATH%
+echo F| xcopy /d /y /h "%QT_INSTALL_PATH%\bin\tracegen.exe"  %QT_INSTALL_COMPILER_PATH%
+
 echo F| xcopy /d /y /h "%QT_3RDPARTY_PATH%\*"  %QT_INSTALL_PATH%\bin\*
 @rem #################################################
 
