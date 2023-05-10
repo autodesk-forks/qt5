@@ -10,6 +10,14 @@
 
 
 #################################################
+#Show some environment variables
+#Show the current shell, some shell such as sh 
+#will lead some errors when run this shell script
+echo The current shell is $0.
+#################################################
+
+
+#################################################
 #Setup environment
 #Set the number of openning files' limit to 4096 
 ulimit -n 4096
