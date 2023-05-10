@@ -15,6 +15,7 @@
 #will lead some errors when run this shell script
 echo The current shell is $0.
 ps -p $$
+who am i
 #################################################
 
 
@@ -124,6 +125,8 @@ git submodule update --init --recursive
 mkdir $QT_BUILD_PATH_RELEASE
 #cd ../qt-build-release
 pushd $QT_BUILD_PATH_RELEASE
+pwd
+ls $QT_BUILD_PATH_RELEASE
 
 #./configure -opensource -confirm-license -prefix ${CONFIG_PREFIX} -opengl desktop -plugin-sql-sqlite -sql-psql -plugin-sql-psql -openssl-runtime -qt-libjpeg -qt-zlib -debug-and-release -force-debug-info -nomake examples -nomake tests -no-warnings-are-errors ${QT_MODULE_SKIPPED} -- -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64"
 #./configure -opensource -confirm-license -prefix ${CONFIG_PREFIX} -opengl desktop -plugin-sql-sqlite -sql-psql -plugin-sql-psql -openssl-runtime -qt-libjpeg -qt-zlib -debug-and-release -force-debug-info -nomake examples -nomake tests -no-warnings-are-errors ${QT_MODULE_SKIPPED} -- -DCMAKE_OSX_ARCHITECTURES="x86_64"
@@ -137,6 +140,8 @@ popd
 #Configuration for debug version
 mkdir $QT_BUILD_PATH_DEBUG
 pushd $QT_BUILD_PATH_DEBUG
+pwd
+ls $QT_BUILD_PATH_DEBUG
 ${QT_ROOT_PATH}/configure -opensource -confirm-license -prefix ${CONFIG_PREFIX_DEBUG} -opengl desktop -plugin-sql-sqlite -sql-psql -plugin-sql-psql -openssl-runtime -qt-libjpeg -qt-zlib -debug -force-debug-info -separate-debug-info -nomake examples -nomake tests -no-warnings-are-errors ${QT_MODULE_SKIPPED} -- -DCMAKE_PREFIX_PATH=${LLVM_INSTALL_DIR}  -DCMAKE_BUILD_TYPE=RelWithDebInfo  1>${CUR_SCRIPT_PATH}/Qt.Configureation.Debug.Summary.txt 2>&1
 popd
 #################################################
