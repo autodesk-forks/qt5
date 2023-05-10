@@ -14,6 +14,7 @@
 #Show the current shell, some shell such as sh 
 #will lead some errors when run this shell script
 echo The current shell is $0.
+ps -p $$
 #################################################
 
 
