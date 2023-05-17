@@ -321,19 +321,19 @@ do
     cp -rf ${BUILD_PATH}/lib/libQt6Core.prl ${QT_INSTALL_COMPILER_PATH}
     cp -rf ${BUILD_PATH}/lib/libQt6Core.so ${QT_INSTALL_COMPILER_PATH}
     cp -rf ${BUILD_PATH}/lib/libQt6Core.so.6 ${QT_INSTALL_COMPILER_PATH}
-    cp -rf ${BUILD_PATH}/lib/libQt6Core.so.6.2.4 ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/lib/libQt6Core.so.6.* ${QT_INSTALL_COMPILER_PATH}
     cp -rf ${BUILD_PATH}/lib/libQt6WebEngineCore.prl ${QT_INSTALL_COMPILER_PATH}
     cp -rf ${BUILD_PATH}/lib/libQt6WebEngineCore.so ${QT_INSTALL_COMPILER_PATH}
     cp -rf ${BUILD_PATH}/lib/libQt6WebEngineCore.so.6 ${QT_INSTALL_COMPILER_PATH}
-    cp -rf ${BUILD_PATH}/lib/libQt6WebEngineCore.so.6.2.4 ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/lib/libQt6WebEngineCore.so.6.* ${QT_INSTALL_COMPILER_PATH}
     cp -rf ${BUILD_PATH}/lib/libQt6Xml.prl ${QT_INSTALL_COMPILER_PATH}
     cp -rf ${BUILD_PATH}/lib/libQt6Xml.so ${QT_INSTALL_COMPILER_PATH}
     cp -rf ${BUILD_PATH}/lib/libQt6Xml.so.6 ${QT_INSTALL_COMPILER_PATH}
-    cp -rf ${BUILD_PATH}/lib/libQt6Xml.so.6.2.4 ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/lib/libQt6Xml.so.6.* ${QT_INSTALL_COMPILER_PATH}
     cp -rf ${BUILD_PATH}/lib/libQt63DCore.prl ${QT_INSTALL_COMPILER_PATH}
     cp -rf ${BUILD_PATH}/lib/libQt63DCore.so ${QT_INSTALL_COMPILER_PATH}
     cp -rf ${BUILD_PATH}/lib/libQt63DCore.so.6 ${QT_INSTALL_COMPILER_PATH}
-    cp -rf ${BUILD_PATH}/lib/libQt63DCore.so.6.2.4 ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/lib/libQt63DCore.so.6.* ${QT_INSTALL_COMPILER_PATH}
 done
 #################################################
 
