@@ -28,8 +28,10 @@ ulimit -n 4096
 
 #################################################
 #Setup environment variables
-export PATH=/DATA/Qt6/tools/CMake/bin/:$PATH
-export CMAKE_TOOL=/DATA/Qt6/tools/CMake/bin/cmake
+#export PATH=/DATA/Qt6/tools/CMake/bin/:$PATH
+export PATH=/DATA/Qt6/tools/cmake-3.26.4-linux-x86_64/bin:$PATH
+#export CMAKE_TOOL=/DATA/Qt6/tools/CMake/bin/cmake
+export CMAKE_TOOL=/DATA/Qt6/tools/cmake-3.26.4-linux-x86_64/bin/cmake
 export LLVM_INSTALL_DIR=/usr/lib/llvm-10
 #export PostgreSQL_ROOT=/usr/local/Cellar/postgresql@11/11.14_1
 #################################################
