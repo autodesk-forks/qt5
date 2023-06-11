@@ -99,6 +99,8 @@ cd /d %QT_ROOT_PATH%
 
 
 @rem goto LabelConfigure
+@rem goto LabelBuild
+@rem goto LabelBuildDocs
 @rem goto LabelCopy
 @rem #################################################
 @rem Git init and sync
