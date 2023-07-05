@@ -143,12 +143,32 @@ git submodule update --init --recursive
 @rem                    " -opengl dynamic -plugin-sql-sqlite  -sql-psql -plugin-sql-psql -openssl-linked -qt-libjpeg -qt-zlib  " ^
 @rem                    " -debug-and-release -force-debug-info -developer-build -nomake examples -nomake tests -no-warnings-are-errors  & exit "
 
+@rem call  %comspec% /k configure -opensource -confirm-license -prefix %CONFIG_PREFIX%  -platform win32-msvc  -opengl dynamic -plugin-sql-sqlite  -sql-psql -plugin-sql-psql -openssl-runtime -qt-libjpeg -qt-zlib   -debug-and-release -force-debug-info -nomake examples -nomake tests -no-warnings-are-errors %QT_MODULE_SIKPPED% -- -DCMAKE_CXX_FLAGS_DEBUG="-g -Os" --log-level=STATUS 1>%CONFIGURE_LOG% 2>%CONFIGURE_ERR_LOG% & exit 
+
+@rem call  %comspec% /k "configure -opensource -confirm-license -prefix %CONFIG_PREFIX%  -platform win32-msvc " ^
+@rem                    " -opengl dynamic -plugin-sql-sqlite  -sql-psql -plugin-sql-psql -openssl-runtime -qt-libjpeg -qt-zlib  " ^
+@rem                    " -debug-and-release -force-debug-info -nomake examples -nomake tests -no-warnings-are-errors " ^
+@rem                    " %QT_MODULE_SIKPPED% " ^
+@rem 				    " -- " ^
+@rem                    " -DCMAKE_CXX_FLAGS_DEBUG=^"-g -Os^" --log-level=STATUS " ^
+@rem                    " 1>%CONFIGURE_LOG% 2>%CONFIGURE_ERR_LOG% & exit "
+
+@rem call  %comspec% /k configure -opensource -confirm-license -prefix %CONFIG_PREFIX%  -platform win32-msvc  ^
+@rem                     -opengl dynamic -plugin-sql-sqlite  -sql-psql -plugin-sql-psql -openssl-runtime -qt-libjpeg -qt-zlib   ^
+@rem                     -debug-and-release -force-debug-info -nomake examples -nomake tests -no-warnings-are-errors  ^
+@rem                     %QT_MODULE_SIKPPED%  ^
+@rem 				     -- ^
+@rem                     -DCMAKE_CXX_FLAGS_DEBUG="/Zi /RTC1" --log-level=STATUS  ^
+@rem                     1>%CONFIGURE_LOG% 2>%CONFIGURE_ERR_LOG% & exit 
+
 call  %comspec% /k "configure -opensource -confirm-license -prefix %CONFIG_PREFIX%  -platform win32-msvc " ^
-                   " -opengl dynamic -plugin-sql-sqlite  -sql-psql -plugin-sql-psql -openssl-runtime -qt-libjpeg -qt-zlib  " ^
+                   " -opengl dynamic -plugin-sql-sqlite  -sql-psql -plugin-sql-psql -openssl-runtime -qt-libjpeg -qt-zlib "  ^
                    " -debug-and-release -force-debug-info -nomake examples -nomake tests -no-warnings-are-errors " ^
                    " %QT_MODULE_SIKPPED% " ^
+                   " -- " ^
+                   " --log-level=STATUS " ^
                    " 1>%CONFIGURE_LOG% 2>%CONFIGURE_ERR_LOG% & exit "
-			      
+
 @rem #################################################
 @rem goto :eof
 

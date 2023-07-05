@@ -1,7 +1,7 @@
 #!/bin/bash
 #################################################
 #@file BuildQtOnLinux.sh
-#@brief Build script for Qt 6.2.4 version on Linux
+#@brief Build script for Qt 6.5.0 version on Linux
 #@team FARA/CM (Consistant Material scrum team)                 
 #@author Huimin Wen(Jess)
 #@email huimin.wen@autodesk.com
@@ -32,6 +32,11 @@ ulimit -n 4096
 export PATH=/DATA/Qt6/tools/cmake-3.26.4-linux-x86_64/bin:$PATH
 #export CMAKE_TOOL=/DATA/Qt6/tools/CMake/bin/cmake
 export CMAKE_TOOL=/DATA/Qt6/tools/cmake-3.26.4-linux-x86_64/bin/cmake
+if [ ! -f "$CMAKE_TOOL" ]; then
+  CMAKE_TOOL=cmake
+fi
+echo CMAKE_TOOL:$CMAKE_TOOL
+
 export LLVM_INSTALL_DIR=/usr/lib/llvm-10
 #export PostgreSQL_ROOT=/usr/local/Cellar/postgresql@11/11.14_1
 #################################################
@@ -57,7 +62,7 @@ CUR_SCRIPT_PATH=`(cd "$srcpath"; pwd)`
 
 #################################################
 #Set Qt configuration option variables
-QT_BUILD_VERSION=6.2.4.0
+QT_BUILD_VERSION=6.5.0.0
 QT_ROOT_PATH="$CUR_SCRIPT_PATH/.."
 
 QT_BUILD_PATH_DEBUG="$QT_ROOT_PATH/../qt-build-debug"
@@ -135,7 +140,6 @@ ls $QT_BUILD_PATH_RELEASE
 #./configure -opensource -confirm-license -prefix ${CONFIG_PREFIX} -opengl desktop -plugin-sql-sqlite -sql-psql -plugin-sql-psql -openssl-runtime -qt-libjpeg -qt-zlib -debug -force-debug-info -nomake examples -nomake tests -no-warnings-are-errors ${QT_MODULE_SKIPPED} -- -DCMAKE_OSX_ARCHITECTURES="x86_64" -DCMAKE_PREFIX_PATH=${LLVM_INSTALL_DIR}  -DCMAKE_BUILD_TYPE=RelWithDebInfo
 #./configure -opensource -confirm-license -prefix ${CONFIG_PREFIX} -opengl desktop -plugin-sql-sqlite -sql-psql -plugin-sql-psql -openssl-runtime -qt-libjpeg -qt-zlib -debug -force-debug-info -separate-debug-info -nomake examples -nomake tests -no-warnings-are-errors ${QT_MODULE_SKIPPED} -- -DCMAKE_PREFIX_PATH=${LLVM_INSTALL_DIR}  -DCMAKE_BUILD_TYPE=RelWithDebInfo  1>${CUR_SCRIPT_PATH}/Qt.Configureation.Summary.txt 2>&1
 #${QT_ROOT_PATH}/configure -opensource -confirm-license -prefix ${CONFIG_PREFIX} -opengl desktop -plugin-sql-sqlite -sql-psql -plugin-sql-psql -openssl-runtime -qt-libjpeg -qt-zlib -debug -release -force-debug-info -separate-debug-info -nomake examples -nomake tests -no-warnings-are-errors ${QT_MODULE_SKIPPED} -- -DCMAKE_PREFIX_PATH=${LLVM_INSTALL_DIR}  -DCMAKE_BUILD_TYPE=RelWithDebInfo  1>${CUR_SCRIPT_PATH}/Qt.Configureation.Summary.txt 2>&1
-
 ${QT_ROOT_PATH}/configure -opensource -confirm-license -prefix ${CONFIG_PREFIX_RELEASE} -opengl desktop -plugin-sql-sqlite -sql-psql -plugin-sql-psql -openssl-runtime -qt-libjpeg -qt-zlib -release -force-debug-info -separate-debug-info -nomake examples -nomake tests -no-warnings-are-errors ${QT_MODULE_SKIPPED} -- -DCMAKE_PREFIX_PATH=${LLVM_INSTALL_DIR}  -DCMAKE_BUILD_TYPE=RelWithDebInfo --log-level=STATUS 1>${CUR_SCRIPT_PATH}/Qt.Configureation.Release.Summary.txt 2>&1
 popd
 
@@ -260,8 +264,8 @@ pushd ${QT_INSTALL_PATH_RELEASE}
 if  [ -f  "lib/QtWebEngineCore.framework/Versions/A/Helpers/QtWebEngineProcess.app/Contents/MacOS/QtWebEngineProcess" ];then
   echo  "QtWebEngineProcess does exist. Now begin to correct the rpath of QtWebEngineProcess."
 
-  #install_name_tool -rpath /Volumes/DATA/Qt6/Qt6.2.4/qt5/qtbase/lib @loader_path/../../../../../../../ QtWebEngineProcess
-  install_name_tool -rpath /Volumes/DATA/Qt6/Qt6.2.4/qt5/qtbase/lib @loader_path/../../../../../../../ lib/QtWebEngineCore.framework/Versions/A/Helpers/QtWebEngineProcess.app/Contents/MacOS/QtWebEngineProcess
+  #install_name_tool -rpath /Volumes/DATA/Qt6/Qt6.5.0.0/qt5/qtbase/lib @loader_path/../../../../../../../ QtWebEngineProcess
+  install_name_tool -rpath /Volumes/DATA/Qt6/Qt6.5.0.0/qt5/qtbase/lib @loader_path/../../../../../../../ lib/QtWebEngineCore.framework/Versions/A/Helpers/QtWebEngineProcess.app/Contents/MacOS/QtWebEngineProcess
 
   #install_name_tool -add_rpath @loader_path/../../../../../../../ QtWebEngineProcess
   install_name_tool -add_rpath @loader_path/../../../../../../../ lib/QtWebEngineCore.framework/Versions/A/Helpers/QtWebEngineProcess.app/Contents/MacOS/QtWebEngineProcess
