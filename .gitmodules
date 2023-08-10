@@ -82,7 +82,7 @@
 	depends = qtbase
 	recommends = qtdeclarative qtserialport
 	path = qtpositioning
-	url = ../qtpositioning.git
+	url = https://code.qt.io/qt/qtpositioning.git
 	branch = 6.5.2
 	status = addon
 [submodule "qtsensors"]
@@ -231,7 +231,7 @@
 [submodule "qtnetworkauth"]
 	depends = qtbase
 	path = qtnetworkauth
-	url = ../qtnetworkauth.git
+	url = https://code.qt.io/qt/qtnetworkauth.git
 	branch = 6.5.2
 	status = addon
 [submodule "qtremoteobjects"]
@@ -319,13 +319,13 @@
 [submodule "qtgrpc"]
 	depends = qtbase
 	path = qtgrpc
-	url = ../qtgrpc.git
+	url = https://code.qt.io/qt/qtgrpc.git
 	branch = 6.5.2
 	status = preview
 [submodule "qtquickeffectmaker"]
 	depends = qtbase qtdeclarative qtshadertools
 	recommends = qtquick3d
 	path = qtquickeffectmaker
-	url = ../qtquickeffectmaker.git
+	url = https://code.qt.io/qt/qtquickeffectmaker.git
 	branch = 6.5.2
 	status = addon
