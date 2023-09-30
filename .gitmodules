@@ -294,7 +294,7 @@
 [submodule "qtopcua"]
 	depends = qtbase qtdeclarative
 	path = qtopcua
-	url = ../qtopcua.git
+	url = https://code.qt.io/qt/qtopcua.git
 	branch = 6.5.3
 	status = addon
 [submodule "qtlanguageserver"]
