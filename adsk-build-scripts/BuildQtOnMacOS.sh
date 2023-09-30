@@ -89,7 +89,7 @@ CUR_SCRIPT_PATH=`(cd "$srcpath"; pwd)`
 #################################################
 #Set Qt configuration option variables
 QT_ROOT_PATH="$CUR_SCRIPT_PATH/.."
-QT_INSTALL_PATH="$QT_ROOT_PATH/../qt_macOS_opensource_universal.6.5.2.0"
+QT_INSTALL_PATH="$QT_ROOT_PATH/../qt_macOS_opensource_universal.6.5.3.0"
 QT_3RDPARTY_PATH="${CUR_BAT_PATH}/3rdParty"
 #Set CONFIG_PREFIX="${QT_ROOT_PATH}/qtbase"
 CONFIG_PREFIX=$QT_INSTALL_PATH
@@ -173,8 +173,8 @@ pushd ${QT_INSTALL_PATH}
 if  [ -f  "lib/QtWebEngineCore.framework/Versions/A/Helpers/QtWebEngineProcess.app/Contents/MacOS/QtWebEngineProcess" ];then
   echo  "QtWebEngineProcess does exist. Now begin to correct the rpath of QtWebEngineProcess."
 
-  #install_name_tool -rpath /Volumes/DATA/Qt6/Qt6.5.2/qt5/qtbase/lib @loader_path/../../../../../../../ QtWebEngineProcess
-  install_name_tool -rpath /Volumes/DATA/Qt6/Qt6.5.2/qt5/qtbase/lib @loader_path/../../../../../../../ lib/QtWebEngineCore.framework/Versions/A/Helpers/QtWebEngineProcess.app/Contents/MacOS/QtWebEngineProcess
+  #install_name_tool -rpath /Volumes/DATA/Qt6/Qt6.5.3/qt5/qtbase/lib @loader_path/../../../../../../../ QtWebEngineProcess
+  install_name_tool -rpath /Volumes/DATA/Qt6/Qt6.5.3/qt5/qtbase/lib @loader_path/../../../../../../../ lib/QtWebEngineCore.framework/Versions/A/Helpers/QtWebEngineProcess.app/Contents/MacOS/QtWebEngineProcess
 
   #install_name_tool -add_rpath @loader_path/../../../../../../../ QtWebEngineProcess
   install_name_tool -add_rpath @loader_path/../../../../../../../ lib/QtWebEngineCore.framework/Versions/A/Helpers/QtWebEngineProcess.app/Contents/MacOS/QtWebEngineProcess

@@ -1,7 +1,7 @@
 #!/bin/bash
 #################################################
 #@file BuildQtOnLinux.sh
-#@brief Build script for Qt 6.5.2 version on Linux
+#@brief Build script for Qt 6.5.3 version on Linux
 #@team FARA/CM (Consistant Material scrum team)                 
 #@author Huimin Wen(Jess)
 #@email huimin.wen@autodesk.com
@@ -62,7 +62,7 @@ CUR_SCRIPT_PATH=`(cd "$srcpath"; pwd)`
 
 #################################################
 #Set Qt configuration option variables
-QT_BUILD_VERSION=6.5.2.0
+QT_BUILD_VERSION=6.5.3.0
 QT_ROOT_PATH="$CUR_SCRIPT_PATH/.."
 
 QT_BUILD_PATH_DEBUG="$QT_ROOT_PATH/../qt-build-debug"
@@ -264,8 +264,8 @@ pushd ${QT_INSTALL_PATH_RELEASE}
 if  [ -f  "lib/QtWebEngineCore.framework/Versions/A/Helpers/QtWebEngineProcess.app/Contents/MacOS/QtWebEngineProcess" ];then
   echo  "QtWebEngineProcess does exist. Now begin to correct the rpath of QtWebEngineProcess."
 
-  #install_name_tool -rpath /Volumes/DATA/Qt6/Qt6.5.2.0/qt5/qtbase/lib @loader_path/../../../../../../../ QtWebEngineProcess
-  install_name_tool -rpath /Volumes/DATA/Qt6/Qt6.5.2.0/qt5/qtbase/lib @loader_path/../../../../../../../ lib/QtWebEngineCore.framework/Versions/A/Helpers/QtWebEngineProcess.app/Contents/MacOS/QtWebEngineProcess
+  #install_name_tool -rpath /Volumes/DATA/Qt6/Qt6.5.3.0/qt5/qtbase/lib @loader_path/../../../../../../../ QtWebEngineProcess
+  install_name_tool -rpath /Volumes/DATA/Qt6/Qt6.5.3.0/qt5/qtbase/lib @loader_path/../../../../../../../ lib/QtWebEngineCore.framework/Versions/A/Helpers/QtWebEngineProcess.app/Contents/MacOS/QtWebEngineProcess
 
   #install_name_tool -add_rpath @loader_path/../../../../../../../ QtWebEngineProcess
   install_name_tool -add_rpath @loader_path/../../../../../../../ lib/QtWebEngineCore.framework/Versions/A/Helpers/QtWebEngineProcess.app/Contents/MacOS/QtWebEngineProcess
