@@ -27,6 +27,21 @@ ulimit -n 4096
 
 
 #################################################
+#Check gcc version, if the gcc version is lower than 11.1.0, the script return directly
+GCCVERSION=$(gcc --version | grep ^gcc | sed 's/^.* //g')
+GCCPLUSVERSION=$(g++ --version | grep ^g++ | sed 's/^.* //g')
+echo "GCCVERSION=${GCCVERSION} GCCPLUSVERSION=${GCCPLUSVERSION}"
+
+if [ "${GCCVERSION}" \< "11.1.0" ] || [ "${GCCPLUSVERSION}" \< "11.1.0" ]; then
+  echo "Error: need gcc 11.1.0 or higher version to build Qt 6.5.* on Linux."
+  exit 1
+else
+  echo "gcc version (${GCCVERSION}) and g++ version (${GCCPLUSVERSION}) is okay."
+fi
+#################################################
+
+
+#################################################
 #Setup environment variables
 #export PATH=/DATA/Qt6/tools/CMake/bin/:$PATH
 export PATH=/DATA/Qt6/tools/cmake-3.26.4-linux-x86_64/bin:$PATH
