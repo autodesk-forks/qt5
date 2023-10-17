@@ -57,3 +57,13 @@
 \qml\QtCharts
 \qml\Qt\labs\lottieqt
 
+\lib\libQt6Coap.prl
+\lib\libQt6Coap.so
+\lib\libQt6Coap.so.6
+\lib\libQt6Coap.so.6.5.3
+
+\lib\libQt6Mqtt.prl
+\lib\libQt6Mqtt.so
+\lib\libQt6Mqtt.so.6
+\lib\libQt6Mqtt.so.6.5.3
+
