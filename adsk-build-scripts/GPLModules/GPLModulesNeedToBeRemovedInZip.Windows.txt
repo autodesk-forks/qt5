@@ -1,5 +1,4 @@
 \lib\Qt6VirtualKeyboardd.lib
-\lib\Qt6ShaderToolsd.lib
 \lib\Qt6QuickTimelined.lib
 \lib\Qt6Quick3DUtilsd.lib
 \lib\Qt6Quick3DSpatialAudiod.lib
@@ -24,7 +23,6 @@
 \lib\Qt6Chartsd.lib
 
 \lib\Qt6VirtualKeyboard.lib
-\lib\Qt6ShaderTools.lib
 \lib\Qt6QuickTimeline.lib
 \lib\Qt6Quick3DUtils.lib
 \lib\Qt6Quick3DSpatialAudio.lib
@@ -58,3 +56,22 @@
 \qml\QtDataVisualization
 \qml\QtCharts
 \qml\Qt\labs\lottieqt
+
+
+\bin\Qt6Coap.dll
+\bin\Qt6Coap.pdb
+\bin\Qt6Coapd.dll
+\bin\Qt6Coapd.pdb
+\lib\Qt6Coap.lib
+\lib\Qt6Coap.prl
+\lib\Qt6Coapd.lib
+\lib\Qt6Coapd.prl
+
+\bin\Qt6Mqtt.dll
+\bin\Qt6Mqtt.pdb
+\bin\Qt6Mqttd.dll
+\bin\Qt6Mqttd.pdb
+\lib\Qt6Mqtt.lib
+\lib\Qt6Mqtt.prl
+\lib\Qt6Mqttd.lib
+\lib\Qt6Mqttd.prl
