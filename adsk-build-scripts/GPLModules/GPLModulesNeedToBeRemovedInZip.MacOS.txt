@@ -58,10 +58,10 @@
 
 \qml\Qt\labs\lottieqt
 
-
 \lib\QtCoap.framework
 \lib\QtCoap.framework.dSYM
 
 \lib\QtMqtt.framework
 \lib\QtMqtt.framework.dSYM
+
 
