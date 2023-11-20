@@ -85,7 +85,17 @@ set QT_3RDPARTY_PATH="%CUR_BAT_PATH%3rdParty"
 @rem set CONFIG_PREFIX="%QT_ROOT_PATH%\qtbase"
 set CONFIG_PREFIX=%QT_INSTALL_PATH%
 set CONFIG_EXT_PREFIX=%QT_INSTALL_PATH%
-set QT_MODULE_SIKPPED= -skip qtlocation 
+
+@rem The modules in QT_MODULE_EXCLUDED will be excluded from git syncing
+@rem set QT_MODULE_EXCLUDED="-preview,-qtnetworkauth,-qtpurchasing,-qtquick3d,-qtlottie,-qtcharts,-qtdatavis3d,-qtvirtualkeyboard,-qtwebglplugin,-qtactiveqt,-qtconnectivity,-qtcoap,-qtmqtt,-qtopcua,-qtquicktimeline,-qtquickeffectmaker,-qtquick3dphysics"
+set QT_MODULE_EXCLUDED=-qtlocation,-qtvirtualkeyboard,-qtquicktimeline,-qtquick3d,-qtnetworkauth,-qtdatavis3d,-qtcharts,^
+-platforminputcontexts,-qtquick3d,-qtquick3dphysics,-qtlottie,-qtcoap,-qtmqtt 
+
+@rem The modules in QT_MODULE_SKIPPED will be skipped from building
+@rem set QT_MODULE_SKIPPED= -skip qtlocation
+set QT_MODULE_SKIPPED= -skip qtlocation -skip qtvirtualkeyboard -skip qtquicktimeline -skip qtquick3d -skip qtnetworkauth ^
+                       -skip qtdatavis3d -skip qtcharts -skip platforminputcontexts -skip qtquick3d -skip qtquick3dphysics ^
+                       -skip qtlottie -skip qtcoap -skip qtmqtt
 
 @rem Step into the Qt root directory
 cd /d %QT_ROOT_PATH%
@@ -106,7 +116,9 @@ cd /d %QT_ROOT_PATH%
 @rem Git init and sync
 
 @rem Initialize the repository
-perl init-repository
+@rem perl init-repository
+perl init-repository --force --module-subset=default,%QT_MODULE_EXCLUDED%
+@rem goto :eof
 
 @rem Sync the submoudles url, maybe it's not necessary
 git submodule sync
@@ -143,12 +155,12 @@ git submodule update --init --recursive
 @rem                    " -opengl dynamic -plugin-sql-sqlite  -sql-psql -plugin-sql-psql -openssl-linked -qt-libjpeg -qt-zlib  " ^
 @rem                    " -debug-and-release -force-debug-info -developer-build -nomake examples -nomake tests -no-warnings-are-errors  & exit "
 
-@rem call  %comspec% /k configure -opensource -confirm-license -prefix %CONFIG_PREFIX%  -platform win32-msvc  -opengl dynamic -plugin-sql-sqlite  -sql-psql -plugin-sql-psql -openssl-runtime -qt-libjpeg -qt-zlib   -debug-and-release -force-debug-info -nomake examples -nomake tests -no-warnings-are-errors %QT_MODULE_SIKPPED% -- -DCMAKE_CXX_FLAGS_DEBUG="-g -Os" --log-level=STATUS 1>%CONFIGURE_LOG% 2>%CONFIGURE_ERR_LOG% & exit 
+@rem call  %comspec% /k configure -opensource -confirm-license -prefix %CONFIG_PREFIX%  -platform win32-msvc  -opengl dynamic -plugin-sql-sqlite  -sql-psql -plugin-sql-psql -openssl-runtime -qt-libjpeg -qt-zlib   -debug-and-release -force-debug-info -nomake examples -nomake tests -no-warnings-are-errors %QT_MODULE_SKIPPED% -- -DCMAKE_CXX_FLAGS_DEBUG="-g -Os" --log-level=STATUS 1>%CONFIGURE_LOG% 2>%CONFIGURE_ERR_LOG% & exit 
 
 @rem call  %comspec% /k "configure -opensource -confirm-license -prefix %CONFIG_PREFIX%  -platform win32-msvc " ^
 @rem                    " -opengl dynamic -plugin-sql-sqlite  -sql-psql -plugin-sql-psql -openssl-runtime -qt-libjpeg -qt-zlib  " ^
 @rem                    " -debug-and-release -force-debug-info -nomake examples -nomake tests -no-warnings-are-errors " ^
-@rem                    " %QT_MODULE_SIKPPED% " ^
+@rem                    " %QT_MODULE_SKIPPED% " ^
 @rem 				    " -- " ^
 @rem                    " -DCMAKE_CXX_FLAGS_DEBUG=^"-g -Os^" --log-level=STATUS " ^
 @rem                    " 1>%CONFIGURE_LOG% 2>%CONFIGURE_ERR_LOG% & exit "
@@ -156,7 +168,7 @@ git submodule update --init --recursive
 @rem call  %comspec% /k configure -opensource -confirm-license -prefix %CONFIG_PREFIX%  -platform win32-msvc  ^
 @rem                     -opengl dynamic -plugin-sql-sqlite  -sql-psql -plugin-sql-psql -openssl-runtime -qt-libjpeg -qt-zlib   ^
 @rem                     -debug-and-release -force-debug-info -nomake examples -nomake tests -no-warnings-are-errors  ^
-@rem                     %QT_MODULE_SIKPPED%  ^
+@rem                     %QT_MODULE_SKIPPED%  ^
 @rem 				     -- ^
 @rem                     -DCMAKE_CXX_FLAGS_DEBUG="/Zi /RTC1" --log-level=STATUS  ^
 @rem                     1>%CONFIGURE_LOG% 2>%CONFIGURE_ERR_LOG% & exit 
@@ -164,7 +176,7 @@ git submodule update --init --recursive
 call  %comspec% /k "configure -opensource -confirm-license -prefix %CONFIG_PREFIX%  -platform win32-msvc " ^
                    " -opengl dynamic -plugin-sql-sqlite  -sql-psql -plugin-sql-psql -openssl-runtime -qt-libjpeg -qt-zlib "  ^
                    " -debug-and-release -force-debug-info -nomake examples -nomake tests -no-warnings-are-errors " ^
-                   " %QT_MODULE_SIKPPED% " ^
+                   " %QT_MODULE_SKIPPED% " ^
                    " -- " ^
                    " --log-level=STATUS " ^
                    " 1>%CONFIGURE_LOG% 2>%CONFIGURE_ERR_LOG% & exit "

@@ -95,7 +95,16 @@ CONFIG_PREFIX_RELEASE=$QT_INSTALL_PATH_RELEASE
 CONFIG_EXT_PREFIX_DEBUG=$QT_INSTALL_PATH_DEBUG
 CONFIG_EXT_PREFIX_RELEASE=$QT_INSTALL_PATH_RELEASE
 
-QT_MODULE_SKIPPED=" -skip qtlocation "
+#The modules in QT_MODULE_EXCLUDED will be excluded from git syncing
+#set QT_MODULE_EXCLUDED="-preview,-qtnetworkauth,-qtpurchasing,-qtquick3d,-qtlottie,-qtcharts,-qtdatavis3d,-qtvirtualkeyboard,-qtwebglplugin,-qtactiveqt,-qtconnectivity,-qtcoap,-qtmqtt,-qtopcua,-qtquicktimeline,-qtquickeffectmaker,-qtquick3dphysics"
+QT_MODULE_EXCLUDED=-qtlocation,-qtvirtualkeyboard,-qtquicktimeline,-qtquick3d,-qtnetworkauth,-qtdatavis3d,-qtcharts,\
+-platforminputcontexts,-qtquick3d,-qtquick3dphysics,-qtlottie,-qtcoap,-qtmqtt,-qtwayland
+
+#The modules in QT_MODULE_SKIPPED will be skipped from building
+#QT_MODULE_SKIPPED=" -skip qtlocation "
+QT_MODULE_SKIPPED=" -skip qtlocation -skip qtvirtualkeyboard -skip qtquicktimeline -skip qtquick3d -skip qtnetworkauth \
+                   -skip qtdatavis3d -skip qtcharts -skip platforminputcontexts -skip qtquick3d -skip qtquick3dphysics \
+                   -skip qtlottie -skip qtcoap -skip qtmqtt -skip qtwayland "
 
 echo QT_ROOT_PATH:$QT_ROOT_PATH
 echo CUR_SCRIPT_PATH:$CUR_SCRIPT_PATH
@@ -115,7 +124,8 @@ pwd
 #Git init and sync
 
 #Initialize the repository
-perl init-repository
+#perl init-repository
+perl init-repository --force --module-subset=default,${QT_MODULE_EXCLUDED}
 
 #Sync the submoudles url, maybe it's not necessary
 git submodule sync
@@ -155,7 +165,12 @@ ls $QT_BUILD_PATH_RELEASE
 #./configure -opensource -confirm-license -prefix ${CONFIG_PREFIX} -opengl desktop -plugin-sql-sqlite -sql-psql -plugin-sql-psql -openssl-runtime -qt-libjpeg -qt-zlib -debug -force-debug-info -nomake examples -nomake tests -no-warnings-are-errors ${QT_MODULE_SKIPPED} -- -DCMAKE_OSX_ARCHITECTURES="x86_64" -DCMAKE_PREFIX_PATH=${LLVM_INSTALL_DIR}  -DCMAKE_BUILD_TYPE=RelWithDebInfo
 #./configure -opensource -confirm-license -prefix ${CONFIG_PREFIX} -opengl desktop -plugin-sql-sqlite -sql-psql -plugin-sql-psql -openssl-runtime -qt-libjpeg -qt-zlib -debug -force-debug-info -separate-debug-info -nomake examples -nomake tests -no-warnings-are-errors ${QT_MODULE_SKIPPED} -- -DCMAKE_PREFIX_PATH=${LLVM_INSTALL_DIR}  -DCMAKE_BUILD_TYPE=RelWithDebInfo  1>${CUR_SCRIPT_PATH}/Qt.Configureation.Summary.txt 2>&1
 #${QT_ROOT_PATH}/configure -opensource -confirm-license -prefix ${CONFIG_PREFIX} -opengl desktop -plugin-sql-sqlite -sql-psql -plugin-sql-psql -openssl-runtime -qt-libjpeg -qt-zlib -debug -release -force-debug-info -separate-debug-info -nomake examples -nomake tests -no-warnings-are-errors ${QT_MODULE_SKIPPED} -- -DCMAKE_PREFIX_PATH=${LLVM_INSTALL_DIR}  -DCMAKE_BUILD_TYPE=RelWithDebInfo  1>${CUR_SCRIPT_PATH}/Qt.Configureation.Summary.txt 2>&1
-${QT_ROOT_PATH}/configure -opensource -confirm-license -prefix ${CONFIG_PREFIX_RELEASE} -opengl desktop -plugin-sql-sqlite -sql-psql -plugin-sql-psql -openssl-runtime -qt-libjpeg -qt-zlib -release -force-debug-info -separate-debug-info -nomake examples -nomake tests -no-warnings-are-errors ${QT_MODULE_SKIPPED} -- -DCMAKE_PREFIX_PATH=${LLVM_INSTALL_DIR}  -DCMAKE_BUILD_TYPE=RelWithDebInfo --log-level=STATUS 1>${CUR_SCRIPT_PATH}/Qt.Configureation.Release.Summary.txt 2>&1
+${QT_ROOT_PATH}/configure -opensource -confirm-license -prefix ${CONFIG_PREFIX_RELEASE} -opengl desktop -plugin-sql-sqlite -sql-psql \
+                          -plugin-sql-psql -openssl-runtime -qt-libjpeg -qt-zlib -release -force-debug-info -separate-debug-info \
+                          -nomake examples -nomake tests -no-warnings-are-errors \
+                          ${QT_MODULE_SKIPPED} \
+                          -- -DCMAKE_PREFIX_PATH=${LLVM_INSTALL_DIR}  -DCMAKE_BUILD_TYPE=RelWithDebInfo --log-level=STATUS \
+                          1>${CUR_SCRIPT_PATH}/Qt.Configureation.Release.Summary.txt 2>&1
 popd
 
 #Configuration for debug version
@@ -163,7 +178,12 @@ mkdir $QT_BUILD_PATH_DEBUG
 pushd $QT_BUILD_PATH_DEBUG
 pwd
 ls $QT_BUILD_PATH_DEBUG
-${QT_ROOT_PATH}/configure -opensource -confirm-license -prefix ${CONFIG_PREFIX_DEBUG} -opengl desktop -plugin-sql-sqlite -sql-psql -plugin-sql-psql -openssl-runtime -qt-libjpeg -qt-zlib -debug -force-debug-info -separate-debug-info -nomake examples -nomake tests -no-warnings-are-errors ${QT_MODULE_SKIPPED} -- -DCMAKE_PREFIX_PATH=${LLVM_INSTALL_DIR}  -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS_DEBUG="-g -Os" --log-level=STATUS 1>${CUR_SCRIPT_PATH}/Qt.Configureation.Debug.Summary.txt 2>&1
+${QT_ROOT_PATH}/configure -opensource -confirm-license -prefix ${CONFIG_PREFIX_DEBUG} -opengl desktop -plugin-sql-sqlite -sql-psql \
+                          -plugin-sql-psql -openssl-runtime -qt-libjpeg -qt-zlib -debug -force-debug-info -separate-debug-info \
+                          -nomake \examples -nomake tests -no-warnings-are-errors \
+                          ${QT_MODULE_SKIPPED} \
+                          -- -DCMAKE_PREFIX_PATH=${LLVM_INSTALL_DIR}  -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS_DEBUG="-g -Os" --log-level=STATUS \
+                          1>${CUR_SCRIPT_PATH}/Qt.Configureation.Debug.Summary.txt 2>&1
 popd
 #################################################
 #exit
