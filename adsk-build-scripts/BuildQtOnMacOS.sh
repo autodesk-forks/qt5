@@ -98,12 +98,12 @@ CONFIG_EXT_PREFIX=$QT_INSTALL_PATH
 #The modules in QT_MODULE_EXCLUDED will be excluded from git syncing
 #set QT_MODULE_EXCLUDED="-preview,-qtnetworkauth,-qtpurchasing,-qtquick3d,-qtlottie,-qtcharts,-qtdatavis3d,-qtvirtualkeyboard,-qtwebglplugin,-qtactiveqt,-qtconnectivity,-qtcoap,-qtmqtt,-qtopcua,-qtquicktimeline,-qtquickeffectmaker,-qtquick3dphysics"
 QT_MODULE_EXCLUDED=-qtlocation,-qtvirtualkeyboard,-qtquicktimeline,-qtquick3d,-qtnetworkauth,-qtdatavis3d,-qtcharts,\
--platforminputcontexts,-qtquick3d,-qtquick3dphysics,-qtlottie,-qtcoap,-qtmqtt
+-qtquick3d,-qtquick3dphysics,-qtlottie,-qtcoap,-qtmqtt
 
 #The modules in QT_MODULE_SKIPPED will be skipped from building
 #QT_MODULE_SKIPPED=" -skip qtlocation "
 QT_MODULE_SKIPPED=" -skip qtlocation -skip qtvirtualkeyboard -skip qtquicktimeline -skip qtquick3d -skip qtnetworkauth \
-                   -skip qtdatavis3d -skip qtcharts -skip platforminputcontexts -skip qtquick3d -skip qtquick3dphysics \
+                   -skip qtdatavis3d -skip qtcharts -skip qtquick3d -skip qtquick3dphysics \
                    -skip qtlottie -skip qtcoap -skip qtmqtt "
 
 echo QT_ROOT_PATH:$QT_ROOT_PATH
@@ -149,7 +149,7 @@ git submodule update --init --recursive
 #################################################
 #Configure the Qt options 
 ./configure -opensource -confirm-license -prefix ${CONFIG_PREFIX} -opengl desktop -plugin-sql-sqlite -sql-psql -plugin-sql-psql \
-            -openssl-runtime -qt-libjpeg -qt-zlib -debug-and-release -force-debug-info -separate-debug-info \
+            -openssl-runtime -qt-libjpeg -qt-zlib -release -force-debug-info -separate-debug-info \
             -nomake examples -nomake tests -no-warnings-are-errors \
             ${QT_MODULE_SKIPPED} \
             -- -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -DCMAKE_OSX_DEPLOYMENT_TARGET="11.0"

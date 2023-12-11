@@ -89,12 +89,12 @@ set CONFIG_EXT_PREFIX=%QT_INSTALL_PATH%
 @rem The modules in QT_MODULE_EXCLUDED will be excluded from git syncing
 @rem set QT_MODULE_EXCLUDED="-preview,-qtnetworkauth,-qtpurchasing,-qtquick3d,-qtlottie,-qtcharts,-qtdatavis3d,-qtvirtualkeyboard,-qtwebglplugin,-qtactiveqt,-qtconnectivity,-qtcoap,-qtmqtt,-qtopcua,-qtquicktimeline,-qtquickeffectmaker,-qtquick3dphysics"
 set QT_MODULE_EXCLUDED=-qtlocation,-qtvirtualkeyboard,-qtquicktimeline,-qtquick3d,-qtnetworkauth,-qtdatavis3d,-qtcharts,^
--platforminputcontexts,-qtquick3d,-qtquick3dphysics,-qtlottie,-qtcoap,-qtmqtt 
+-qtquick3d,-qtquick3dphysics,-qtlottie,-qtcoap,-qtmqtt 
 
 @rem The modules in QT_MODULE_SKIPPED will be skipped from building
 @rem set QT_MODULE_SKIPPED= -skip qtlocation
 set QT_MODULE_SKIPPED= -skip qtlocation -skip qtvirtualkeyboard -skip qtquicktimeline -skip qtquick3d -skip qtnetworkauth ^
-                       -skip qtdatavis3d -skip qtcharts -skip platforminputcontexts -skip qtquick3d -skip qtquick3dphysics ^
+                       -skip qtdatavis3d -skip qtcharts -skip qtquick3d -skip qtquick3dphysics ^
                        -skip qtlottie -skip qtcoap -skip qtmqtt
 
 @rem Step into the Qt root directory
