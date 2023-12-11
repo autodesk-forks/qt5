@@ -98,12 +98,12 @@ CONFIG_EXT_PREFIX_RELEASE=$QT_INSTALL_PATH_RELEASE
 #The modules in QT_MODULE_EXCLUDED will be excluded from git syncing
 #set QT_MODULE_EXCLUDED="-preview,-qtnetworkauth,-qtpurchasing,-qtquick3d,-qtlottie,-qtcharts,-qtdatavis3d,-qtvirtualkeyboard,-qtwebglplugin,-qtactiveqt,-qtconnectivity,-qtcoap,-qtmqtt,-qtopcua,-qtquicktimeline,-qtquickeffectmaker,-qtquick3dphysics"
 QT_MODULE_EXCLUDED=-qtlocation,-qtvirtualkeyboard,-qtquicktimeline,-qtquick3d,-qtnetworkauth,-qtdatavis3d,-qtcharts,\
--platforminputcontexts,-qtquick3d,-qtquick3dphysics,-qtlottie,-qtcoap,-qtmqtt,-qtwayland
+-qtquick3d,-qtquick3dphysics,-qtlottie,-qtcoap,-qtmqtt,-qtwayland
 
 #The modules in QT_MODULE_SKIPPED will be skipped from building
 #QT_MODULE_SKIPPED=" -skip qtlocation "
 QT_MODULE_SKIPPED=" -skip qtlocation -skip qtvirtualkeyboard -skip qtquicktimeline -skip qtquick3d -skip qtnetworkauth \
-                   -skip qtdatavis3d -skip qtcharts -skip platforminputcontexts -skip qtquick3d -skip qtquick3dphysics \
+                   -skip qtdatavis3d -skip qtcharts -skip qtquick3d -skip qtquick3dphysics \
                    -skip qtlottie -skip qtcoap -skip qtmqtt -skip qtwayland "
 
 echo QT_ROOT_PATH:$QT_ROOT_PATH
