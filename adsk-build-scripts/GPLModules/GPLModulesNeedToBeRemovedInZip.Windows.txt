@@ -46,18 +46,13 @@
 \lib\Qt6DataVisualization.lib
 \lib\Qt6ChartsQml.lib
 \lib\Qt6Charts.lib
-
 \plugins\platforminputcontexts
-
 \qml\QtQuick3D
 \qml\QtQuick\VirtualKeyboard
 \qml\QtQuick\Timeline
-
 \qml\QtDataVisualization
 \qml\QtCharts
 \qml\Qt\labs\lottieqt
-
-
 \bin\Qt6Coap.dll
 \bin\Qt6Coap.pdb
 \bin\Qt6Coapd.dll
@@ -66,7 +61,6 @@
 \lib\Qt6Coap.prl
 \lib\Qt6Coapd.lib
 \lib\Qt6Coapd.prl
-
 \bin\Qt6Mqtt.dll
 \bin\Qt6Mqtt.pdb
 \bin\Qt6Mqttd.dll
@@ -75,3 +69,9 @@
 \lib\Qt6Mqtt.prl
 \lib\Qt6Mqttd.lib
 \lib\Qt6Mqttd.prl
+\lib\Qt6Designerd.prl
+\lib\Qt6DesignerComponentsd.prl
+\lib\Qt6DesignerComponents.prl
+\lib\Qt6Designer.prl
+\lib\cmake\Qt6DesignerComponentsPrivate
+\lib\cmake\Qt6Designer
