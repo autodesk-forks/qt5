@@ -21,7 +21,6 @@
 \lib\Qt6DataVisualizationd.lib
 \lib\Qt6ChartsQmld.lib
 \lib\Qt6Chartsd.lib
-
 \lib\Qt6VirtualKeyboard.lib
 \lib\Qt6QuickTimeline.lib
 \lib\Qt6Quick3DUtils.lib
