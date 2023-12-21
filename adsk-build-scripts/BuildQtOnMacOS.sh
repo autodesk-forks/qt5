@@ -1,9 +1,10 @@
 #!/bin/sh
 #################################################
 #@file BuildQtOnMacOS.sh
-#@brief Build script for Qt 6.2.4 universal version on macOS
-#@team FARA/CM (Consistant Material scrum team)                 
-#@author Huimin Wen(Jess)                                                             
+#@brief Build script for Qt 6.5.3 universal version on macOS
+#@team FARA/CM (Consistant Material scrum team)
+#@author Huimin Wen(Jess)
+#@email huimin.wen@autodesk.com
 #@date 1/16/2022
 #################################################
 
@@ -88,12 +89,26 @@ CUR_SCRIPT_PATH=`(cd "$srcpath"; pwd)`
 
 #################################################
 #Set Qt configuration option variables
+QT_BUILD_VERSION=6.5.3.0
 QT_ROOT_PATH="$CUR_SCRIPT_PATH/.."
-QT_INSTALL_PATH="$QT_ROOT_PATH/../qt_macOS_opensource_universal.6.5.3.0"
+
+QT_BUILD_PATH_DEBUG="$QT_ROOT_PATH/../qt-build-debug"
+QT_BUILD_PATH_RELEASE="$QT_ROOT_PATH/../qt-build-release"
+
+# QT_INSTALL_PATH="$QT_ROOT_PATH/../qt_macOS_opensource_universal.6.5.3.0"
+QT_INSTALL_PATH_DEBUG="$QT_ROOT_PATH/../qt_macOS_opensource_universal_${QT_BUILD_VERSION}_debug"
+QT_INSTALL_PATH_RELEASE="$QT_ROOT_PATH/../qt_macOS_opensource_universal_${QT_BUILD_VERSION}_release"
+
 QT_3RDPARTY_PATH="${CUR_BAT_PATH}/3rdParty"
+
 #Set CONFIG_PREFIX="${QT_ROOT_PATH}/qtbase"
-CONFIG_PREFIX=$QT_INSTALL_PATH
-CONFIG_EXT_PREFIX=$QT_INSTALL_PATH
+#CONFIG_PREFIX=$QT_INSTALL_PATH
+CONFIG_PREFIX_DEBUG=$QT_INSTALL_PATH_DEBUG
+CONFIG_PREFIX_RELEASE=$QT_INSTALL_PATH_RELEASE
+
+#CONFIG_EXT_PREFIX=$QT_INSTALL_PATH
+CONFIG_EXT_PREFIX_DEBUG=$QT_INSTALL_PATH_DEBUG
+CONFIG_EXT_PREFIX_RELEASE=$QT_INSTALL_PATH_RELEASE
 
 #The modules in QT_MODULE_EXCLUDED will be excluded from git syncing
 #set QT_MODULE_EXCLUDED="-preview,-qtnetworkauth,-qtpurchasing,-qtquick3d,-qtlottie,-qtcharts,-qtdatavis3d,-qtvirtualkeyboard,-qtwebglplugin,-qtactiveqt,-qtconnectivity,-qtcoap,-qtmqtt,-qtopcua,-qtquicktimeline,-qtquickeffectmaker,-qtquick3dphysics"
@@ -110,7 +125,7 @@ echo QT_ROOT_PATH:$QT_ROOT_PATH
 echo CUR_SCRIPT_PATH:$CUR_SCRIPT_PATH
 pwd
 
-#Step into the Qt root directory
+#Enter the Qt root directory
 cd ${QT_ROOT_PATH}
 pwd
 #################################################
@@ -148,30 +163,73 @@ git submodule update --init --recursive
 
 #################################################
 #Configure the Qt options 
-./configure -opensource -confirm-license -prefix ${CONFIG_PREFIX} -opengl desktop -plugin-sql-sqlite -sql-psql -plugin-sql-psql \
+#Configuraion for release version
+#mkdir ../qt-build-release
+mkdir $QT_BUILD_PATH_RELEASE
+#cd ../qt-build-release
+pushd $QT_BUILD_PATH_RELEASE
+pwd
+ls $QT_BUILD_PATH_RELEASE
+${QT_ROOT_PATH}/configure -opensource -confirm-license -prefix ${CONFIG_PREFIX_RELEASE} -opengl desktop -plugin-sql-sqlite -sql-psql -plugin-sql-psql \
             -openssl-runtime -qt-libjpeg -qt-zlib -release -force-debug-info -separate-debug-info \
             -nomake examples -nomake tests -no-warnings-are-errors \
             ${QT_MODULE_SKIPPED} \
             -- -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -DCMAKE_OSX_DEPLOYMENT_TARGET="11.0"
+popd
+
+#Configuration for debug version
+mkdir $QT_BUILD_PATH_DEBUG
+pushd $QT_BUILD_PATH_DEBUG
+pwd
+ls $QT_BUILD_PATH_DEBUG
+${QT_ROOT_PATH}/configure -opensource -confirm-license -prefix ${CONFIG_PREFIX_DEBUG} -opengl desktop -plugin-sql-sqlite -sql-psql -plugin-sql-psql \
+            -openssl-runtime -qt-libjpeg -qt-zlib -debug -force-debug-info -separate-debug-info \
+            -nomake examples -nomake tests -no-warnings-are-errors \
+            ${QT_MODULE_SKIPPED} \
+            -- -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -DCMAKE_OSX_DEPLOYMENT_TARGET="11.0"
+popd
 #################################################
 #exit
 
 
 #################################################
 #Build Qt with the configuration options
+#cmake --build . --parallel
+
+#Build for release version
+pushd $QT_BUILD_PATH_RELEASE
 cmake --build . --parallel
+popd
+
+#Build for debug version
+pushd $QT_BUILD_PATH_DEBUG
+cmake   --build . --parallel
+popd
 #################################################
+#exit
 
 
 #################################################
 #Install Qt build output to the directory of prefix option
+#cmake --install .
+#ninja install
+
+#Installation for release version
+pushd $QT_BUILD_PATH_RELEASE
 ninja install
+popd
+
+#Installation for debug version
+pushd $QT_BUILD_PATH_DEBUG
+ninja install
+popd
 #################################################
 
 
 #################################################
 #Delete all "*-debug.cmake" files
-pushd ${QT_INSTALL_PATH}
+#pushd ${QT_INSTALL_PATH}
+pushd ${QT_INSTALL_PATH_RELEASE}
 find ./lib/cmake -type f -name "*-debug.cmake" -delete
 
 #Delete all "*_debug" files
@@ -183,8 +241,26 @@ popd
 
 #################################################
 #Change the rpath of QtWebEngineProcess
-pushd ${QT_INSTALL_PATH}
+#pushd ${QT_INSTALL_PATH}
+pushd ${QT_INSTALL_PATH_RELEASE}
 
+#add new rpath into QtWebEngineProcess
+if  [ -f  "lib/QtWebEngineCore.framework/Versions/A/Helpers/QtWebEngineProcess.app/Contents/MacOS/QtWebEngineProcess" ];then
+  echo  "QtWebEngineProcess does exist. Now begin to correct the rpath of QtWebEngineProcess."
+
+  #install_name_tool -rpath /Volumes/DATA/Qt6/Qt6.5.3/qt5/qtbase/lib @loader_path/../../../../../../../ QtWebEngineProcess
+  install_name_tool -rpath /Volumes/DATA/Qt6/Qt6.5.3/qt5/qtbase/lib @loader_path/../../../../../../../ lib/QtWebEngineCore.framework/Versions/A/Helpers/QtWebEngineProcess.app/Contents/MacOS/QtWebEngineProcess
+
+  #install_name_tool -add_rpath @loader_path/../../../../../../../ QtWebEngineProcess
+  install_name_tool -add_rpath @loader_path/../../../../../../../ lib/QtWebEngineCore.framework/Versions/A/Helpers/QtWebEngineProcess.app/Contents/MacOS/QtWebEngineProcess
+else
+  echo  "QtWebEngineProcess does not exist."
+fi
+
+popd
+
+
+pushd ${QT_INSTALL_PATH_DEBUG}
 #add new rpath into QtWebEngineProcess
 if  [ -f  "lib/QtWebEngineCore.framework/Versions/A/Helpers/QtWebEngineProcess.app/Contents/MacOS/QtWebEngineProcess" ];then
   echo  "QtWebEngineProcess does exist. Now begin to correct the rpath of QtWebEngineProcess."
