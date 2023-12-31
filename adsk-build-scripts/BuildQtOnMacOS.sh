@@ -182,11 +182,11 @@ mkdir $QT_BUILD_PATH_DEBUG
 pushd $QT_BUILD_PATH_DEBUG
 pwd
 ls $QT_BUILD_PATH_DEBUG
-${QT_ROOT_PATH}/configure -opensource -confirm-license -prefix ${CONFIG_PREFIX_DEBUG} -opengl desktop -plugin-sql-sqlite -sql-psql -plugin-sql-psql \
-            -openssl-runtime -qt-libjpeg -qt-zlib -debug -force-debug-info -separate-debug-info \
-            -nomake examples -nomake tests -no-warnings-are-errors \
-            ${QT_MODULE_SKIPPED} \
-            -- -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -DCMAKE_OSX_DEPLOYMENT_TARGET="11.0"
+#${QT_ROOT_PATH}/configure -opensource -confirm-license -prefix ${CONFIG_PREFIX_DEBUG} -opengl desktop -plugin-sql-sqlite -sql-psql -plugin-sql-psql \
+#            -openssl-runtime -qt-libjpeg -qt-zlib -debug -force-debug-info -separate-debug-info \
+#            -nomake examples -nomake tests -no-warnings-are-errors \
+#            ${QT_MODULE_SKIPPED} \
+#            -- -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -DCMAKE_OSX_DEPLOYMENT_TARGET="11.0"
 popd
 #################################################
 #exit
@@ -203,7 +203,7 @@ popd
 
 #Build for debug version
 pushd $QT_BUILD_PATH_DEBUG
-cmake   --build . --parallel
+#cmake   --build . --parallel
 popd
 #################################################
 #exit
@@ -221,7 +221,7 @@ popd
 
 #Installation for debug version
 pushd $QT_BUILD_PATH_DEBUG
-ninja install
+#ninja install
 popd
 #################################################
 
@@ -260,19 +260,19 @@ fi
 popd
 
 
-pushd ${QT_INSTALL_PATH_DEBUG}
+#pushd ${QT_INSTALL_PATH_DEBUG}
 #add new rpath into QtWebEngineProcess
-if  [ -f  "lib/QtWebEngineCore.framework/Versions/A/Helpers/QtWebEngineProcess.app/Contents/MacOS/QtWebEngineProcess" ];then
-  echo  "QtWebEngineProcess does exist. Now begin to correct the rpath of QtWebEngineProcess."
+#if  [ -f  "lib/QtWebEngineCore.framework/Versions/A/Helpers/QtWebEngineProcess.app/Contents/MacOS/QtWebEngineProcess" ];then
+#  echo  "QtWebEngineProcess does exist. Now begin to correct the rpath of QtWebEngineProcess."
 
   #install_name_tool -rpath /Volumes/DATA/Qt6/Qt6.5.3/qt5/qtbase/lib @loader_path/../../../../../../../ QtWebEngineProcess
-  install_name_tool -rpath /Volumes/DATA/Qt6/Qt6.5.3/qt5/qtbase/lib @loader_path/../../../../../../../ lib/QtWebEngineCore.framework/Versions/A/Helpers/QtWebEngineProcess.app/Contents/MacOS/QtWebEngineProcess
+#  install_name_tool -rpath /Volumes/DATA/Qt6/Qt6.5.3/qt5/qtbase/lib @loader_path/../../../../../../../ lib/QtWebEngineCore.framework/Versions/A/Helpers/QtWebEngineProcess.app/Contents/MacOS/QtWebEngineProcess
 
   #install_name_tool -add_rpath @loader_path/../../../../../../../ QtWebEngineProcess
-  install_name_tool -add_rpath @loader_path/../../../../../../../ lib/QtWebEngineCore.framework/Versions/A/Helpers/QtWebEngineProcess.app/Contents/MacOS/QtWebEngineProcess
-else
-  echo  "QtWebEngineProcess does not exist."
-fi
+#  install_name_tool -add_rpath @loader_path/../../../../../../../ lib/QtWebEngineCore.framework/Versions/A/Helpers/QtWebEngineProcess.app/Contents/MacOS/QtWebEngineProcess
+#else
+#  echo  "QtWebEngineProcess does not exist."
+#fi
 
 popd
 #################################################
