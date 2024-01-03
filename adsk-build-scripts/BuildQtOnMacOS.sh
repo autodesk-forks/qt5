@@ -92,7 +92,7 @@ CUR_SCRIPT_PATH=`(cd "$srcpath"; pwd)`
 QT_BUILD_VERSION=6.5.3.0
 QT_ROOT_PATH="$CUR_SCRIPT_PATH/.."
 
-QT_BUILD_DEBUG_ENABLED=1
+QT_BUILD_DEBUG_ENABLED=0
 QT_BUILD_RELEASE_ENABLED=1
 
 QT_BUILD_PATH_DEBUG="$QT_ROOT_PATH/../qt-build-debug"
@@ -191,7 +191,7 @@ if [ $QT_BUILD_DEBUG_ENABLED -eq 1 ]; then
   #Remove the previous folders
   rm -rf $QT_BUILD_PATH_DEBUG
   rm -rf ${CONFIG_PREFIX_DEBUG}
-  
+
   #mkdir ../qt-build-debug
   mkdir $QT_BUILD_PATH_DEBUG
   pushd $QT_BUILD_PATH_DEBUG
