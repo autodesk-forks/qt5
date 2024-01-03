@@ -92,6 +92,9 @@ CUR_SCRIPT_PATH=`(cd "$srcpath"; pwd)`
 QT_BUILD_VERSION=6.5.3.0
 QT_ROOT_PATH="$CUR_SCRIPT_PATH/.."
 
+QT_BUILD_DEBUG_ENABLED=1
+QT_BUILD_RELEASE_ENABLED=1
+
 QT_BUILD_PATH_DEBUG="$QT_ROOT_PATH/../qt-build-debug"
 QT_BUILD_PATH_RELEASE="$QT_ROOT_PATH/../qt-build-release"
 
@@ -164,30 +167,43 @@ git submodule update --init --recursive
 #################################################
 #Configure the Qt options 
 #Configuraion for release version
-#mkdir ../qt-build-release
-mkdir $QT_BUILD_PATH_RELEASE
-#cd ../qt-build-release
-pushd $QT_BUILD_PATH_RELEASE
-pwd
-ls $QT_BUILD_PATH_RELEASE
-${QT_ROOT_PATH}/configure -opensource -confirm-license -prefix ${CONFIG_PREFIX_RELEASE} -opengl desktop -plugin-sql-sqlite -sql-psql -plugin-sql-psql \
-            -openssl-runtime -qt-libjpeg -qt-zlib -release -force-debug-info -separate-debug-info \
-            -nomake examples -nomake tests -no-warnings-are-errors \
-            ${QT_MODULE_SKIPPED} \
-            -- -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -DCMAKE_OSX_DEPLOYMENT_TARGET="11.0"
-popd
+if [ $QT_BUILD_RELEASE_ENABLED -eq 1 ]; then
+  #Remove the previous folders
+  rm -rf $QT_BUILD_PATH_RELEASE
+  rm -rf ${CONFIG_PREFIX_RELEASE}
+
+  #mkdir ../qt-build-release
+  mkdir $QT_BUILD_PATH_RELEASE
+  #cd ../qt-build-release
+  pushd $QT_BUILD_PATH_RELEASE
+  pwd
+  ls $QT_BUILD_PATH_RELEASE
+  ${QT_ROOT_PATH}/configure -opensource -confirm-license -prefix ${CONFIG_PREFIX_RELEASE} -opengl desktop -plugin-sql-sqlite -sql-psql -plugin-sql-psql \
+              -openssl-runtime -qt-libjpeg -qt-zlib -release -force-debug-info -separate-debug-info \
+              -nomake examples -nomake tests -no-warnings-are-errors \
+              ${QT_MODULE_SKIPPED} \
+              -- -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -DCMAKE_OSX_DEPLOYMENT_TARGET="11.0"
+  popd
+fi
 
 #Configuration for debug version
-mkdir $QT_BUILD_PATH_DEBUG
-pushd $QT_BUILD_PATH_DEBUG
-pwd
-ls $QT_BUILD_PATH_DEBUG
-#${QT_ROOT_PATH}/configure -opensource -confirm-license -prefix ${CONFIG_PREFIX_DEBUG} -opengl desktop -plugin-sql-sqlite -sql-psql -plugin-sql-psql \
-#            -openssl-runtime -qt-libjpeg -qt-zlib -debug -force-debug-info -separate-debug-info \
-#            -nomake examples -nomake tests -no-warnings-are-errors \
-#            ${QT_MODULE_SKIPPED} \
-#            -- -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -DCMAKE_OSX_DEPLOYMENT_TARGET="11.0"
-popd
+if [ $QT_BUILD_DEBUG_ENABLED -eq 1 ]; then
+  #Remove the previous folders
+  rm -rf $QT_BUILD_PATH_DEBUG
+  rm -rf ${CONFIG_PREFIX_DEBUG}
+  
+  #mkdir ../qt-build-debug
+  mkdir $QT_BUILD_PATH_DEBUG
+  pushd $QT_BUILD_PATH_DEBUG
+  pwd
+  ls $QT_BUILD_PATH_DEBUG
+  ${QT_ROOT_PATH}/configure -opensource -confirm-license -prefix ${CONFIG_PREFIX_DEBUG} -opengl desktop -plugin-sql-sqlite -sql-psql -plugin-sql-psql \
+              -openssl-runtime -qt-libjpeg -qt-zlib -debug -force-debug-info -separate-debug-info \
+              -nomake examples -nomake tests -no-warnings-are-errors \
+              ${QT_MODULE_SKIPPED} \
+              -- -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -DCMAKE_OSX_DEPLOYMENT_TARGET="11.0"
+  popd
+fi
 #################################################
 #exit
 
@@ -197,14 +213,18 @@ popd
 #cmake --build . --parallel
 
 #Build for release version
-pushd $QT_BUILD_PATH_RELEASE
-cmake --build . --parallel
-popd
+if [ $QT_BUILD_RELEASE_ENABLED -eq 1 ]; then
+  pushd $QT_BUILD_PATH_RELEASE
+  cmake --build . --parallel
+  popd
+fi
 
 #Build for debug version
-pushd $QT_BUILD_PATH_DEBUG
-#cmake   --build . --parallel
-popd
+if [ $QT_BUILD_DEBUG_ENABLED -eq 1 ]; then
+  pushd $QT_BUILD_PATH_DEBUG
+  cmake   --build . --parallel
+  popd
+fi
 #################################################
 #exit
 
@@ -215,14 +235,24 @@ popd
 #ninja install
 
 #Installation for release version
-pushd $QT_BUILD_PATH_RELEASE
-ninja install
-popd
+if [ $QT_BUILD_RELEASE_ENABLED -eq 1 ]; then
+  #Remove the previous folders
+  rm -rf ${CONFIG_PREFIX_RELEASE}
+
+  pushd $QT_BUILD_PATH_RELEASE
+  ninja install
+  popd
+fi
 
 #Installation for debug version
-pushd $QT_BUILD_PATH_DEBUG
-#ninja install
-popd
+if [ $QT_BUILD_DEBUG_ENABLED -eq 1 ]; then
+  #Remove the previous folders
+  rm -rf ${CONFIG_PREFIX_DEBUG}
+
+  pushd $QT_BUILD_PATH_DEBUG
+  ninja install
+  popd
+fi
 #################################################
 
 
