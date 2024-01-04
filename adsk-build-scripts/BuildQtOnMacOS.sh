@@ -270,44 +270,5 @@ popd
 
 
 #################################################
-#Change the rpath of QtWebEngineProcess
-#pushd ${QT_INSTALL_PATH}
-pushd ${QT_INSTALL_PATH_RELEASE}
-
-#add new rpath into QtWebEngineProcess
-if  [ -f  "lib/QtWebEngineCore.framework/Versions/A/Helpers/QtWebEngineProcess.app/Contents/MacOS/QtWebEngineProcess" ];then
-  echo  "QtWebEngineProcess does exist. Now begin to correct the rpath of QtWebEngineProcess."
-
-  #install_name_tool -rpath /Volumes/DATA/Qt6/Qt6.5.3/qt5/qtbase/lib @loader_path/../../../../../../../ QtWebEngineProcess
-  install_name_tool -rpath /Volumes/DATA/Qt6/Qt6.5.3/qt5/qtbase/lib @loader_path/../../../../../../../ lib/QtWebEngineCore.framework/Versions/A/Helpers/QtWebEngineProcess.app/Contents/MacOS/QtWebEngineProcess
-
-  #install_name_tool -add_rpath @loader_path/../../../../../../../ QtWebEngineProcess
-  install_name_tool -add_rpath @loader_path/../../../../../../../ lib/QtWebEngineCore.framework/Versions/A/Helpers/QtWebEngineProcess.app/Contents/MacOS/QtWebEngineProcess
-else
-  echo  "QtWebEngineProcess does not exist."
-fi
-
-popd
-
-
-#pushd ${QT_INSTALL_PATH_DEBUG}
-#add new rpath into QtWebEngineProcess
-#if  [ -f  "lib/QtWebEngineCore.framework/Versions/A/Helpers/QtWebEngineProcess.app/Contents/MacOS/QtWebEngineProcess" ];then
-#  echo  "QtWebEngineProcess does exist. Now begin to correct the rpath of QtWebEngineProcess."
-
-  #install_name_tool -rpath /Volumes/DATA/Qt6/Qt6.5.3/qt5/qtbase/lib @loader_path/../../../../../../../ QtWebEngineProcess
-#  install_name_tool -rpath /Volumes/DATA/Qt6/Qt6.5.3/qt5/qtbase/lib @loader_path/../../../../../../../ lib/QtWebEngineCore.framework/Versions/A/Helpers/QtWebEngineProcess.app/Contents/MacOS/QtWebEngineProcess
-
-  #install_name_tool -add_rpath @loader_path/../../../../../../../ QtWebEngineProcess
-#  install_name_tool -add_rpath @loader_path/../../../../../../../ lib/QtWebEngineCore.framework/Versions/A/Helpers/QtWebEngineProcess.app/Contents/MacOS/QtWebEngineProcess
-#else
-#  echo  "QtWebEngineProcess does not exist."
-#fi
-
-#popd
-#################################################
-
-
-#################################################
 echo Building is done. You should check whether there exist errors.
 #################################################
