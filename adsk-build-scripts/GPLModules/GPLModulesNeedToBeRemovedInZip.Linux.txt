@@ -46,7 +46,7 @@
 /lib/libQt6ChartsQml.prl
 /lib/libQt6Charts.so.6.5.3
 /lib/libQt6Charts.prl
-/plugins/platforminputcontexts
+#/plugins/platforminputcontexts
 /qml/QtQuick3D
 /qml/QtQuick/VirtualKeyboard
 /qml/QtQuick/Timeline

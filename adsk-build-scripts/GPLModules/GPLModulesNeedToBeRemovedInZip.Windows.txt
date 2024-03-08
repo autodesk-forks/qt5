@@ -45,7 +45,7 @@
 \lib\Qt6DataVisualization.lib
 \lib\Qt6ChartsQml.lib
 \lib\Qt6Charts.lib
-\plugins\platforminputcontexts
+#\plugins\platforminputcontexts
 \qml\QtQuick3D
 \qml\QtQuick\VirtualKeyboard
 \qml\QtQuick\Timeline

@@ -46,7 +46,7 @@
 /lib/QtChartsQml.framework
 /lib/QtCharts.framework.dSYM
 /lib/QtCharts.framework
-/plugins/platforminputcontexts
+#/plugins/platforminputcontexts
 /qml/QtQuick3D
 /qml/QtQuick/VirtualKeyboard
 /qml/QtQuick/Timeline

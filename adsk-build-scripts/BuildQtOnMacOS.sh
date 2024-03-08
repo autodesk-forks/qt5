@@ -99,8 +99,10 @@ QT_BUILD_PATH_DEBUG="$QT_ROOT_PATH/../qt-build-debug"
 QT_BUILD_PATH_RELEASE="$QT_ROOT_PATH/../qt-build-release"
 
 # QT_INSTALL_PATH="$QT_ROOT_PATH/../qt_macOS_opensource_universal.6.5.3.0"
-QT_INSTALL_PATH_DEBUG="$QT_ROOT_PATH/../qt_macOS_opensource_universal_${QT_BUILD_VERSION}_debug"
-QT_INSTALL_PATH_RELEASE="$QT_ROOT_PATH/../qt_macOS_opensource_universal_${QT_BUILD_VERSION}_release"
+# QT_INSTALL_PATH_DEBUG="$QT_ROOT_PATH/../qt_macOS_opensource_universal_${QT_BUILD_VERSION}_debug"
+QT_INSTALL_PATH_DEBUG="$QT_ROOT_PATH/../qt_macOS_opensource_universal_debug"
+# QT_INSTALL_PATH_RELEASE="$QT_ROOT_PATH/../qt_macOS_opensource_universal_${QT_BUILD_VERSION}_release"
+QT_INSTALL_PATH_RELEASE="$QT_ROOT_PATH/../qt_macOS_opensource_universal_release"
 
 QT_3RDPARTY_PATH="${CUR_BAT_PATH}/3rdParty"
 
@@ -112,6 +114,15 @@ CONFIG_PREFIX_RELEASE=$QT_INSTALL_PATH_RELEASE
 #CONFIG_EXT_PREFIX=$QT_INSTALL_PATH
 CONFIG_EXT_PREFIX_DEBUG=$QT_INSTALL_PATH_DEBUG
 CONFIG_EXT_PREFIX_RELEASE=$QT_INSTALL_PATH_RELEASE
+
+# Remove the installation folder first
+if  [  -d  "${QT_INSTALL_PATH_DEBUG}"  ]; then
+	rm -rf "${QT_INSTALL_PATH_DEBUG}"
+fi
+
+if  [  -d  "${QT_INSTALL_PATH_RELEASE}"  ]; then
+	rm -rf "${QT_INSTALL_PATH_RELEASE}"
+fi
 
 #The modules in QT_MODULE_EXCLUDED will be excluded from git syncing
 #set QT_MODULE_EXCLUDED="-preview,-qtnetworkauth,-qtpurchasing,-qtquick3d,-qtlottie,-qtcharts,-qtdatavis3d,-qtvirtualkeyboard,-qtwebglplugin,-qtactiveqt,-qtconnectivity,-qtcoap,-qtmqtt,-qtopcua,-qtquicktimeline,-qtquickeffectmaker,-qtquick3dphysics"

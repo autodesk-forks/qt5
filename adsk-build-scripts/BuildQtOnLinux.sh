@@ -83,8 +83,10 @@ QT_ROOT_PATH="$CUR_SCRIPT_PATH/.."
 QT_BUILD_PATH_DEBUG="$QT_ROOT_PATH/../qt-build-debug"
 QT_BUILD_PATH_RELEASE="$QT_ROOT_PATH/../qt-build-release"
 
-QT_INSTALL_PATH_DEBUG="$QT_ROOT_PATH/../qt_linux_opensource_${QT_BUILD_VERSION}_debug"
-QT_INSTALL_PATH_RELEASE="$QT_ROOT_PATH/../qt_linux_opensource_${QT_BUILD_VERSION}_release"
+# QT_INSTALL_PATH_DEBUG="$QT_ROOT_PATH/../qt_linux_opensource_${QT_BUILD_VERSION}_debug"
+QT_INSTALL_PATH_DEBUG="$QT_ROOT_PATH/../qt_linux_opensource_debug"
+# QT_INSTALL_PATH_RELEASE="$QT_ROOT_PATH/../qt_linux_opensource_${QT_BUILD_VERSION}_release"
+QT_INSTALL_PATH_RELEASE="$QT_ROOT_PATH/../qt_linux_opensource_release"
 
 QT_3RDPARTY_PATH="${CUR_BAT_PATH}/3rdParty"
 
@@ -94,6 +96,15 @@ CONFIG_PREFIX_RELEASE=$QT_INSTALL_PATH_RELEASE
 
 CONFIG_EXT_PREFIX_DEBUG=$QT_INSTALL_PATH_DEBUG
 CONFIG_EXT_PREFIX_RELEASE=$QT_INSTALL_PATH_RELEASE
+
+# Remove the installation folder first
+if  [  -d  "${QT_INSTALL_PATH_DEBUG}"  ]; then
+	rm -rf "${QT_INSTALL_PATH_DEBUG}"
+fi
+
+if  [  -d  "${QT_INSTALL_PATH_RELEASE}"  ]; then
+	rm -rf "${QT_INSTALL_PATH_RELEASE}"
+fi
 
 #The modules in QT_MODULE_EXCLUDED will be excluded from git syncing
 #set QT_MODULE_EXCLUDED="-preview,-qtnetworkauth,-qtpurchasing,-qtquick3d,-qtlottie,-qtcharts,-qtdatavis3d,-qtvirtualkeyboard,-qtwebglplugin,-qtactiveqt,-qtconnectivity,-qtcoap,-qtmqtt,-qtopcua,-qtquicktimeline,-qtquickeffectmaker,-qtquick3dphysics"

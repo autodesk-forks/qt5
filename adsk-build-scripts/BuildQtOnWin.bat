@@ -80,12 +80,14 @@ call %VCVARS64.BAT%
 @rem Set Qt configuration option variables
 @echo on
 set QT_ROOT_PATH="%CUR_BAT_PATH%.."
-set QT_INSTALL_PATH="%QT_ROOT_PATH%\..\qt_win_intel64_opensource_v140.6.5.3.0"
+@rem set QT_INSTALL_PATH="%QT_ROOT_PATH%\..\qt_win_intel64_opensource_v140.6.5.3.0"
+set QT_INSTALL_PATH="%QT_ROOT_PATH%\..\qt_win_intel64_opensource_v140"
 set QT_3RDPARTY_PATH="%CUR_BAT_PATH%3rdParty"
 @rem set CONFIG_PREFIX="%QT_ROOT_PATH%\qtbase"
 set CONFIG_PREFIX=%QT_INSTALL_PATH%
 set CONFIG_EXT_PREFIX=%QT_INSTALL_PATH%
 
+@rem Remove the installation folder first
 if exist %QT_INSTALL_PATH% (
 	rmdir /s /q %QT_INSTALL_PATH%
 )
