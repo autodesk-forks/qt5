@@ -32,12 +32,6 @@ GCCVERSION=$(gcc --version | grep ^gcc | sed 's/^.* //g')
 GCCPLUSVERSION=$(g++ --version | grep ^g++ | sed 's/^.* //g')
 echo "GCCVERSION=${GCCVERSION} GCCPLUSVERSION=${GCCPLUSVERSION}"
 
-if [ "${GCCVERSION}" \< "11.1.0" ] || [ "${GCCPLUSVERSION}" \< "11.1.0" ]; then
-  echo "Error: need gcc 11.1.0 or higher version to build Qt 6.5.* on Linux."
-  exit 1
-else
-  echo "gcc version (${GCCVERSION}) and g++ version (${GCCPLUSVERSION}) is okay."
-fi
 #################################################
 
 
