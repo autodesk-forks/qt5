@@ -195,7 +195,8 @@ call  %comspec% /k "configure -opensource -confirm-license -prefix %CONFIG_PREFI
 @rem #################################################
 @rem Build all modules
 @echo Building Qt...
-cmake --build . --parallel 1>%BUILD_LOG% 2>%BUILD_ERR_LOG%
+@rem cmake --build . --parallel 1>%BUILD_LOG% 2>%BUILD_ERR_LOG%
+cmake --build . --parallel 
 
 @rem Build single module
 @rem cmake --build . --target qtmqtt
@@ -215,7 +216,8 @@ cmake --build . --parallel 1>%BUILD_LOG% 2>%BUILD_ERR_LOG%
 @rem #################################################
 @rem Install Qt binary to %CONFIG_PREFIX% path
 @echo Installing Qt...
-ninja install 1>%INSTALL_LOG% 2>%INSTALL_ERR_LOG%
+@rem ninja install 1>%INSTALL_LOG% 2>%INSTALL_ERR_LOG%
+ninja install 
 @rem #################################################
 
 
