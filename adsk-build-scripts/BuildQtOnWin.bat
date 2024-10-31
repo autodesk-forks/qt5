@@ -35,31 +35,14 @@ set INSTALL_ERR_LOG=BuildQt.bat.Install.Error.log
 
 
 @rem #################################################
-@rem Set the path of Visual Studio 2019 vcvars64.bat
-
-@rem Auto detect the path of Visual Studio 2019 vcvars64.bat by using vswhere.exe
-set VSWHERE_TOOL="%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe"
-set VCVARS64.BAT="C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC\Auxiliary\Build\vcvars64.bat"
-setlocal enabledelayedexpansion
-for /f "usebackq tokens=*" %%i in (`%VSWHERE_TOOL%  -version [16.0^,17.0^) -requires Microsoft.Component.MSBuild -property installationPath`) do (
-	set VCVARS64.BAT="%%i\VC\Auxiliary\Build\vcvars64.bat"
-	@rem echo !VCVARS64.BAT!
+@rem Set the path of Visual Studio 2019
+if "%INSTRUCTION_TYPE_PARAM%"=="x86" (
+    set VCVARS="c:\BuildTools\VC\Auxiliary\Build\vcvars32.bat"
+) else if "%INSTRUCTION_TYPE_PARAM%"=="x64" (
+    set VCVARS="c:\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
+) else (
+    set VCVARS="c:\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
 )
-@rem echo VCVARS64.BAT:%VCVARS64.BAT%
-
-@rem set VCVARS64.BAT="C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC\Auxiliary\Build\vcvars64.bat"
-if not exist %VCVARS64.BAT% (
-	set VCVARS64.BAT="C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC\Auxiliary\Build\vcvars64.bat"
-)
-@rem echo VCVARS64.BAT:%VCVARS64.BAT%
-
-@rem Revalidate the path
-@rem set VCVARS64.BAT="D:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC\Auxiliary\Build\vcvars64.bat"
-if not exist %VCVARS64.BAT% (
-	@rem set DEVENV="%VS100COMNTOOLS%..\IDE\devenv.exe"(Only Visual Studio 2010 could use the %VS100COMNTOOLS% enviroment variable)
-	set VCVARS64.BAT="D:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC\Auxiliary\Build\vcvars64.bat"
-)	
-echo VCVARS64.BAT:%VCVARS64.BAT%
 @rem #################################################
 @rem goto :eof
 
@@ -68,10 +51,7 @@ echo VCVARS64.BAT:%VCVARS64.BAT%
 @rem Setup Visual Studio environment variables
 @rem Set Visual Studio compiling environment
 
-@rem %comspec% /k "d:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC\Auxiliary\Build\vcvars64.bat"
-@rem call  %comspec% /k "d:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC\Auxiliary\Build\vcvars64.bat"
-@rem call "d:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC\Auxiliary\Build\vcvars64.bat"
-call %VCVARS64.BAT%
+call %VCVARS%
 @rem #################################################
 @rem goto :eof
 
@@ -79,10 +59,9 @@ call %VCVARS64.BAT%
 @rem #################################################
 @rem Set Qt configuration option variables
 @echo on
-set QT_ROOT_PATH="%CUR_BAT_PATH%.."
-@rem set QT_INSTALL_PATH="%QT_ROOT_PATH%\..\qt_win_intel64_opensource_v140.6.5.3.0"
-set QT_INSTALL_PATH="%QT_ROOT_PATH%\..\qt_win_intel64_opensource_v140"
-set QT_3RDPARTY_PATH="%CUR_BAT_PATH%3rdParty"
+set QT_ROOT_PATH=%CUR_BAT_PATH%..
+set QT_INSTALL_PATH=C:\out
+set QT_3RDPARTY_PATH=%CUR_BAT_PATH%3rdParty
 @rem set CONFIG_PREFIX="%QT_ROOT_PATH%\qtbase"
 set CONFIG_PREFIX=%QT_INSTALL_PATH%
 set CONFIG_EXT_PREFIX=%QT_INSTALL_PATH%
@@ -185,7 +164,7 @@ call  %comspec% /k "configure -opensource -confirm-license -prefix %CONFIG_PREFI
                    " %QT_MODULE_SKIPPED% " ^
                    " -- " ^
                    " --log-level=STATUS " ^
-                   " 1>%CONFIGURE_LOG% 2>%CONFIGURE_ERR_LOG% & exit "
+                   " 2>&1 | tee %CONFIGURE_LOG% & exit "
 
 @rem #################################################
 @rem goto :eof
@@ -195,8 +174,7 @@ call  %comspec% /k "configure -opensource -confirm-license -prefix %CONFIG_PREFI
 @rem #################################################
 @rem Build all modules
 @echo Building Qt...
-@rem cmake --build . --parallel 1>%BUILD_LOG% 2>%BUILD_ERR_LOG%
-cmake --build . --parallel 
+cmake --build . --parallel %NUMBER_OF_PROCESSORS% 2>&1 | tee %BUILD_LOG%
 
 @rem Build single module
 @rem cmake --build . --target qtmqtt
@@ -216,8 +194,7 @@ cmake --build . --parallel
 @rem #################################################
 @rem Install Qt binary to %CONFIG_PREFIX% path
 @echo Installing Qt...
-@rem ninja install 1>%INSTALL_LOG% 2>%INSTALL_ERR_LOG%
-ninja install 
+ninja install 2>&1 | tee %INSTALL_LOG%
 @rem #################################################
 
 

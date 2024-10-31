@@ -83,26 +83,23 @@ execute() {
 #srcpath=`(cd "$srcpath"; pwd)`
 #echo $srcpath
 CUR_SCRIPT_PATH=`dirname $0`
-CUR_SCRIPT_PATH=`(cd "$srcpath"; pwd)`
 #################################################
 
 
 #################################################
 #Set Qt configuration option variables
 QT_BUILD_VERSION=6.5.3.0
-QT_ROOT_PATH="$CUR_SCRIPT_PATH/.."
+QT_ROOT_PATH=`pwd`
 
 QT_BUILD_DEBUG_ENABLED=0
 QT_BUILD_RELEASE_ENABLED=1
 
-QT_BUILD_PATH_DEBUG="$QT_ROOT_PATH/../qt-build-debug"
-QT_BUILD_PATH_RELEASE="$QT_ROOT_PATH/../qt-build-release"
+QT_BUILD_PATH_DEBUG="$QT_ROOT_PATH/_Build/debug"
+QT_BUILD_PATH_RELEASE="$QT_ROOT_PATH/_Build/release"
 
 # QT_INSTALL_PATH="$QT_ROOT_PATH/../qt_macOS_opensource_universal.6.5.3.0"
-# QT_INSTALL_PATH_DEBUG="$QT_ROOT_PATH/../qt_macOS_opensource_universal_${QT_BUILD_VERSION}_debug"
-QT_INSTALL_PATH_DEBUG="$QT_ROOT_PATH/../qt_macOS_opensource_universal_debug"
-# QT_INSTALL_PATH_RELEASE="$QT_ROOT_PATH/../qt_macOS_opensource_universal_${QT_BUILD_VERSION}_release"
-QT_INSTALL_PATH_RELEASE="$QT_ROOT_PATH/../qt_macOS_opensource_universal_release"
+QT_INSTALL_PATH_DEBUG="$QT_ROOT_PATH/Build/qt5.mac/debug"
+QT_INSTALL_PATH_RELEASE="$QT_ROOT_PATH/Build/qt5.mac/release"
 
 QT_3RDPARTY_PATH="${CUR_BAT_PATH}/3rdParty"
 
@@ -134,6 +131,10 @@ QT_MODULE_EXCLUDED=-qtlocation,-qtvirtualkeyboard,-qtquicktimeline,-qtquick3d,-q
 QT_MODULE_SKIPPED=" -skip qtlocation -skip qtvirtualkeyboard -skip qtquicktimeline -skip qtquick3d -skip qtnetworkauth \
                    -skip qtdatavis3d -skip qtcharts -skip qtquick3d -skip qtquick3dphysics \
                    -skip qtlottie -skip qtcoap -skip qtmqtt "
+
+export OPENSSL_ROOT_DIR=/usr/local/Cellar/openssl@1.1/1.1.1m.universal
+export PostgreSQL_ROOT=/usr/local/Cellar/postgresql@11/11.14_1
+export LLVM_INSTALL_DIR=/Volumes/DATA/Qt6/CommonTools/libclang
 
 echo QT_ROOT_PATH:$QT_ROOT_PATH
 echo CUR_SCRIPT_PATH:$CUR_SCRIPT_PATH
@@ -184,11 +185,10 @@ if [ $QT_BUILD_RELEASE_ENABLED -eq 1 ]; then
   rm -rf ${CONFIG_PREFIX_RELEASE}
 
   #mkdir ../qt-build-release
-  mkdir $QT_BUILD_PATH_RELEASE
+  mkdir -p $QT_BUILD_PATH_RELEASE
   #cd ../qt-build-release
   pushd $QT_BUILD_PATH_RELEASE
   pwd
-  ls $QT_BUILD_PATH_RELEASE
   ${QT_ROOT_PATH}/configure -opensource -confirm-license -prefix ${CONFIG_PREFIX_RELEASE} -opengl desktop -plugin-sql-sqlite -sql-psql -plugin-sql-psql \
               -openssl-runtime -qt-libjpeg -qt-zlib -release -force-debug-info -separate-debug-info \
               -nomake examples -nomake tests -no-warnings-are-errors \
@@ -204,10 +204,9 @@ if [ $QT_BUILD_DEBUG_ENABLED -eq 1 ]; then
   rm -rf ${CONFIG_PREFIX_DEBUG}
 
   #mkdir ../qt-build-debug
-  mkdir $QT_BUILD_PATH_DEBUG
+  mkdir -p $QT_BUILD_PATH_DEBUG
   pushd $QT_BUILD_PATH_DEBUG
   pwd
-  ls $QT_BUILD_PATH_DEBUG
   ${QT_ROOT_PATH}/configure -opensource -confirm-license -prefix ${CONFIG_PREFIX_DEBUG} -opengl desktop -plugin-sql-sqlite -sql-psql -plugin-sql-psql \
               -openssl-runtime -qt-libjpeg -qt-zlib -debug -force-debug-info -separate-debug-info \
               -nomake examples -nomake tests -no-warnings-are-errors \

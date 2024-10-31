@@ -1,0 +1,20 @@
+# escape=`
+
+# Image Detail: https://git.autodesk.com/EngOps/container-image
+FROM autodesk-docker.art-bobcat.autodesk.com/engops/windows/qt5/servercore-ltsc2019-vs16-x64:nightly
+
+RUN python -m pip install html5lib
+
+RUN git config --system credential.helper store `
+    && mkdir c:\Users\ContainerAdministrator\.ssh\ `
+    && ssh-keyscan git.autodesk.com > C:\Users\ContainerAdministrator\.ssh\known_hosts
+
+COPY .git-credentials C:\Users\ContainerAdministrator\
+
+# Prepare Workspace
+WORKDIR c:\qt5
+COPY . c:\qt5
+RUN takeown /f . /d Y /r >nul
+
+# Run buildscript
+ENTRYPOINT ["adsk-build-scripts\\BuildQtOnWin.bat"]

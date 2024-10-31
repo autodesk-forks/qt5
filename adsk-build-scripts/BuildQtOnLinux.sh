@@ -32,9 +32,8 @@ GCCVERSION=$(gcc --version | grep ^gcc | sed 's/^.* //g')
 GCCPLUSVERSION=$(g++ --version | grep ^g++ | sed 's/^.* //g')
 echo "GCCVERSION=${GCCVERSION} GCCPLUSVERSION=${GCCPLUSVERSION}"
 
-if [ "${GCCVERSION}" \< "10.5.0" ] || [ "${GCCPLUSVERSION}" \< "10.5.0" ]; then
-  echo "Error: need gcc 10.5.0 or higher version to build Qt 6.5.* on Linux."
-  echo "Friendly reminder: the best choice is to use gcc 11.1.0 or higher version to build Qt 6.5.* on Linux."
+if [ "${GCCVERSION}" \< "11.1.0" ] || [ "${GCCPLUSVERSION}" \< "11.1.0" ]; then
+  echo "Error: need gcc 11.1.0 or higher version to build Qt 6.5.* on Linux."
   exit 1
 else
   echo "gcc version (${GCCVERSION}) and g++ version (${GCCPLUSVERSION}) is okay."
@@ -46,8 +45,8 @@ fi
 #Setup environment variables
 #export PATH=/DATA/Qt6/tools/CMake/bin/:$PATH
 export PATH=/DATA/Qt6/tools/cmake-3.26.4-linux-x86_64/bin:$PATH
-export CMAKE_TOOL=/usr/bin/cmake
-#export CMAKE_TOOL=/DATA/Qt6/tools/cmake-3.26.4-linux-x86_64/bin/cmake
+#export CMAKE_TOOL=/DATA/Qt6/tools/CMake/bin/cmake
+export CMAKE_TOOL=/DATA/Qt6/tools/cmake-3.26.4-linux-x86_64/bin/cmake
 if [ ! -f "$CMAKE_TOOL" ]; then
   CMAKE_TOOL=cmake
 fi
@@ -79,15 +78,13 @@ CUR_SCRIPT_PATH=`(cd "$srcpath"; pwd)`
 #################################################
 #Set Qt configuration option variables
 QT_BUILD_VERSION=6.5.3.0
-QT_ROOT_PATH="$CUR_SCRIPT_PATH/.."
+QT_ROOT_PATH="$CUR_SCRIPT_PATH"
 
-QT_BUILD_PATH_DEBUG="$QT_ROOT_PATH/../qt-build-debug"
-QT_BUILD_PATH_RELEASE="$QT_ROOT_PATH/../qt-build-release"
+QT_BUILD_PATH_DEBUG="/build/debug"
+QT_BUILD_PATH_RELEASE="/build/release"
 
-# QT_INSTALL_PATH_DEBUG="$QT_ROOT_PATH/../qt_linux_opensource_${QT_BUILD_VERSION}_debug"
-QT_INSTALL_PATH_DEBUG="$QT_ROOT_PATH/../qt_linux_opensource_debug"
-# QT_INSTALL_PATH_RELEASE="$QT_ROOT_PATH/../qt_linux_opensource_${QT_BUILD_VERSION}_release"
-QT_INSTALL_PATH_RELEASE="$QT_ROOT_PATH/../qt_linux_opensource_release"
+QT_INSTALL_PATH_DEBUG="/out/debug"
+QT_INSTALL_PATH_RELEASE="/out/release"
 
 QT_3RDPARTY_PATH="${CUR_BAT_PATH}/3rdParty"
 
@@ -166,7 +163,7 @@ git submodule update --init --recursive
 
 #Configuraion for release version
 #mkdir ../qt-build-release
-mkdir $QT_BUILD_PATH_RELEASE
+mkdir -p $QT_BUILD_PATH_RELEASE
 #cd ../qt-build-release
 pushd $QT_BUILD_PATH_RELEASE
 pwd
