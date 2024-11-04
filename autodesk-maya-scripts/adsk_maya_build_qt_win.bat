@@ -72,7 +72,7 @@ if not exist "%BUILD_DIR%" (
 
 REM Location of openssl root directory (optional) within the external
 REM dependencies directory.
-set OPENSSL_ROOT_DIR=%WORKSPACE_DIR%\external_dependencies\openssl\1.1.1g\RelWithDebInfo
+set OPENSSL_ROOT_DIR=%WORKSPACE_DIR%\external_dependencies\openssl
 set CMAKE_DIR=%WORKSPACE_DIR%\external_dependencies\cmake-3.26.0-windows-x86_64
 set NINJA_DIR=%WORKSPACE_DIR%\external_dependencies
 set NODE_DIR=%WORKSPACE_DIR%\external_dependencies\node-v16.14.0-win-x64

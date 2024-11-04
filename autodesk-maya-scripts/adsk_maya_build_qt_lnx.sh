@@ -136,24 +136,28 @@ fi
 set -u
 
 export OPENSSL_BIN_DIR=""
+export OPENSSL_LIB_DIR=""
 if [[ $isMacOS -eq 1 ]]; then
     export CMAKE_DIR=$WORKSPACE_DIR/external_dependencies/cmake-3.26.0-macos-universal/CMake.app/Contents
     export NINJA_DIR=$WORKSPACE_DIR/external_dependencies/ninja
     export NODE_DIR=$WORKSPACE_DIR/external_dependencies/node-v16.14.0-darwin-x64
 elif [[ $isLinux -eq 1 ]]; then
     # Location of openssl include directory (optional) within the external dependencies directory
-    # Update with artifact build of recent OpenSSL 1.1.1 release when available.
+    # Update with artifact build of recent OpenSSL release when available.
     # ... and add -DOPENSSL_ROOT_DIR=$OPENSSL_ROOT_DIR to configure line below. (?)
     # Maya includes a newer version of OpenSSL - which Qt will take into use.
-    export OPENSSL_ROOT_DIR="$WORKSPACE_DIR/external_dependencies/openssl/1.1.1g/RelWithDebInfo"
+    export OPENSSL_ROOT_DIR="$WORKSPACE_DIR/external_dependencies/openssl"
     export OPENSSL_BIN_DIR="$OPENSSL_ROOT_DIR/bin"
+    export OPENSSL_LIB_DIR="$OPENSSL_ROOT_DIR/lib"    
     export CMAKE_DIR=$WORKSPACE_DIR/external_dependencies/cmake-3.26.0-linux-x86_64
     export NINJA_DIR=$WORKSPACE_DIR/external_dependencies/ninja
     export NODE_DIR=$WORKSPACE_DIR/external_dependencies/node-v16.14.0-linux-x64
+    export LD_LIBRARY_PATH=$OPENSSL_LIB_DIR:$LD_LIBRARY_PATH
 fi
 export PATH=$OPENSSL_BIN_DIR:$CMAKE_DIR/bin:$NINJA_DIR:$NODE_DIR/bin:$PYTHON_DIR:$PATH
 
 echo "PATH=$PATH"
+
 
 if [[ ! "${QTVERSION}" =~ [0-9]\.[0-9]+\.[0-9]* ]]; then
     set +e
