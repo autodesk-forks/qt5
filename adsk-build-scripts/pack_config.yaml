@@ -1,0 +1,86 @@
+---
+# README
+# Please use 2 spaces, 
+# indentation is sensitive
+---
+# Mapping: Label to Packing Variables
+windows:
+  qt5.win:
+  - x64
+mac:
+  qt5.mac:
+  - universal
+linux:
+  qt5.lnx:
+  - ubuntu debug gcc11
+  - ubuntu release gcc11
+---
+# Variables
+variables:
+  component_name: qt-lgpl
+platforms:
+  windows:
+    variables:
+      osName: win
+      toolchain: v140
+    configurations:
+      x64:
+        variables:
+          compiler: intel64
+  mac:
+    variables:
+      osName: osx-11.0
+    configurations:
+      universal:
+        variables:
+          compiler: ubx64arm64_clang700
+  linux:
+    variables:
+      osName: linux
+    configurations:
+      release:
+        variables:
+          config: release
+      debug:
+        variables:
+          config: debug
+      ubuntu:
+        variables:
+          distro: ubuntu22
+      gcc11:
+        variables:
+          compiler: intel64_gcc11
+---
+# Nuspec Definition
+linux:
+- type: zip
+  version: "${pkg_version}"
+  adsk_xml_template: "adsk.xml.tpl"
+  packages:
+  - id: ${component_name}_${osName}-${distro}_${config}_${compiler}
+    sources:
+    - include: "${build_dir}/${config}/**/*"
+      exclude: 'lib/libQt6VirtualKeyboard.so.6.5.5;lib/libQt6VirtualKeyboard.prl;lib/libQt6QuickTimeline.so.6.5.5;lib/libQt6QuickTimeline.prl;lib/libQt6Quick3DUtils.so.6.5.5;lib/libQt6Quick3DUtils.prl;lib/libQt6Quick3DSpatialAudio.so.6.5.5;lib/libQt6Quick3DSpatialAudio.prl;lib/libQt6Quick3DRuntimeRender.so.6.5.5;lib/libQt6Quick3DRuntimeRender.prl;lib/libQt6Quick3DPhysicsHelpers.so.6.5.5;lib/libQt6Quick3DPhysicsHelpers.prl;lib/libQt6Quick3DPhysics.so.6.5.5;lib/libQt6Quick3DPhysics.prl;lib/libQt6Quick3DParticles.so.6.5.5;lib/libQt6Quick3DParticles.prl;lib/libQt6Quick3DParticleEffects.so.6.5.5;lib/libQt6Quick3DParticleEffects.prl;lib/libQt6Quick3DIblBaker.so.6.5.5;lib/libQt6Quick3DIblBaker.prl;lib/libQt6Quick3DHelpersImpl.so.6.5.5;lib/libQt6Quick3DHelpersImpl.prl;lib/libQt6Quick3DHelpers.so.6.5.5;lib/libQt6Quick3DHelpers.prl;lib/libQt6Quick3DGlslParser.so.6.5.5;lib/libQt6Quick3DGlslParser.prl;lib/libQt6Quick3DEffects.so.6.5.5;lib/libQt6Quick3DEffects.prl;lib/libQt6Quick3DAssetUtils.so.6.5.5;lib/libQt6Quick3DAssetUtils.prl;lib/libQt6Quick3DAssetImport.so.6.5.5;lib/libQt6Quick3DAssetImport.prl;lib/libQt6Quick3D.so.6.5.5;lib/libQt6Quick3D.prl;lib/libQt6NetworkAuth.so.6.5.5;lib/libQt6NetworkAuth.prl;lib/libQt6DesignerComponents.so.6.5.5;lib/libQt6DesignerComponents.prl;lib/libQt6Designer.so.6.5.5;lib/libQt6Designer.prl;lib/libQt6DataVisualizationQml.so.6.5.5;lib/libQt6DataVisualizationQml.prl;lib/libQt6DataVisualization.so.6.5.5;lib/libQt6DataVisualization.prl;lib/libQt6ChartsQml.so.6.5.5;lib/libQt6ChartsQml.prl;lib/libQt6Charts.so.6.5.5;lib/libQt6Charts.prl;qml/QtQuick3D;qml/QtQuick/VirtualKeyboard;qml/QtQuick/Timeline;qml/QtDataVisualization;qml/QtCharts;qml/Qt/labs/lottieqt;lib/libQt6Coap.prl;lib/libQt6Coap.so;lib/libQt6Coap.so.6;lib/libQt6Coap.so.6.5.5;lib/libQt6Mqtt.prl;lib/libQt6Mqtt.so;lib/libQt6Mqtt.so.6;lib/libQt6Mqtt.so.6.5.5;lib/Qt6VirtualKeyboard.debug;lib/Qt6QuickTimeline.debug;lib/Qt6Quick3DUtils.debug;lib/Qt6Quick3DSpatialAudio.debug;lib/Qt6Quick3DRuntimeRender.debug;lib/Qt6Quick3DPhysicsHelpers.debug;lib/Qt6Quick3DPhysics.debug;lib/Qt6Quick3DParticles.debug;lib/Qt6Quick3DParticleEffects.debug;lib/Qt6Quick3DIblBaker.debug;lib/Qt6Quick3DHelpersImpl.debug;lib/Qt6Quick3DHelpers.debug;lib/Qt6Quick3DGlslParser.debug;lib/Qt6Quick3DEffects.debug;lib/Qt6Quick3DAssetUtils.debug;lib/Qt6Quick3DAssetImport.debug;lib/Qt6Quick3D.debug;lib/Qt6NetworkAuth.debug;lib/Qt6DesignerComponents.debug;lib/Qt6Designer.debug;lib/Qt6DataVisualizationQml.debug;lib/Qt6DataVisualization.debug;lib/Qt6ChartsQml.debug;lib/Qt6Charts.debug'
+      target: "${pkg_version}"
+windows:
+- type: zip
+  version: "${pkg_version}"
+  adsk_xml_template: "adsk.xml.tpl"
+  packages:
+  - id: ${component_name}_${osName}_${compiler}_${toolchain}
+    sources:
+    - include: "${build_dir}\\**\\*"
+      exclude: 'lib\Qt6VirtualKeyboardd.lib;lib\Qt6QuickTimelined.lib;lib\Qt6Quick3DUtilsd.lib;lib\Qt6Quick3DSpatialAudiod.lib;lib\Qt6Quick3DRuntimeRenderd.lib;lib\Qt6Quick3DPhysicsHelpersd.lib;lib\Qt6Quick3DPhysicsd.lib;lib\Qt6Quick3DParticlesd.lib;lib\Qt6Quick3DParticleEffectsd.lib;lib\Qt6Quick3DIblBakerd.lib;lib\Qt6Quick3DHelpersImpld.lib;lib\Qt6Quick3DHelpersd.lib;lib\Qt6Quick3DGlslParserd.lib;lib\Qt6Quick3DEffectsd.lib;lib\Qt6Quick3Dd.lib;lib\Qt6Quick3DAssetUtilsd.lib;lib\Qt6Quick3DAssetImportd.lib;lib\Qt6NetworkAuthd.lib;lib\Qt6Designerd.lib;lib\Qt6DesignerComponentsd.lib;lib\Qt6DataVisualizationd.lib;lib\Qt6ChartsQmld.lib;lib\Qt6Chartsd.lib;lib\Qt6VirtualKeyboard.lib;lib\Qt6QuickTimeline.lib;lib\Qt6Quick3DUtils.lib;lib\Qt6Quick3DSpatialAudio.lib;lib\Qt6Quick3DRuntimeRender.lib;lib\Qt6Quick3DPhysicsHelpers.lib;lib\Qt6Quick3DPhysics.lib;lib\Qt6Quick3DParticles.lib;lib\Qt6Quick3DParticleEffects.lib;lib\Qt6Quick3DIblBaker.lib;lib\Qt6Quick3DHelpersImpl.lib;lib\Qt6Quick3DHelpers.lib;lib\Qt6Quick3DGlslParser.lib;lib\Qt6Quick3DEffects.lib;lib\Qt6Quick3Dd.lib;lib\Qt6Quick3DAssetUtils.lib;lib\Qt6Quick3DAssetImport.lib;lib\Qt6Quick3D.lib;lib\Qt6NetworkAuth.lib;lib\Qt6DesignerComponents.lib;lib\Qt6Designer.lib;lib\Qt6DataVisualization.lib;lib\Qt6ChartsQml.lib;lib\Qt6Charts.lib;qml\QtQuick3D;qml\QtQuick\VirtualKeyboard;qml\QtQuick\Timeline;qml\QtDataVisualization;qml\QtCharts;qml\Qt\labs\lottieqt;bin\Qt6Coap.dll;bin\Qt6Coap.pdb;bin\Qt6Coapd.dll;bin\Qt6Coapd.pdb;lib\Qt6Coap.lib;lib\Qt6Coap.prl;lib\Qt6Coapd.lib;lib\Qt6Coapd.prl;bin\Qt6Mqtt.dll;bin\Qt6Mqtt.pdb;bin\Qt6Mqttd.dll;bin\Qt6Mqttd.pdb;lib\Qt6Mqtt.lib;lib\Qt6Mqtt.prl;lib\Qt6Mqttd.lib;lib\Qt6Mqttd.prl;lib\Qt6Designerd.prl;lib\Qt6DesignerComponentsd.prl;lib\Qt6DesignerComponents.prl;lib\Qt6Designer.prl;lib\cmake\Qt6DesignerComponentsPrivate;lib\cmake\Qt6Designer'
+      target: "${pkg_version}"
+      
+mac:
+- type: zip
+  version: "${pkg_version}"
+  adsk_xml_template: "adsk.xml.tpl"
+  packages:
+  - id: ${component_name}_${osName}_${compiler}
+    sources:
+    - include: "${build_dir}/release/**/*"
+      exclude: 'lib/QtVirtualKeyboard.framework.dSYM;lib/QtVirtualKeyboard.framework;lib/QtQuickTimeline.framework.dSYM;lib/QtQuickTimeline.framework;lib/QtQuick3DUtils.framework.dSYM;lib/QtQuick3DUtils.framework;lib/QtQuick3DSpatialAudio.framework.dSYM;lib/QtQuick3DSpatialAudio.framework;lib/QtQuick3DRuntimeRender.framework.dSYM;lib/QtQuick3DRuntimeRender.framework;lib/QtQuick3DPhysicsHelpers.framework.dSYM;lib/QtQuick3DPhysicsHelpers.framework;lib/QtQuick3DPhysics.framework.dSYM;lib/QtQuick3DPhysics.framework;lib/QtQuick3DParticles.framework.dSYM;lib/QtQuick3DParticles.framework;lib/QtQuick3DParticleEffects.framework.dSYM;lib/QtQuick3DParticleEffects.framework;lib/QtQuick3DIblBaker.framework.dSYM;lib/QtQuick3DIblBaker.framework;lib/QtQuick3DHelpersImpl.framework.dSYM;lib/QtQuick3DHelpersImpl.framework;lib/QtQuick3DHelpers.framework.dSYM;lib/QtQuick3DHelpers.framework;lib/QtQuick3DGlslParser.framework.dSYM;lib/QtQuick3DGlslParser.framework;lib/QtQuick3DEffects.framework.dSYM;lib/QtQuick3DEffects.framework;lib/QtQuick3DAssetUtils.framework.dSYM;lib/QtQuick3DAssetUtils.framework;lib/QtQuick3DAssetImport.framework.dSYM;lib/QtQuick3DAssetImport.framework;lib/QtQuick3D.framework.dSYM;lib/QtQuick3D.framework;lib/QtNetworkAuth.framework.dSYM;lib/QtNetworkAuth.framework;lib/QtDesignerComponents.framework.dSYM;lib/QtDesignerComponents.framework;lib/QtDesigner.framework.dSYM;lib/QtDesigner.framework;lib/QtDataVisualizationQml.framework.dSYM;lib/QtDataVisualizationQml.framework;lib/QtDataVisualization.framework.dSYM;lib/QtDataVisualization.framework;lib/QtChartsQml.framework.dSYM;lib/QtChartsQml.framework;lib/QtCharts.framework.dSYM;lib/QtCharts.framework;qml/QtQuick3D;qml/QtQuick/VirtualKeyboard;qml/QtQuick/Timeline;qml/QtDataVisualization;qml/QtCharts;qml/Qt/labs/lottieqt;lib/QtCoap.framework;lib/QtCoap.framework.dSYM;lib/QtMqtt.framework;lib/QtMqtt.framework.dSYM;lib/cmake/Qt6DesignerComponentsPrivate;lib/cmake/Qt6Designer'
+      target: "${pkg_version}"
+...

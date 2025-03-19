@@ -1,0 +1,8 @@
+FROM autodesk-docker.art-bobcat.autodesk.com/engops/gecoss/qt5/ubuntu-2204-gcc11:nightly
+RUN git config --system credential.helper store \
+    && mkdir /root/.ssh \
+    && ssh-keyscan git.autodesk.com > /root/.ssh/known_hosts
+COPY .git-credentials /root/
+WORKDIR /src
+COPY . /src
+ENTRYPOINT ["adsk-build-scripts/BuildQtOnLinux.sh"]

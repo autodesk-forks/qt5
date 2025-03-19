@@ -1,0 +1,50 @@
+ /* GEC-OSS Pipeline
+  * ================
+  * Template Reference: https://git.autodesk.com/EngOps/gec-oss-pipeline-template/
+  * Document: https://wiki.autodesk.com/display/ENGOPS/GEC-OSS+Build+Framework
+  * Maintainer: EngOps Team Stark <engops.team.stark@autodesk.com>
+  */
+@Library(["oss-psl@main", "PSL"]) _
+
+buildPipeline {
+    /**********************************************************
+     * Required configuration: Build Configuration Definition *
+     **********************************************************/
+    buildConfigurationMatrix = [
+        'windows': [
+            0: [
+                'qt5.win': [
+                    'image_args': '--pull -f adsk-build-scripts/Dockerfile.windows .',
+                    'command_args': ' '
+                ],
+            ],
+        ],
+        'linux': [
+            0: [
+                'qt5.lnx': [
+                    'image_args': '--pull -f adsk-build-scripts/Dockerfile.linux .',
+                    'command_args': ' '
+                ],
+            ],
+        ],
+        'mac': [
+            'GEC-QT65-MAC': [
+                'qt5.mac': [
+                    'build_script': './adsk-build-scripts/BuildQtOnMacOS.sh',
+                ],
+            ],
+        ],
+    ]
+    
+    // Optional configuration: Give a different name for Artifactory & CER Registration. Default: GIT_REPO
+    componentName = "Qt"
+    
+    // Optional configuration: Use a different VMSS specs. 
+    // Default: null (i.e. Normal VMSS). 
+    // Choices: null (Azure F16s_v2) or "xl" (Azure F32s_v2)
+    vmssSpec = "xl"
+
+    // Optional configuration: Overwrite the Artifactory Repo Target (default: oss-stg-<type>/$componentName/$pkgVersion/GEC)
+    artifactoryNugetTargetRoot = { -> "oss-stg-nuget/$componentName/${params.pkgVersion}/gec/lgpl" }
+    artifactoryGenericTargetRoot = { -> "oss-stg-generic/$componentName/${params.pkgVersion}/gec/lgpl" }
+}
