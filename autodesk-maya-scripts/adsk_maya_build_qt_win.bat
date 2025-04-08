@@ -28,7 +28,7 @@ for %%a in (%*) do (
 
 REM Environment Variable - QTVERSION - Version of Qt to build
 if not defined QTVERSION (
-    echo QTVERSION is NOT defined. Example: SET QTVERSION=6.5.0
+    echo QTVERSION is NOT defined. Example: SET QTVERSION=6.8.3
     exit /b 1
 ) else (
     echo QTVERSION=%QTVERSION%
@@ -129,16 +129,16 @@ set COMMERCIAL_MODULES_TO_SKIP=-skip qtcharts -skip qtdatavis3d -skip qtlottie ^
 -skip qtvirtualkeyboard -skip qtwayland
 set MODULES_TO_SKIP=%COMMERCIAL_MODULES_TO_SKIP% -skip qtactiveqt ^
 -skip qtconnectivity -skip qtcoap -skip qtopcua -skip qtpdf ^
--skip qtquick3dphysics -skip qtquickeffectmaker
+-skip qtquick3dphysics -skip qtquickeffectmaker -skip qtgraphs
 if %DO_CONFIGURE%==1 (
     REM Define the modules to skip (because they are under commercial license)
 
     REM Configure the build
-    REM Configure options: https://wiki.qt.io/Qt_6.2_Tools_and_Versions (doesn't presently match since cmake is used directly there)
+    REM Configure options: https://wiki.qt.io/Qt_6.8_Tools_and_Versions (doesn't presently match since cmake is used directly there)
     call %SOURCE_DIR%\configure -opensource -confirm-license ^
 -prefix %INSTALL_DIR% -debug-and-release -nomake tests -nomake examples ^
 -force-debug-info -optimized-tools -opengl desktop -feature-qtwebengine-build ^
--plugin-sql-sqlite %MODULES_TO_SKIP% -openssl-runtime -- ^
+%MODULES_TO_SKIP% -openssl-runtime -- ^
 -DOPENSSL_ROOT_DIR=%OPENSSL_ROOT_DIR% ^
 -D_SILENCE_ALL_CXX23_DEPRECATION_WARNINGS=1 || ^
 echo "**** Failed to configure build ****" && exit /b 1

@@ -1,6 +1,6 @@
 # HOW TO BUILD QT 6 - Maya Build Branch
 
-This branch is based on the official [v6.2.3](https://code.qt.io/cgit/qt/qt5.git/tag/?h=v6.2.3) tag. It NOT YET contains a few [additional commits](https://github.com/autodesk-forks/qt5/compare/v6.2.3...autodesk-forks:Maya2024). Instructions to compile a Maya compatible version are below.
+This branch is based on the official [v6.8.3](https://code.qt.io/cgit/qt/qt5.git/tag/?h=v6.8.3) tag. Instructions to compile a Maya compatible version are below.
 
 For the original Qt 6 build instructions, see [HOW TO BUILD QT 6](README.md).
 
@@ -14,7 +14,7 @@ Qt Documentation:
 - Build Sources - https://doc.qt.io/qt-6/build-sources.html
 - Building Qt 6 from Git - https://wiki.qt.io/Building_Qt_6_from_Git
 - Linux Requirements - https://doc.qt.io/qt-6/linux-requirements.html
-- Configure Options - https://wiki.qt.io/Qt_6.2_Tools_and_Versions
+- Configure Options - https://wiki.qt.io/Qt_6.8_Tools_and_Versions
 
 Build Scripts:<a name="build-scripts-links"></a>
 
@@ -65,7 +65,7 @@ For the provided build scripts to work, you'll need to use the following directo
 
 **Qt 6 Source Code**
 
-Once the directory structure is created, clone the Qt 6 source code in the `src/` folder. For convenience, a public fork with all the necessary patches is available at https://github.com/autodesk-forks/qt5/tree/adsk-contrib/maya/6.2.3/.
+Once the directory structure is created, clone the Qt 6 source code in the `src/` folder. For convenience, a public fork with all the necessary patches is available at https://github.com/autodesk-forks/qt5/tree/adsk-contrib/maya/6.8.3/.
 
 ```sh
 # Go to the workspace_root directory
@@ -79,7 +79,7 @@ git clone https://github.com/autodesk-forks/qt5.git src
 
 # Checkout the branch that was used to build Qt 6 for Maya
 cd src
-git checkout adsk-contrib/maya/6.2.3
+git checkout adsk-contrib/maya/6.8.3
 ```
 
 Once the cloning process is complete, execute the following commands in a terminal to initialize the repository (in the `src/` directory):
@@ -120,7 +120,7 @@ REM Set the path to the root folder of the workspace
 SET WORKSPACE_ROOT_PATH=LETTER:\\path\\to\\workspace_root
 
 REM Set the Qt version to build
-SET QTVERSION=6.2.3
+SET QTVERSION=6.8.3
 
 REM Define the log file name
 SET LOGFILE_NAME=qt_6_build_log
@@ -139,7 +139,7 @@ To run the build script on Mac, execute the following commands from the terminal
 export WORKSPACE_ROOT_PATH=/path/to/workspace_root
 
 # Set the Qt version to build
-export QTVERSION=6.2.3
+export QTVERSION=6.8.3
 
 # Generate a unique name for the log file with the datetime at the end
 export LOGFILE_NAME=qt_6_build_log_`date +%Y-%m-%d-%H%M`
@@ -164,7 +164,7 @@ To run the build script on Linux, execute the following commands from the termin
 export WORKSPACE_ROOT_PATH=/path/to/workspace_root
 
 # Set the Qt version to build
-export QTVERSION=6.2.3
+export QTVERSION=6.8.3
 
 # Generate a unique name for the log file with the date-time at the end
 export LOGFILE_NAME=qt_6_build_log_`date +%Y-%m-%d-%H%M`

@@ -83,7 +83,7 @@ set -- "${ARGS[@]: }" # restore args
 set +u
 # Environment Variable - QTVERSION - Version of Qt to build
 if [[ -z "$GUESS_QTVERSION" && -z "${QTVERSION}" ]]; then
-    echo "QTVERSION is undefined. Example: export QTVERSION=6.2.3"
+    echo "QTVERSION is undefined. Example: export QTVERSION=6.8.3"
     exit 1
 else
     echo "QTVERSION=${QTVERSION}"
@@ -168,7 +168,7 @@ if [[ ! "${QTVERSION}" =~ [0-9]\.[0-9]+\.[0-9]* ]]; then
         if [[ -n "$GUESS_QTVERSION" ]]; then
             echo >&2 "Python non-functional, cannot guess QTVERSON."
         else
-            echo >&2 "QTVERSION is not a version number. Example: export QTVERSION=6.2.3"
+            echo >&2 "QTVERSION is not a version number. Example: export QTVERSION=6.8.3"
         fi
         exit 1
     fi
@@ -307,14 +307,14 @@ set +e
 CONFIGURE_RETURNCODE=0
 if [ -n "$DO_CONFIGURE" ]; then
     # Configure the build
-    # Configure options: https://wiki.qt.io/Qt_6.2_Tools_and_Versions
+    # Configure options: https://wiki.qt.io/Qt_6.8_Tools_and_Versions
     # coin/platform_configs/cmake_platforms.yaml
 
     # Define the modules to skip (because they are under commercial license)
     export COMMERCIAL_MODULES_TO_SKIP="-skip qtcharts -skip qtdatavis3d "\
 "-skip qtlottie -skip qtmqtt -skip qtnetworkauth -skip qtquick3d "\
 "-skip qtquicktimeline -skip qtvirtualkeyboard"
-    export MODULES_TO_SKIP="${COMMERCIAL_MODULES_TO_SKIP} -skip qtconnectivity"\
+    export MODULES_TO_SKIP="${COMMERCIAL_MODULES_TO_SKIP} -skip qtconnectivity -skip qtgraphs"\
 " -skip qtcoap -skip qtopcua -skip qtpdf -skip qtquick3dphysics -skip qtquickeffectmaker"
 
     PLAT_ARGS=""
@@ -322,12 +322,12 @@ if [ -n "$DO_CONFIGURE" ]; then
     if [[ $isMacOS -eq 1 ]]; then
         PLAT_ARGS="-debug-and-release -no-strip"
         MODULES_TO_SKIP="${MODULES_TO_SKIP} -skip qtwayland"
-        #PLAT_CMAKE_DEFS='-DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -DCMAKE_OSX_DEPLOYMENT_TARGET=11.0'
+        #PLAT_CMAKE_DEFS='-DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -DCMAKE_OSX_DEPLOYMENT_TARGET=13.0'
         $SOURCE_DIR/configure -opensource -confirm-license -prefix $INSTALL_DIR\
  -nomake tests -nomake examples -force-debug-info -separate-debug-info -opengl \
-desktop -feature-qtwebengine-build -plugin-sql-sqlite $PLAT_ARGS \
+desktop -feature-qtwebengine-build $PLAT_ARGS \
 $MODULES_TO_SKIP -- -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" \
--DCMAKE_OSX_DEPLOYMENT_TARGET=11.0
+-DCMAKE_OSX_DEPLOYMENT_TARGET=13.0 -DQT_FORCE_WARN_APPLE_SDK_AND_XCODE_CHECK=ON
         CONFIGURE_RETURNCODE=$?
     elif [[ $isLinux -eq 1 ]]; then
         # https://cmake.org/cmake/help/latest/module/FindOpenGL.html
@@ -345,7 +345,7 @@ $MODULES_TO_SKIP -- -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" \
     if [[ $isMacOS -ne 1 ]]; then
         $SOURCE_DIR/configure -opensource -confirm-license -prefix $INSTALL_DIR\
  -nomake tests -nomake examples -force-debug-info -separate-debug-info -opengl \
-desktop -feature-qtwebengine-build -plugin-sql-sqlite $PLAT_ARGS \
+desktop -feature-qtwebengine-build $PLAT_ARGS \
 $MODULES_TO_SKIP -- $PLAT_CMAKE_DEFS
         CONFIGURE_RETURNCODE=$?
     fi
