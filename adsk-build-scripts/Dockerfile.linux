@@ -1,0 +1,18 @@
+FROM autodesk-docker.art-bobcat.autodesk.com/engops/gecoss/qt5/ubuntu-2204-gcc11:nightly
+
+# Download and extract OpenSSL 3.0.15 source code
+RUN wget https://www.openssl.org/source/openssl-3.0.15.tar.gz && \
+    tar -xf openssl-3.0.15.tar.gz && \
+    cd openssl-3.0.15 && \
+    ./config --prefix=/usr/local/openssl-3.0 --openssldir=/usr/local/openssl-3.0 linux-x86_64 && \
+    make > /dev/null 2>&1 && \
+    make install_sw && \
+    rm -rf openssl-3.0.15 openssl-3.0.15.tar.gz
+    
+RUN git config --system credential.helper store \
+    && mkdir /root/.ssh \
+    && ssh-keyscan git.autodesk.com > /root/.ssh/known_hosts
+COPY .git-credentials /root/
+WORKDIR /src
+COPY . /src
+ENTRYPOINT ["adsk-build-scripts/BuildQtOnLinux.sh"]

@@ -1,0 +1,79 @@
+FROM rockylinux/rockylinux:8.6
+
+RUN yum update -y \
+    && yum install -y epel-release \
+    && yum -y groupinstall "Development Tools" \
+    && yum config-manager --set-enabled powertools \
+    && yum install -y python39 cmake3 gcc-toolset-10
+
+RUN yum install -y git libzstd \
+    && yum install -y patchelf \
+    && yum install -y tzdata \
+    && yum install -y wget unzip curl bzip2 xz \
+    && yum install -y gcc gcc-c++ libatomic \
+    && yum install -y double-conversion double-conversion-devel \
+    && yum install -y make glibc-devel freetype-devel glib2-devel cairo-devel \
+    && yum install -y perl perl-Digest-SHA perl-core zlib-devel \ 
+    && yum install -y systemd-devel sqlite-devel pulseaudio-libs-devel \
+    && yum install -y lld libudev-devel dbus-devel atk-devel at-spi2-atk-devel bison gperf \
+    && yum install -y libicu libicu-devel \
+    && yum install -y mesa-libGL-devel mesa-libGLU-devel mesa-libGLw-devel mesa-libEGL-devel \
+    && yum install -y alsa-lib-devel alsa-plugins-pulseaudio alsa-utils audiofile-devel \
+    && yum install -y PackageKit-gstreamer-plugin fontconfig-devel \
+    && yum install -y gstreamer1-devel gstreamer1-plugins-base-devel gstreamer1-plugins-good \
+    && yum install -y cups-devel libmng-devel libdrm libcap-devel nss-devel \
+    && yum install -y libXcomposite-devel libXcursor-devel libXtst-devel libXScrnSaver \
+    && yum install -y libXp-devel libXi-devel libXinerama-devel libXpm-devel libXrandr-devel \
+    && yum install -y libXrender-devel libXext-devel libXfixes-devel libxshmfence-devel \
+    && yum install -y flite-devel speech-dispatcher-devel libX11-devel libxkbcommon-devel \
+    && yum install -y libxkbcommon-x11-devel libxcb-devel \
+    && yum install -y xcb-util-keysyms-devel xcb-util-image-devel xcb-util-wm-devel \
+    && yum install -y xcb-util-renderutil-devel xcb-util-cursor-devel libxkbfile-devel xcb-util-devel mtdev \
+    && yum install -y at-spi2-core at-spi2-core-devel at-spi2-atk at-spi2-atk-devel \
+    && yum install -y libjpeg-devel libjpeg-turbo-devel libtiff-devel lttng-ust \
+    && yum install -y libproxy libstdc++-devel wayland-devel \
+    && yum install -y postgresql-devel \
+    && yum remove -y ninja-build \
+    && yum remove -y nodejs \
+    && yum clean all
+
+RUN yum -y install --enablerepo=powertools libstdc++-static
+RUN yum -y install glibc-langpack-en
+     
+# Download and install nodejs 20 LTS    
+RUN curl -fsSL https://rpm.nodesource.com/setup_20.x | bash -  \
+    && yum -y install nsolid
+
+# Download and extract OpenSSL 1.1.1w source code
+RUN wget https://www.openssl.org/source/openssl-1.1.1w.tar.gz && \
+    tar -xf openssl-1.1.1w.tar.gz && \
+    cd openssl-1.1.1w && \
+    ./config --prefix=/usr/local/openssl-1.1 --openssldir=/usr/local/openssl-1.1 && \
+    make > /dev/null 2>&1 && \
+    make install_sw && \
+    rm -rf openssl-1.1.1w openssl-1.1.1w.tar.gz
+    
+RUN wget https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-linux.zip \
+    && unzip ninja-linux.zip \
+    && mv ninja /usr/local/bin \
+    && rm -rf ninja-linux.zip
+
+# Create a symbolic link for python3 to point to python3.9
+RUN ln -sf /usr/bin/python3.9 /usr/bin/python3
+RUN python3 -m pip install html5lib dataclasses
+
+# when install libatomic, the libatomic.so cannot be created which cause link error due to libatomic missing
+RUN ln -sf /usr/lib64/libatomic.so.1 /usr/lib64/libatomic.so
+
+# Clean up to reduce image size
+RUN yum clean all
+
+RUN git config --system credential.helper store \
+    && mkdir /root/.ssh \
+    && ssh-keyscan git.autodesk.com > /root/.ssh/known_hosts
+COPY .git-credentials /root/
+
+WORKDIR /src
+COPY . /src
+
+ENTRYPOINT ["scl", "enable", "gcc-toolset-10", "--", "adsk-build-scripts/BuildQtOnRocky.sh"]
