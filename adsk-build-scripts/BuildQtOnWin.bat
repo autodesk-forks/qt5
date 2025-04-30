@@ -102,7 +102,7 @@ cd /d %QT_ROOT_PATH%
 
 @rem Initialize the repository
 @rem perl init-repository
-perl init-repository --force --module-subset=default,%QT_MODULE_EXCLUDED%
+perl init-repository.pl --force --module-subset=default,%QT_MODULE_EXCLUDED%
 @rem goto :eof
 
 @rem Sync the submoudles url, maybe it's not necessary
