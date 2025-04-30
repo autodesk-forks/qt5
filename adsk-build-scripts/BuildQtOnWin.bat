@@ -67,9 +67,9 @@ set CONFIG_PREFIX=%QT_INSTALL_PATH%
 set CONFIG_EXT_PREFIX=%QT_INSTALL_PATH%
 
 @rem Remove the installation folder first
-if exist %QT_INSTALL_PATH% (
-	rmdir /s /q %QT_INSTALL_PATH%
-)
+@rem if exist %QT_INSTALL_PATH% (
+@rem 	rmdir /s /q %QT_INSTALL_PATH%
+@rem )
 
 @rem The modules in QT_MODULE_EXCLUDED will be excluded from git syncing
 @rem set QT_MODULE_EXCLUDED="-preview,-qtnetworkauth,-qtpurchasing,-qtquick3d,-qtlottie,-qtcharts,-qtdatavis3d,-qtvirtualkeyboard,-qtwebglplugin,-qtactiveqt,-qtconnectivity,-qtcoap,-qtmqtt,-qtopcua,-qtquicktimeline,-qtquickeffectmaker,-qtquick3dphysics"
