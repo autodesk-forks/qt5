@@ -32,8 +32,8 @@ To provide maximum flexibility to end-users, Maya only relies on LGPL-licensed Q
 - `qtwebglplugin`
 
 
-> **Minimum OpenSSL Version**
-Since Qt 5.15, Qt requires a minimum OpenSSL version of 1.1.1 (if the `--openssl` option is enabled). OpenSSL is used by the Qt Network submodule. This option is only available for Windows and Linux, since Mac uses Apple's Secure Transport API.
+> **OpenSSL Version**
+We tested using OpenSSL version 3 but other OpenSSL versions might work as well (if the `--openssl` option is enabled). OpenSSL is used by the Qt Network submodule. This option is only available for Windows and Linux, since Mac uses Apple's Secure Transport API.
 
 > **Xcb Libraries**
 Since XCB libraries are no longer included with Qt on Linux, starting with version 5.15 of Qt, the -qt-xcb build configuration option is no longer supported. Before building Qt on Linux, make sure that XCB libraries are installed on your system, using available package/library managers.
@@ -43,13 +43,13 @@ Since XCB libraries are no longer included with Qt on Linux, starting with versi
 To build Qt, you'll need the following tools:
 - Git (>= 1.6.x)
 - Perl (>= 5.14)
-- Python (>= 2.7.x)
+- Python (>= 3.11.x)
 - Supported C++ Compiler
 
 | Platform  | Version       | C++ Compiler                       |
 | --------- | ---------     | ------------                       |
-| Windows   | Windows 10    | Visual Studio 2019                 |
-| Mac       | OSX 10.14.1   | Xcode 12 (11 SDK)                  |
+| Windows   | Windows 10    | Visual Studio 2022                 |
+| Mac       | OSX 14        | Xcode 15 (14 SDK)                  |
 | Linux     | CentOS 8.6    | GCC 11.2.1 [gcc-toolset-11 11.1]   |
 
 
@@ -58,7 +58,7 @@ To build Qt, you'll need the following tools:
 For the provided build scripts to work, you'll need to use the following directory structure, where `workspace_root` refers to the top-level directory:
 - `workspace_root/`: contains all folders related to the build
     - `external_dependencies/`: contains the dependencies required to build Qt
-        - `openssl`: contains the OpenSSL 1.1.1 artifact (on Windows and Linux), including the header files
+        - `openssl`: contains the OpenSSL artifact (on Windows and Linux), including the header files
     - `install/`: contains the Qt 6 build once complete
     - `src/`: contains the Qt 6 source code from Autodesk public fork (top of git tree - the `qt5.git` will be cloned into this directory)
         - `autodesk-maya-scripts/`: contains the build and package scripts for each platform (Windows, Mac and Linux)
@@ -111,7 +111,7 @@ Before using provided scripts, please review and adjust them as needed.
 #### Windows <a name="build-steps-windows-header"></a>
 
 External Dependencies:
-- OpenSSL 1.1.1 (RelWithDebInfo) with header files
+- OpenSSL (RelWithDebInfo) with header files
 
 To run the build script on Windows, execute the following commands from the command-line:
 
@@ -155,7 +155,7 @@ bash ./autodesk-maya-scripts/adsk_maya_build_qt_osx.sh $WORKSPACE_ROOT_PATH &>$W
 To build Qt 6 on Linux, you must ensure that the following build dependencies are installed on your system before running the build scripts (see `install_qt_6_build_dependencies_linux.sh`). Also, on top of the tools listed in [Requirements / Setup](#build-requirements-header) and the Qt documentation, the `patchelf` utility is needed to adjust the RUNPATHs of the libraries after the build is completed.
 
 External Dependencies:
-- OpenSSL 1.1.1 (RelWithDebInfo) with header files
+- OpenSSL (RelWithDebInfo) with header files
 
 To run the build script on Linux, execute the following commands from the terminal:
 
