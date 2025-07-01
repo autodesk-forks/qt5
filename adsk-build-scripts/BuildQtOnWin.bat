@@ -71,15 +71,33 @@ set CONFIG_EXT_PREFIX=%QT_INSTALL_PATH%
 @rem 	rmdir /s /q %QT_INSTALL_PATH%
 @rem )
 
-@rem The modules in QT_MODULE_EXCLUDED will be excluded from git syncing
-@rem set QT_MODULE_EXCLUDED="-preview,-qtnetworkauth,-qtpurchasing,-qtquick3d,-qtlottie,-qtcharts,-qtdatavis3d,-qtvirtualkeyboard,-qtwebglplugin,-qtactiveqt,-qtconnectivity,-qtcoap,-qtmqtt,-qtopcua,-qtquicktimeline,-qtquickeffectmaker,-qtquick3dphysics"
+@rem #################################################
+@rem GPL MODULE EXCLUSION CONFIGURATION
+@rem #################################################
+@rem To avoid GPL binaries, the following modules are excluded:
+@rem - qtvirtualkeyboard: Virtual keyboard components (GPL)
+@rem - qtquicktimeline: Timeline animations (GPL)
+@rem - qtquick3d: 3D graphics and physics (GPL)
+@rem - qtquick3dphysics: 3D physics engine (GPL)
+@rem - qtcharts: Charting components (GPL)
+@rem - qtdatavis3d: 3D data visualization (GPL)
+@rem - qtnetworkauth: Network authentication (GPL)
+@rem - qtlottie: Lottie animation support (GPL)
+@rem - qtcoap: CoAP protocol support (GPL)
+@rem - qtmqtt: MQTT protocol support (GPL)
+@rem - qtgraphs: Graph visualization (GPL)
+@rem
+@rem Additional configuration options:
+@rem - -no-feature-designer: Disables Qt Designer (GPL components)
+@rem
+@rem The modules in QT_MODULE_EXCLUDED will be excluded from git syncing (GPL modules)
 set QT_MODULE_EXCLUDED=-qtlocation,-qtvirtualkeyboard,-qtquicktimeline,-qtquick3d,-qtnetworkauth,-qtdatavis3d,-qtcharts,^
--qtquick3d,-qtquick3dphysics,-qtlottie,-qtcoap,-qtmqtt,-qtgraphs 
+-qtquick3dphysics,-qtlottie,-qtcoap,-qtmqtt,-qtgraphs
 
-@rem The modules in QT_MODULE_SKIPPED will be skipped from building
-@rem set QT_MODULE_SKIPPED= -skip qtlocation
+@rem The modules in QT_MODULE_SKIPPED will be skipped from building (GPL modules)
+@rem Complete list of GPL modules to skip during build
 set QT_MODULE_SKIPPED= -skip qtlocation -skip qtvirtualkeyboard -skip qtquicktimeline -skip qtquick3d -skip qtnetworkauth ^
-                       -skip qtdatavis3d -skip qtcharts -skip qtquick3d -skip qtquick3dphysics ^
+                       -skip qtdatavis3d -skip qtcharts -skip qtquick3dphysics ^
                        -skip qtlottie -skip qtcoap -skip qtmqtt -skip qtgraphs
 
 @rem Step into the Qt root directory
@@ -161,6 +179,7 @@ git submodule update --init --recursive
 call  %comspec% /k "configure -opensource -confirm-license -prefix %CONFIG_PREFIX%  -platform win32-msvc " ^
                    " -opengl dynamic -sql-psql -openssl-runtime -qt-libjpeg -qt-zlib "  ^
                    " -debug-and-release -force-debug-info -nomake examples -nomake tests -no-warnings-are-errors " ^
+                   " -no-feature-designer " ^
                    " %QT_MODULE_SKIPPED% " ^
                    " -- " ^
                    " --log-level=STATUS " ^
