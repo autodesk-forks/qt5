@@ -121,15 +121,33 @@ if  [  -d  "${QT_INSTALL_PATH_RELEASE}"  ]; then
 	rm -rf "${QT_INSTALL_PATH_RELEASE}"
 fi
 
-#The modules in QT_MODULE_EXCLUDED will be excluded from git syncing
-#set QT_MODULE_EXCLUDED="-preview,-qtnetworkauth,-qtpurchasing,-qtquick3d,-qtlottie,-qtcharts,-qtdatavis3d,-qtvirtualkeyboard,-qtwebglplugin,-qtactiveqt,-qtconnectivity,-qtcoap,-qtmqtt,-qtopcua,-qtquicktimeline,-qtquickeffectmaker,-qtquick3dphysics"
+#################################################
+# GPL MODULE EXCLUSION CONFIGURATION
+#################################################
+# To avoid GPL binaries, the following modules are excluded:
+# - qtvirtualkeyboard: Virtual keyboard components (GPL)
+# - qtquicktimeline: Timeline animations (GPL)
+# - qtquick3d: 3D graphics and physics (GPL)
+# - qtquick3dphysics: 3D physics engine (GPL)
+# - qtcharts: Charting components (GPL)
+# - qtdatavis3d: 3D data visualization (GPL)
+# - qtnetworkauth: Network authentication (GPL)
+# - qtlottie: Lottie animation support (GPL)
+# - qtcoap: CoAP protocol support (GPL)
+# - qtmqtt: MQTT protocol support (GPL)
+# - qtgraphs: Graph visualization (GPL)
+#
+# Additional configuration options:
+# - -no-feature-designer: Disables Qt Designer (GPL components)
+#
+# The modules in QT_MODULE_EXCLUDED will be excluded from git syncing (GPL modules)
 QT_MODULE_EXCLUDED=-qtlocation,-qtvirtualkeyboard,-qtquicktimeline,-qtquick3d,-qtnetworkauth,-qtdatavis3d,-qtcharts,\
--qtquick3d,-qtquick3dphysics,-qtlottie,-qtcoap,-qtmqtt,-qtgraphs
+-qtquick3dphysics,-qtlottie,-qtcoap,-qtmqtt,-qtgraphs
 
-#The modules in QT_MODULE_SKIPPED will be skipped from building
-#QT_MODULE_SKIPPED=" -skip qtlocation "
+# The modules in QT_MODULE_SKIPPED will be skipped from building (GPL modules)
+# Complete list of GPL modules to skip during build
 QT_MODULE_SKIPPED=" -skip qtlocation -skip qtvirtualkeyboard -skip qtquicktimeline -skip qtquick3d -skip qtnetworkauth \
-                   -skip qtdatavis3d -skip qtcharts -skip qtquick3d -skip qtquick3dphysics \
+                   -skip qtdatavis3d -skip qtcharts -skip qtquick3dphysics \
                    -skip qtlottie -skip qtcoap -skip qtmqtt -skip qtgraphs"
 
 export OPENSSL_ROOT_DIR=/usr/local/Cellar/openssl@1.1/1.1.1m.universal
@@ -192,6 +210,7 @@ if [ $QT_BUILD_RELEASE_ENABLED -eq 1 ]; then
   ${QT_ROOT_PATH}/configure -opensource -confirm-license -prefix ${CONFIG_PREFIX_RELEASE} -opengl desktop -sql-psql \
               -openssl-runtime -qt-libjpeg -qt-zlib -release -force-debug-info -separate-debug-info \
               -nomake examples -nomake tests -no-warnings-are-errors \
+              -no-feature-designer \
               ${QT_MODULE_SKIPPED} \
               -- -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -DCMAKE_OSX_DEPLOYMENT_TARGET="11.0"
   popd
@@ -210,6 +229,7 @@ if [ $QT_BUILD_DEBUG_ENABLED -eq 1 ]; then
   ${QT_ROOT_PATH}/configure -opensource -confirm-license -prefix ${CONFIG_PREFIX_DEBUG} -opengl desktop -sql-psql \
               -openssl-runtime -qt-libjpeg -qt-zlib -debug -force-debug-info -separate-debug-info \
               -nomake examples -nomake tests -no-warnings-are-errors \
+              -no-feature-designer \
               ${QT_MODULE_SKIPPED} \
               -- -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -DCMAKE_OSX_DEPLOYMENT_TARGET="11.0"
   popd

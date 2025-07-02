@@ -110,15 +110,33 @@ if  [  -d  "${QT_INSTALL_PATH}"  ]; then
 fi
 mkdir -p $QT_INSTALL_PATH
 
-#The modules in QT_MODULE_EXCLUDED will be excluded from git syncing
-#set QT_MODULE_EXCLUDED="-preview,-qtnetworkauth,-qtpurchasing,-qtquick3d,-qtlottie,-qtcharts,-qtdatavis3d,-qtvirtualkeyboard,-qtwebglplugin,-qtactiveqt,-qtconnectivity,-qtcoap,-qtmqtt,-qtopcua,-qtquicktimeline,-qtquickeffectmaker,-qtquick3dphysics"
+#################################################
+# GPL MODULE EXCLUSION CONFIGURATION
+#################################################
+# To avoid GPL binaries, the following modules are excluded:
+# - qtvirtualkeyboard: Virtual keyboard components (GPL)
+# - qtquicktimeline: Timeline animations (GPL)
+# - qtquick3d: 3D graphics and physics (GPL)
+# - qtquick3dphysics: 3D physics engine (GPL)
+# - qtcharts: Charting components (GPL)
+# - qtdatavis3d: 3D data visualization (GPL)
+# - qtnetworkauth: Network authentication (GPL)
+# - qtlottie: Lottie animation support (GPL)
+# - qtcoap: CoAP protocol support (GPL)
+# - qtmqtt: MQTT protocol support (GPL)
+# - qtgraphs: Graph visualization (GPL)
+#
+# Additional configuration options:
+# - -no-feature-designer: Disables Qt Designer (GPL components)
+#
+# The modules in QT_MODULE_EXCLUDED will be excluded from git syncing (GPL modules)
 QT_MODULE_EXCLUDED=-qtlocation,-qtvirtualkeyboard,-qtquicktimeline,-qtquick3d,-qtnetworkauth,-qtdatavis3d,-qtcharts,\
--qtquick3d,-qtquick3dphysics,-qtlottie,-qtcoap,-qtmqtt,-qtwayland,-qtgraphs
+-qtquick3dphysics,-qtlottie,-qtcoap,-qtmqtt,-qtwayland,-qtgraphs
 
-#The modules in QT_MODULE_SKIPPED will be skipped from building
-#QT_MODULE_SKIPPED=" -skip qtlocation "
+# The modules in QT_MODULE_SKIPPED will be skipped from building (GPL modules)
+# Complete list of GPL modules to skip during build
 QT_MODULE_SKIPPED=" -skip qtlocation -skip qtvirtualkeyboard -skip qtquicktimeline -skip qtquick3d -skip qtnetworkauth \
-                   -skip qtdatavis3d -skip qtcharts -skip qtquick3d -skip qtquick3dphysics \
+                   -skip qtdatavis3d -skip qtcharts -skip qtquick3dphysics \
                    -skip qtlottie -skip qtcoap -skip qtmqtt -skip qtwayland -skip qtgraphs -skip qtopcua "
 
 echo QT_ROOT_PATH:$QT_ROOT_PATH
@@ -155,6 +173,7 @@ if [[ "${CONFIG_TYPE_PARAM}" == "debug" ]]; then
   ${QT_ROOT_PATH}/configure -opensource -confirm-license -prefix ${CONFIG_PREFIX} -opengl desktop -sql-psql \
                           -openssl-runtime -qt-libjpeg -qt-zlib -qt-harfbuzz -qt-freetype -xcb -debug -force-debug-info -separate-debug-info \
                           -nomake \examples -nomake tests -no-warnings-are-errors \
+                          -no-feature-designer \
                           ${QT_MODULE_SKIPPED} \
                           -- -DCMAKE_PREFIX_PATH=${LLVM_INSTALL_DIR} -DFEATURE_webengine_jumbo_build=off -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS_DEBUG="-g -Os" --log-level=STATUS \
                           2>&1 | tee ${CUR_SCRIPT_PATH}/Qt.Configureation.Debug.Summary.txt
@@ -162,6 +181,7 @@ else
   ${QT_ROOT_PATH}/configure -opensource -confirm-license -prefix ${CONFIG_PREFIX} -opengl desktop -sql-psql \
                             -openssl-runtime -qt-libjpeg -qt-zlib -qt-harfbuzz -qt-freetype -xcb -release -force-debug-info -separate-debug-info \
                             -nomake examples -nomake tests -no-warnings-are-errors \
+                            -no-feature-designer \
                             ${QT_MODULE_SKIPPED} \
                             -- -DCMAKE_PREFIX_PATH=${LLVM_INSTALL_DIR} -DFEATURE_webengine_jumbo_build=off -DCMAKE_BUILD_TYPE=RelWithDebInfo --log-level=STATUS \
                             2>&1 | tee ${CUR_SCRIPT_PATH}/Qt.Configuration.Release.Summary.txt
