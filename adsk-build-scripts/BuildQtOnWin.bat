@@ -216,6 +216,18 @@ cmake --build . --parallel %NUMBER_OF_PROCESSORS% 2>&1 | tee %BUILD_LOG%
 ninja install 2>&1 | tee %INSTALL_LOG%
 @rem #################################################
 
+:LabelPatchDll
+echo Patch Dll files
+for /f %%i in ('dir /s /b %QT_INSTALL_PATH%\bin\*WebEngineCore*.dll') do (
+	pushd adsk-build-scripts\3rdParty
+	echo patcher.exe %%i %%~nxi
+
+    attrib -r %%i
+    patcher -r -2 -x %%i "Chrome_WidgetWin_" "Khrome_WidgetWin_"
+    patcher -r -1 -x %%i "C++ Application Development Framework" "Modified by Autodesk (QTBUG-85768)   "
+
+	popd
+)
 
 :LabelCopy
 @rem #################################################

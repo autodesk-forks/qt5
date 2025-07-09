@@ -34,7 +34,7 @@ platforms:
           compiler: intel64
   mac:
     variables:
-      osName: osx-11.0
+      osName: osx-14.0
     configurations:
       universal:
         variables:

@@ -212,7 +212,7 @@ if [ $QT_BUILD_RELEASE_ENABLED -eq 1 ]; then
               -nomake examples -nomake tests -no-warnings-are-errors \
               -no-feature-designer \
               ${QT_MODULE_SKIPPED} \
-              -- -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -DCMAKE_OSX_DEPLOYMENT_TARGET="11.0"
+              -- -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -DCMAKE_OSX_DEPLOYMENT_TARGET="14.0"
   popd
 fi
 
@@ -231,7 +231,7 @@ if [ $QT_BUILD_DEBUG_ENABLED -eq 1 ]; then
               -nomake examples -nomake tests -no-warnings-are-errors \
               -no-feature-designer \
               ${QT_MODULE_SKIPPED} \
-              -- -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -DCMAKE_OSX_DEPLOYMENT_TARGET="11.0"
+              -- -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -DCMAKE_OSX_DEPLOYMENT_TARGET="14.0"
   popd
 fi
 #################################################
