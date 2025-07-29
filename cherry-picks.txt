@@ -1,0 +1,1 @@
+CVE-2025-3512: https://git.autodesk.com/autodesk-forks/qt5/commit/2c6b399fe8b7190a17fa572c451e181ef77fd77d
