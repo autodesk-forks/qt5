@@ -7,6 +7,17 @@
 @rem #################################################
 
 
+set CONFIG_TYPE_PARAM=%1
+
+@rem ##############################################################################
+
+@rem ##############################################################################
+@rem Manual description
+if "%CONFIG_TYPE_PARAM%" == "" (
+    echo "Usage help : BuildQtOnWin.bat [debug | release]"
+    goto :eof
+)
+
 @rem #################################################
 @rem Set options for this bat
 @echo on
@@ -60,7 +71,7 @@ call %VCVARS%
 @rem Set Qt configuration option variables
 @echo on
 set QT_ROOT_PATH=%CUR_BAT_PATH%..
-set QT_INSTALL_PATH=C:\out
+set QT_INSTALL_PATH=C:\out\%CONFIG_TYPE_PARAM%
 set QT_3RDPARTY_PATH=%CUR_BAT_PATH%3rdParty
 @rem set CONFIG_PREFIX="%QT_ROOT_PATH%\qtbase"
 set CONFIG_PREFIX=%QT_INSTALL_PATH%
@@ -176,14 +187,27 @@ git submodule update --init --recursive
 @rem                     -DCMAKE_CXX_FLAGS_DEBUG="/Zi /RTC1" --log-level=STATUS  ^
 @rem                     1>%CONFIGURE_LOG% 2>%CONFIGURE_ERR_LOG% & exit 
 
-call  %comspec% /k "configure -opensource -confirm-license -prefix %CONFIG_PREFIX%  -platform win32-msvc " ^
+if "%CONFIG_TYPE_PARAM%" == "debug" (
+    call  %comspec% /k "configure -opensource -confirm-license -prefix %CONFIG_PREFIX%  -platform win32-msvc " ^
                    " -opengl dynamic -sql-psql -openssl-runtime -qt-libjpeg -qt-zlib "  ^
-                   " -debug-and-release -force-debug-info -nomake examples -nomake tests -no-warnings-are-errors " ^
+                   " -debug -force-debug-info -nomake examples -nomake tests -no-warnings-are-errors " ^
                    " -no-feature-designer " ^
                    " %QT_MODULE_SKIPPED% " ^
                    " -- " ^
                    " --log-level=STATUS " ^
                    " 2>&1 | tee %CONFIGURE_LOG% & exit "
+) else (
+    call  %comspec% /k "configure -opensource -confirm-license -prefix %CONFIG_PREFIX%  -platform win32-msvc " ^
+                   " -opengl dynamic -sql-psql -openssl-runtime -qt-libjpeg -qt-zlib "  ^
+                   " -release -force-debug-info -nomake examples -nomake tests -no-warnings-are-errors " ^
+                   " -no-feature-designer " ^
+                   " %QT_MODULE_SKIPPED% " ^
+                   " -- " ^
+                   " --log-level=STATUS " ^
+                   " 2>&1 | tee %CONFIGURE_LOG% & exit "
+)
+
+
 
 @rem #################################################
 @rem goto :eof

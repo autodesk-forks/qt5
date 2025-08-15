@@ -13,9 +13,13 @@ buildPipeline {
     buildConfigurationMatrix = [
         'windows': [
             0: [
-                'qt5.win': [
+                'qt5.win.debug': [
                     'image_args': '--pull -f adsk-build-scripts/Dockerfile.windows .',
-                    'command_args': ' '
+                    'command_args': 'debug'
+                ],
+                'qt5.win.release': [
+                    'image_args': '--pull -f adsk-build-scripts/Dockerfile.windows .',
+                    'command_args': 'release'
                 ],
             ],
         ],
