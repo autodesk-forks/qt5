@@ -1,22 +1,12 @@
 # escape=`
 
-# Image Detail: https://git.autodesk.com/EngOps/container-image
-# FROM autodesk-docker.art-bobcat.autodesk.com/engops/gecoss/qt5/servercore-ltsc2019-vs16-x64:nightly
 FROM autodesk-docker.art-bobcat.autodesk.com/engops/gecoss/qt5/servercore-ltsc2019-vs17-x64:nightly
 
 RUN python -m pip install html5lib
 
-# # Download and install the Windows SDK for VS2019
-# RUN curl -SL --output winsdksetup.exe https://go.microsoft.com/fwlink/?linkid=2250105 `
-#     && (start /w winsdksetup.exe /features + /quiet /norestart `
-#         || IF not "%ERRORLEVEL%"=="0" EXIT 1) `
-#     && del /q winsdksetup.exe
-
-# # Set environment variables
-# ENV NEW_PATH="C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.22621.0\\shared;C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.22621.0\\ucrt;C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.22621.0\\um; `
-#     C:\\Program Files (x86)\\Windows Kits\\10\\Lib\\10.0.22621.0\\ucrt\\x64;C:\\Program Files (x86)\\Windows Kits\\10\\Lib\\10.0.22621.0\\um\\x64"
-
-# RUN setx PATH /m "%PATH%;"$ENV:NEW_PATH
+ENV ICU_ROOT="C:\Utils\icu"
+ENV ICU_INCLUDE_DIR="C:\Utils\icu\include"
+ENV ICU_LIBRARY_DIR="C:\Utils\icu\lib64"
 
 RUN git config --system credential.helper store `
     && mkdir c:\Users\ContainerAdministrator\.ssh\ `
