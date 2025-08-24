@@ -298,6 +298,51 @@ find . -type l -name "*_debug" -delete
 popd 
 #################################################
 
+#################################################
+# Copy some corresponding files to the Compilers folder
+  QT_INSTALL_COMPILER_PATH=${CONFIG_PREFIX_RELEASE}/compilers
+  if  [  -d  "${QT_INSTALL_COMPILER_PATH}"  ]; then
+	  rm -rf "${QT_INSTALL_COMPILER_PATH}"
+  fi
+  mkdir -p $QT_INSTALL_COMPILER_PATH
+
+  cp $CONFIG_PREFIX_RELEASE/bin/lconvert $QT_INSTALL_COMPILER_PATH/lconvert
+	cp $CONFIG_PREFIX_RELEASE/bin/lrelease $QT_INSTALL_COMPILER_PATH/lrelease
+	cp $CONFIG_PREFIX_RELEASE/libexec/lupdate-pro $QT_INSTALL_COMPILER_PATH/lupdate-pro
+	cp $CONFIG_PREFIX_RELEASE/libexec/lprodump $QT_INSTALL_COMPILER_PATH/lprodump
+	cp $CONFIG_PREFIX_RELEASE/libexec/qmlcachegen $QT_INSTALL_COMPILER_PATH/qmlcachegen
+	cp $CONFIG_PREFIX_RELEASE/bin/lupdate $QT_INSTALL_COMPILER_PATH/lupdate
+	cp $CONFIG_PREFIX_RELEASE/libexec/moc $QT_INSTALL_COMPILER_PATH/moc
+	cp $CONFIG_PREFIX_RELEASE/libexec/qtmoc $QT_INSTALL_COMPILER_PATH/qtmoc
+	cp $CONFIG_PREFIX_RELEASE/bin/qmake $QT_INSTALL_COMPILER_PATH/qmake
+	cp $CONFIG_PREFIX_RELEASE/libexec/rcc $QT_INSTALL_COMPILER_PATH/rcc
+	cp $CONFIG_PREFIX_RELEASE/libexec/uic $QT_INSTALL_COMPILER_PATH/uic
+	cp -R $CONFIG_PREFIX_RELEASE/lib/QtCore.framework $QT_INSTALL_COMPILER_PATH/QtCore.framework
+	cp -R $CONFIG_PREFIX_RELEASE/lib/QtXml.framework $QT_INSTALL_COMPILER_PATH/QtXml.framework
+	cp -R $CONFIG_PREFIX_RELEASE/lib/QtQml.framework $QT_INSTALL_COMPILER_PATH/QtQml.framework
+	cp -R $CONFIG_PREFIX_RELEASE/lib/QtNetwork.framework $QT_INSTALL_COMPILER_PATH/QtNetwork.framework
+
+	cp $CONFIG_PREFIX_RELEASE/libexec/tracegen $QT_INSTALL_COMPILER_PATH/tracegen
+	cp $CONFIG_PREFIX_RELEASE/libexec/cmake_automoc_parser $QT_INSTALL_COMPILER_PATH/cmake_automoc_parser
+	cp $CONFIG_PREFIX_RELEASE/libexec/qlalr $QT_INSTALL_COMPILER_PATH/qlalr
+	cp $CONFIG_PREFIX_RELEASE/bin/qtpaths $QT_INSTALL_COMPILER_PATH/qtpaths
+	cp $CONFIG_PREFIX_RELEASE/bin/androiddeployqt $QT_INSTALL_COMPILER_PATH/androiddeployqt
+	cp $CONFIG_PREFIX_RELEASE/bin/androidtestrunner $QT_INSTALL_COMPILER_PATH/androidtestrunner
+	cp $CONFIG_PREFIX_RELEASE/libexec/qvkgen $QT_INSTALL_COMPILER_PATH/qvkgen
+	cp $CONFIG_PREFIX_RELEASE/libexec/qmltyperegistrar $QT_INSTALL_COMPILER_PATH/qmltyperegistrar
+	cp $CONFIG_PREFIX_RELEASE/bin/qmldom $QT_INSTALL_COMPILER_PATH/qmldom
+	cp $CONFIG_PREFIX_RELEASE/bin/qmllint $QT_INSTALL_COMPILER_PATH/qmllint
+	cp $CONFIG_PREFIX_RELEASE/libexec/qmlimportscanner $QT_INSTALL_COMPILER_PATH/qmlimportscanner
+	cp $CONFIG_PREFIX_RELEASE/bin/qmlformat $QT_INSTALL_COMPILER_PATH/qmlformat
+	cp $CONFIG_PREFIX_RELEASE/bin/qml $QT_INSTALL_COMPILER_PATH/qml
+	cp $CONFIG_PREFIX_RELEASE/bin/qmlprofiler $QT_INSTALL_COMPILER_PATH/qmlprofiler
+	cp $CONFIG_PREFIX_RELEASE/bin/qmlpreview $QT_INSTALL_COMPILER_PATH/qmlpreview
+
+  cp $CONFIG_PREFIX_RELEASE/bin/qmlscene $QT_INSTALL_COMPILER_PATH/qmlscene
+	cp $CONFIG_PREFIX_RELEASE/bin/qmltime $QT_INSTALL_COMPILER_PATH/qmltime
+	cp $CONFIG_PREFIX_RELEASE/bin/qmlplugindump $QT_INSTALL_COMPILER_PATH/qmlplugindump
+	cp $CONFIG_PREFIX_RELEASE/bin/qmltestrunner $QT_INSTALL_COMPILER_PATH/qmltestrunner
+	cp $CONFIG_PREFIX_RELEASE/libexec/qwebengine_convert_dict $QT_INSTALL_COMPILER_PATH/qwebengine_convert_dict
 
 #################################################
 echo Building is done. You should check whether there exist errors.
