@@ -77,6 +77,9 @@ set QT_3RDPARTY_PATH=%CUR_BAT_PATH%3rdParty
 set CONFIG_PREFIX=%QT_INSTALL_PATH%
 set CONFIG_EXT_PREFIX=%QT_INSTALL_PATH%
 
+
+set OPENSSL_ROOT_DIR=C:\openssl3.5
+
 @rem Remove the installation folder first
 @rem if exist %QT_INSTALL_PATH% (
 @rem 	rmdir /s /q %QT_INSTALL_PATH%
@@ -194,7 +197,7 @@ if "%CONFIG_TYPE_PARAM%" == "debug" (
                    " -no-feature-designer " ^
                    " %QT_MODULE_SKIPPED% " ^
                    " -- " ^
-                   " --log-level=STATUS " ^
+                   " -DOPENSSL_ROOT_DIR=%OPENSSL_ROOT_DIR%% --log-level=STATUS " ^
                    " 2>&1 | tee %CONFIGURE_LOG% & exit "
 ) else (
     call  %comspec% /k "configure -opensource -confirm-license -prefix %CONFIG_PREFIX%  -platform win32-msvc " ^
@@ -203,7 +206,7 @@ if "%CONFIG_TYPE_PARAM%" == "debug" (
                    " -no-feature-designer " ^
                    " %QT_MODULE_SKIPPED% " ^
                    " -- " ^
-                   " --log-level=STATUS " ^
+                   " -DOPENSSL_ROOT_DIR=%OPENSSL_ROOT_DIR% --log-level=STATUS " ^
                    " 2>&1 | tee %CONFIGURE_LOG% & exit "
 )
 

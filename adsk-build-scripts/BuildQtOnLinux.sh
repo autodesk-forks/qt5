@@ -65,7 +65,7 @@ openssl version
 
 find / -name "libssl.so*" 2>/dev/null
 
-export OPENSSL_ROOT_DIR=/usr/local/openssl-1.1
+export OPENSSL_ROOT_DIR=/usr/local/openssl-3.5.1
 
 locale
 
@@ -175,7 +175,8 @@ if [[ "${CONFIG_TYPE_PARAM}" == "debug" ]]; then
                           -nomake \examples -nomake tests -no-warnings-are-errors \
                           -no-feature-designer \
                           ${QT_MODULE_SKIPPED} \
-                          -- -DCMAKE_PREFIX_PATH=${LLVM_INSTALL_DIR} -DFEATURE_webengine_jumbo_build=off -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS_DEBUG="-g -Os" --log-level=STATUS \
+                          -- -DCMAKE_PREFIX_PATH=${LLVM_INSTALL_DIR} -DFEATURE_webengine_jumbo_build=off -DCMAKE_BUILD_TYPE=Debug \
+                          -DCMAKE_CXX_FLAGS_DEBUG="-g -Os" -DOPENSSL_ROOT_DIR=${OPENSSL_ROOT_DIR} --log-level=STATUS \
                           2>&1 | tee ${CUR_SCRIPT_PATH}/Qt.Configureation.Debug.Summary.txt
 else
   ${QT_ROOT_PATH}/configure -opensource -confirm-license -prefix ${CONFIG_PREFIX} -opengl desktop -sql-psql \
@@ -183,7 +184,9 @@ else
                             -nomake examples -nomake tests -no-warnings-are-errors \
                             -no-feature-designer \
                             ${QT_MODULE_SKIPPED} \
-                            -- -DCMAKE_PREFIX_PATH=${LLVM_INSTALL_DIR} -DFEATURE_webengine_jumbo_build=off -DCMAKE_BUILD_TYPE=RelWithDebInfo --log-level=STATUS \
+                            -- -DCMAKE_PREFIX_PATH=${LLVM_INSTALL_DIR} -DFEATURE_webengine_jumbo_build=off -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+                            -DOPENSSL_ROOT_DIR=${OPENSSL_ROOT_DIR} \
+                            --log-level=STATUS \
                             2>&1 | tee ${CUR_SCRIPT_PATH}/Qt.Configuration.Release.Summary.txt
 fi
 

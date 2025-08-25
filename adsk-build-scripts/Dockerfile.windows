@@ -14,6 +14,21 @@ RUN git config --system credential.helper store `
 
 COPY .git-credentials C:\Users\ContainerAdministrator\
 
+# Download and extract OpenSSL
+RUN mkdir C:\openssl3.5 `
+    && curl -L -o C:\openssl3.5\openssl30.nupkg "https://art-bobcat.autodesk.com:443/artifactory/autodesk-3p-nuget/External/openssl30/3.5.10/gec/openssl30_win_release_intel64_v140.3.5.10.nupkg" `
+    && cd C:\openssl3.5 `
+    && tar -xf openssl30.nupkg `
+    && del openssl30.nupkg `
+    && curl -L -o C:\openssl3.5\lib.nupkg "https://art-bobcat.autodesk.com:443/artifactory/autodesk-3p-nuget/External/openssl30/3.5.10/gec/openssl30-lib_win_release_intel64_v140.3.5.10.nupkg" `
+    && cd C:\openssl3.5 `
+    && tar -xf lib.nupkg `
+    && del lib.nupkg `
+    && curl -L -o C:\openssl3.5\header.nupkg "https://art-bobcat.autodesk.com:443/artifactory/autodesk-3p-nuget/External/openssl30/3.5.10/gec/openssl30-headers_win_intel64.3.5.10.nupkg" `
+    && cd C:\openssl3.5 `
+    && tar -xf header.nupkg `
+    && del header.nupkg
+
 # Prepare Workspace
 WORKDIR c:\qt5
 COPY . c:\qt5
