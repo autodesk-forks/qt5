@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>$id$</id>
+    <version>$Version$</version>
+    <authors>engsol.opensource.automation@autodesk.com</authors>
+    <owners>Autodesk, Inc.</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>qt-lgpl package</description>
+    <releaseNotes>qt-lgpl $Version$</releaseNotes>
+    <copyright>https://www.qt.io/licensing/open-source-lgpl-obligations</copyright>
+    <tags>qt-lgpl</tags>
+    <dependencies>
+      <dependency id="$dependencies1$" version="$depversion1$" />
+      <dependency id="$dependencies2$" version="$depversion2$" />
+      <dependency id="$dependencies3$" version="$depversion3$" />
+      <dependency id="$dependencies4$" version="$depversion4$" />
+      <dependency id="$dependencies5$" version="$depversion5$" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="$adsk_xml$" target="" />
+    <file src="$source1$" target="$target1$" exclude="$exclude1$" />
+    <file src="$source2$" target="$target2$" exclude="$exclude2$" />
+    <file src="$source3$" target="$target3$" exclude="$exclude3$" />
+    <file src="$source4$" target="$target4$" exclude="$exclude4$" />
+    <file src="$source5$" target="$target5$" exclude="$exclude5$" />
+    <file src="$source6$" target="$target6$" exclude="$exclude6$" />
+    <file src="$source7$" target="$target7$" exclude="$exclude7$" />
+  </files>  
+</package>
