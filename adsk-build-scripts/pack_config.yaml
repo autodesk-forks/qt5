@@ -93,7 +93,7 @@ linux:
       exclude: ''
       target: "inc"
     dependencies: []
-    - id: ${component_name}-resources_${osName}_${toolchain}
+  - id: ${component_name}-resources_${osName}_${toolchain}
     sources:
     - include: "${build_dir}/${config}/resources/**/*"
       exclude: ''
