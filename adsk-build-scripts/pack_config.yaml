@@ -166,6 +166,17 @@ windows:
       exclude: 'lib\Qt6VirtualKeyboardd.lib;lib\Qt6QuickTimelined.lib;lib\Qt6Quick3DUtilsd.lib;lib\Qt6Quick3DSpatialAudiod.lib;lib\Qt6Quick3DRuntimeRenderd.lib;lib\Qt6Quick3DPhysicsHelpersd.lib;lib\Qt6Quick3DPhysicsd.lib;lib\Qt6Quick3DParticlesd.lib;lib\Qt6Quick3DParticleEffectsd.lib;lib\Qt6Quick3DIblBakerd.lib;lib\Qt6Quick3DHelpersImpld.lib;lib\Qt6Quick3DHelpersd.lib;lib\Qt6Quick3DGlslParserd.lib;lib\Qt6Quick3DEffectsd.lib;lib\Qt6Quick3Dd.lib;lib\Qt6Quick3DAssetUtilsd.lib;lib\Qt6Quick3DAssetImportd.lib;lib\Qt6NetworkAuthd.lib;lib\Qt6Designerd.lib;lib\Qt6DesignerComponentsd.lib;lib\Qt6DataVisualizationd.lib;lib\Qt6ChartsQmld.lib;lib\Qt6Chartsd.lib;lib\Qt6VirtualKeyboard.lib;lib\Qt6QuickTimeline.lib;lib\Qt6Quick3DUtils.lib;lib\Qt6Quick3DSpatialAudio.lib;lib\Qt6Quick3DRuntimeRender.lib;lib\Qt6Quick3DPhysicsHelpers.lib;lib\Qt6Quick3DPhysics.lib;lib\Qt6Quick3DParticles.lib;lib\Qt6Quick3DParticleEffects.lib;lib\Qt6Quick3DIblBaker.lib;lib\Qt6Quick3DHelpersImpl.lib;lib\Qt6Quick3DHelpers.lib;lib\Qt6Quick3DGlslParser.lib;lib\Qt6Quick3DEffects.lib;lib\Qt6Quick3Dd.lib;lib\Qt6Quick3DAssetUtils.lib;lib\Qt6Quick3DAssetImport.lib;lib\Qt6Quick3D.lib;lib\Qt6NetworkAuth.lib;lib\Qt6DesignerComponents.lib;lib\Qt6Designer.lib;lib\Qt6DataVisualization.lib;lib\Qt6ChartsQml.lib;lib\Qt6Charts.lib;qml\QtQuick3D;qml\QtQuick\VirtualKeyboard;qml\QtQuick\Timeline;qml\QtDataVisualization;qml\QtCharts;qml\Qt\labs\lottieqt;bin\Qt6Coap.dll;bin\Qt6Coap.pdb;bin\Qt6Coapd.dll;bin\Qt6Coapd.pdb;lib\Qt6Coap.lib;lib\Qt6Coap.prl;lib\Qt6Coapd.lib;lib\Qt6Coapd.prl;bin\Qt6Mqtt.dll;bin\Qt6Mqtt.pdb;bin\Qt6Mqttd.dll;bin\Qt6Mqttd.pdb;lib\Qt6Mqtt.lib;lib\Qt6Mqtt.prl;lib\Qt6Mqttd.lib;lib\Qt6Mqttd.prl;lib\Qt6Designerd.prl;lib\Qt6DesignerComponentsd.prl;lib\Qt6DesignerComponents.prl;lib\Qt6Designer.prl;lib\cmake\Qt6DesignerComponentsPrivate;lib\cmake\Qt6Designer'
       target: "${pkg_version}"
 - type: nupkg
+  nuspec_file: qt_translations.nuspec
+  version: "${pkg_version}"
+  adsk_xml_template: "adsk.xml.tpl"
+  packages:
+  - id: ${component_name}-translations
+    sources:
+    - include: "${build_dir}\\${config}\\translations"
+      exclude: ''
+      target: "bin"
+    dependencies: []
+- type: nupkg
   nuspec_file: ${component_name}.nuspec
   version: "${pkg_version}"
   adsk_xml_template: "adsk.xml.tpl"
@@ -182,12 +193,7 @@ windows:
       exclude: ''
       target: "resources"
     dependencies: []
-  - id: ${component_name}-translations
-    sources:
-    - include: "${build_dir}\\${config}\\translations"
-      exclude: ''
-      target: "bin"
-    dependencies: []
+ 
   - id: ${component_name}_${osName}_${config}_${compiler}_${toolchain}
     sources:
     - include: "${build_dir}\\${config}\\bin\\*.dll"
