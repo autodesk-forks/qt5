@@ -181,7 +181,7 @@ windows:
     dependencies: []
   - id: ${component_name}-translations
     sources:
-    - include: "${build_dir}\\${config}\\translations\\**\\*"
+    - include: "${build_dir}\\${config}\\translations"
       exclude: ''
       target: "bin"
     dependencies: []
