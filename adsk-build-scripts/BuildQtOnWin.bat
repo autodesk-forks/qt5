@@ -78,7 +78,7 @@ set CONFIG_PREFIX=%QT_INSTALL_PATH%
 set CONFIG_EXT_PREFIX=%QT_INSTALL_PATH%
 
 
-set OPENSSL_ROOT_DIR=C:\Program Files\OpenSSL-Win64
+set OPENSSL_ROOT_DIR="C:\Program Files\OpenSSL-Win64\"
 
 @rem Remove the installation folder first
 @rem if exist %QT_INSTALL_PATH% (

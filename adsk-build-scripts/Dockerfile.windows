@@ -1,17 +1,60 @@
 # escape=`
 
-FROM autodesk-docker.art-bobcat.autodesk.com/engops/gecoss/qt5/servercore-ltsc2019-vs17-x64:nightly
+# Image Detail: https://git.autodesk.com/EngOps/container-image
+FROM autodesk-docker.art-bobcat.autodesk.com/engops/windows/servercore-ltsc2019/vs17-full-vctools-cmake:nightly
 
-# Set execution policy first
-RUN powershell -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command "Set-ExecutionPolicy Bypass -Scope Process -Force"
+RUN powershell $ProgressPreference='SilentlyContinue';wget -OutFile openssl.msi https://slproweb.com/download/Win64OpenSSL-3_5_2.msi `
+    && msiexec /i openssl.msi /quiet /norestart `
+    && setx /M PATH "%PATH%C:\Program Files\OpenSSL-Win64\bin" `
+    && del /q openssl.msi
 
-# Install Chocolatey using a more reliable method for Windows containers
-RUN powershell -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command "[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))"
+RUN powershell $ProgressPreference='SilentlyContinue';wget -OutFile perl.msi https://strawberryperl.com/download/5.32.1.1/strawberry-perl-5.32.1.1-64bit.msi `
+    && msiexec /i perl.msi /quiet /norestart `
+    && del /q perl.msi
 
-# Ensure Chocolatey is in PATH
-RUN setx /M PATH "%PATH%;C:\ProgramData\chocolatey\bin"
+RUN powershell $ProgressPreference='SilentlyContinue';wget -OutFile python.msi https://www.python.org/ftp/python/2.7.18/python-2.7.18.amd64.msi `
+    && msiexec /i python.msi /quiet TARGETDIR=c:\Python27\ ALLUSERS=1 ALLLOCAL=DefaultFeature,Extensions,TclTk,Tools,pip_feature,PrependPath `
+    && del /q python.msi
 
-RUN choco install openssl --version=3.5.2 -y
+RUN powershell $ProgressPreference='SilentlyContinue';wget -OutFile python.exe https://www.python.org/ftp/python/3.11.9/python-3.11.9-amd64.exe `
+    && python.exe /quiet TargetDir=c:\Python311\ InstallAllUsers=1 PrependPath=1 Shortcuts=0 Include_doc=0 Include_test=0 `
+    && del /q python.exe
+
+RUN powershell $ProgressPreference='SilentlyContinue';wget -OutFile postgresql.exe https://get.enterprisedb.com/postgresql/postgresql-15.8-1-windows-x64.exe `
+    && postgresql.exe --mode unattended --unattendedmodeui none `
+    && setx /M PATH "%PATH%C:\Program Files\PostgreSQL\15\bin" `
+    && del /q postgresql.exe
+
+RUN powershell $ProgressPreference='SilentlyContinue';wget -OutFile node.msi https://nodejs.org/dist/v18.20.4/node-v18.20.4-x64.msi `
+    && msiexec /i node.msi /quiet /norestart `
+    && del /q node.msi
+
+RUN powershell $ProgressPreference='SilentlyContinue';wget -OutFile git.exe https://github.com/git-for-windows/git/releases/download/v2.46.0.windows.1/Git-2.46.0-64-bit.exe `
+    && git.exe /silent `
+    && setx /M PATH "%PATH%;C:\Program Files\Git\bin;C:\Program Files\Git\usr\bin" `
+    && del /q git.exe
+
+RUN powershell $ProgressPreference='SilentlyContinue';wget -OutFile gnuwin32.zip http://download.qt.io/development_releases/gnuwin32/gnuwin32.zip `
+    && unzip gnuwin32.zip -d C:\Utils `
+    && setx /M PATH "%PATH%C:\Utils\gnuwin32\bin" `
+    && del /q gnuwin32.zip
+
+RUN powershell $ProgressPreference='SilentlyContinue';wget -OutFile libclang.7z https://download.qt.io/development_releases/prebuilt/libclang/libclang-release_140-based-windows-vs2019_64.7z `
+    && powershell $ProgressPreference='SilentlyContinue';wget -OutFile 7z.exe https://www.7-zip.org/a/7zr.exe `
+    && 7z x libclang.7z -oc:\Utils `
+    && setx /M PATH "%PATH%C:\Utils\libclang\bin" `
+    && del /q libclang.7z 7z.exe
+
+RUN powershell $ProgressPreference='SilentlyContinue';wget -OutFile icu.zip https://github.com/unicode-org/icu/releases/download/release-73-1/icu4c-73_1-Win64-MSVC2019.zip `
+    && unzip icu.zip -d c:\Utils\icu `
+    && setx /M PATH "%PATH%C:\Utils\icu\bin64" `
+    && del /q icu.zip
+
+RUN powershell $ProgressPreference='SilentlyContinue';wget -OutFile vulkan.exe https://sdk.lunarg.com/sdk/download/1.3.290.0/windows/VulkanSDK-1.3.290.0-Installer.exe `
+    && vulkan.exe --accept-licenses --default-answer --confirm-command install `
+    && del /q vulkan.exe
+
+
 RUN python -m pip install html5lib
 
 ENV ICU_ROOT="C:\Utils\icu"
