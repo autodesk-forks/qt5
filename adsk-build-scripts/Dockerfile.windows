@@ -6,12 +6,10 @@ FROM autodesk-docker.art-bobcat.autodesk.com/engops/gecoss/qt5/servercore-ltsc20
 RUN powershell -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command "Set-ExecutionPolicy Bypass -Scope Process -Force"
 
 # Install Chocolatey using a more reliable method for Windows containers
-RUN powershell -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command \
-    "[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))"
+RUN powershell -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command "[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))"
 
-# Refresh environment variables to include Chocolatey (with fallback)
-RUN powershell -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command \
-    "if (Get-Command refreshenv -ErrorAction SilentlyContinue) { refreshenv } else { $env:Path = [System.Environment]::GetEnvironmentVariable('Path','Machine') + ';' + [System.Environment]::GetEnvironmentVariable('Path','User') }"
+# Ensure Chocolatey is in PATH
+RUN setx /M PATH "%PATH%;C:\ProgramData\chocolatey\bin"
 
 RUN choco install openssl --version=3.5.2 -y
 RUN python -m pip install html5lib
