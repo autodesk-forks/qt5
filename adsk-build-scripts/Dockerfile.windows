@@ -2,6 +2,12 @@
 
 FROM autodesk-docker.art-bobcat.autodesk.com/engops/gecoss/qt5/servercore-ltsc2019-vs17-x64:nightly
 
+# Install Chocolatey
+RUN powershell -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command \
+    "[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12;" \
+    "iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))"
+
+RUN choco install openssl --version=3.5.2 -y
 RUN python -m pip install html5lib
 
 ENV ICU_ROOT="C:\Utils\icu"
@@ -14,25 +20,11 @@ RUN git config --system credential.helper store `
 
 COPY .git-credentials C:\Users\ContainerAdministrator\
 
-# Download and extract OpenSSL
-RUN mkdir C:\openssl3.5 `
-    && curl -L -o C:\openssl3.5\openssl30.nupkg "https://art-bobcat.autodesk.com:443/artifactory/autodesk-3p-nuget/External/openssl30/3.5.10/gec/openssl30_win_release_intel64_v140.3.5.10.nupkg" `
-    && cd C:\openssl3.5 `
-    && tar -xf openssl30.nupkg `
-    && del openssl30.nupkg `
-    && curl -L -o C:\openssl3.5\lib.nupkg "https://art-bobcat.autodesk.com:443/artifactory/autodesk-3p-nuget/External/openssl30/3.5.10/gec/openssl30-lib_win_release_intel64_v140.3.5.10.nupkg" `
-    && cd C:\openssl3.5 `
-    && tar -xf lib.nupkg `
-    && del lib.nupkg `
-    && curl -L -o C:\openssl3.5\header.nupkg "https://art-bobcat.autodesk.com:443/artifactory/autodesk-3p-nuget/External/openssl30/3.5.10/gec/openssl30-headers_win_intel64.3.5.10.nupkg" `
-    && cd C:\openssl3.5 `
-    && tar -xf header.nupkg `
-    && del header.nupkg
-
 # Prepare Workspace
 WORKDIR c:\qt5
 COPY . c:\qt5
 RUN takeown /f . /d Y /r >nul
+
 
 # Run buildscript
 ENTRYPOINT ["adsk-build-scripts\\BuildQtOnWin.bat"]
