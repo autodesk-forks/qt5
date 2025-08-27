@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>$id$</id>
+    <version>$Version$</version>
+    <authors>airbuild@autodesk.com</authors>
+    <owners>Autodesk, Inc.</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>GEComp/CPViz Qt component</description>
+    <releaseNotes>Qt win $Version$</releaseNotes>
+    <copyright>Copyright $Copyright$</copyright>
+    <tags>$id$</tags>
+  </metadata>
+  <files>
+	<file src="$source$\*_cs.qm" target="$target$\cs-CZ" exclude="$exclude$" />	
+	<file src="$source$\*_de.qm" target="$target$\de-DE" exclude="$exclude$" />
+	<file src="$source$\*_es.qm" target="$target$\es-ES" exclude="$exclude$" />
+	<file src="$source$\*_fr.qm" target="$target$\fr-FR" exclude="$exclude$" />
+	<file src="$source$\*_hu.qm" target="$target$\hu-HU" exclude="$exclude$" />
+	<file src="$source$\*_it.qm" target="$target$\it-IT" exclude="$exclude$" />
+	<file src="$source$\*_ja.qm" target="$target$\ja-JP" exclude="$exclude$" />
+	<file src="$source$\*_ko.qm" target="$target$\ko-KR" exclude="$exclude$" />
+	<file src="$source$\*_pl.qm" target="$target$\pl-PL" exclude="$exclude$" />
+	<file src="$source$\*_pt_BR.qm" target="$target$\pt-BR" exclude="$exclude$" />
+	<file src="$source$\*_pt_PT.qm" target="$target$\pt-BR" exclude="$exclude$" />
+	<file src="$source$\*_ru.qm" target="$target$\ru-RU" exclude="$exclude$" />
+	<file src="$source$\*_zh_CN.qm" target="$target$\zh-CN" exclude="$exclude$" />
+	<file src="$source$\*_zh_TW.qm" target="$target$\zh-TW" exclude="$exclude$" />
+	<file src="$source$\qtwebengine_locales\**\*" target="$target$\qtwebengine_locales" exclude="$exclude$" />
+	<file src="$adsk_xml$" target="" />
+  </files>  
+</package>
