@@ -26,7 +26,5 @@
 	<file src="$source$\*_ru.qm" target="$target$\ru-RU" exclude="$exclude$" />
 	<file src="$source$\*_zh_CN.qm" target="$target$\zh-CN" exclude="$exclude$" />
 	<file src="$source$\*_zh_TW.qm" target="$target$\zh-TW" exclude="$exclude$" />
-	<file src="$source$\qtwebengine_locales\**\*" target="$target$\qtwebengine_locales" exclude="$exclude$" />
-	<file src="$adsk_xml$" target="" />
   </files>  
 </package>
