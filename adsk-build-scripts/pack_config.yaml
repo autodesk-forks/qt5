@@ -165,24 +165,16 @@ windows:
       exclude: ''
       target: "${pkg_version}"
 - type: nupkg
-  nuspec_file: qt_translations.nuspec
+  nuspec_file: ${component_name}.nuspec
   version: "${pkg_version}"
   adsk_xml_template: "adsk.xml.tpl"
   packages:
   - id: ${component_name}-translations
     sources:
-    - include: "${build_dir}\\${config}\\translations"
+    - include: "${build_dir}\\${config}\\translations\\**\\*"
       exclude: ''
       target: "bin"
-    - include: "${build_dir}\\${config}\\translations\\qtwebengine_locales\\**\\*"
-      exclude: ''
-      target: "bin\\qtwebengine_locales"
     dependencies: []
-- type: nupkg
-  nuspec_file: ${component_name}.nuspec
-  version: "${pkg_version}"
-  adsk_xml_template: "adsk.xml.tpl"
-  packages:
   - id: ${component_name}-headers_${osName}_${compiler}
     sources:
     - include: "${build_dir}\\${config}\\include\\**\\*"
