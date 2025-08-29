@@ -83,7 +83,7 @@ linux:
   - id: ${component_name}_${osName}-${distro}_${config}_${compiler}_${toolchain}
     sources:
     - include: "${build_dir}/${config}/**/*"
-      exclude: 'lib/libQt6VirtualKeyboard.so.6.5.3;lib/libQt6VirtualKeyboard.prl;lib/libQt6QuickTimeline.so.6.5.3;lib/libQt6QuickTimeline.prl;lib/libQt6Quick3DUtils.so.6.5.3;lib/libQt6Quick3DUtils.prl;lib/libQt6Quick3DSpatialAudio.so.6.5.3;lib/libQt6Quick3DSpatialAudio.prl;lib/libQt6Quick3DRuntimeRender.so.6.5.3;lib/libQt6Quick3DRuntimeRender.prl;lib/libQt6Quick3DPhysicsHelpers.so.6.5.3;lib/libQt6Quick3DPhysicsHelpers.prl;lib/libQt6Quick3DPhysics.so.6.5.3;lib/libQt6Quick3DPhysics.prl;lib/libQt6Quick3DParticles.so.6.5.3;lib/libQt6Quick3DParticles.prl;lib/libQt6Quick3DParticleEffects.so.6.5.3;lib/libQt6Quick3DParticleEffects.prl;lib/libQt6Quick3DIblBaker.so.6.5.3;lib/libQt6Quick3DIblBaker.prl;lib/libQt6Quick3DHelpersImpl.so.6.5.3;lib/libQt6Quick3DHelpersImpl.prl;lib/libQt6Quick3DHelpers.so.6.5.3;lib/libQt6Quick3DHelpers.prl;lib/libQt6Quick3DGlslParser.so.6.5.3;lib/libQt6Quick3DGlslParser.prl;lib/libQt6Quick3DEffects.so.6.5.3;lib/libQt6Quick3DEffects.prl;lib/libQt6Quick3DAssetUtils.so.6.5.3;lib/libQt6Quick3DAssetUtils.prl;lib/libQt6Quick3DAssetImport.so.6.5.3;lib/libQt6Quick3DAssetImport.prl;lib/libQt6Quick3D.so.6.5.3;lib/libQt6Quick3D.prl;lib/libQt6NetworkAuth.so.6.5.3;lib/libQt6NetworkAuth.prl;lib/libQt6DesignerComponents.so.6.5.3;lib/libQt6DesignerComponents.prl;lib/libQt6Designer.so.6.5.3;lib/libQt6Designer.prl;lib/libQt6DataVisualizationQml.so.6.5.3;lib/libQt6DataVisualizationQml.prl;lib/libQt6DataVisualization.so.6.5.3;lib/libQt6DataVisualization.prl;lib/libQt6ChartsQml.so.6.5.3;lib/libQt6ChartsQml.prl;lib/libQt6Charts.so.6.5.3;lib/libQt6Charts.prl;qml/QtQuick3D;qml/QtQuick/VirtualKeyboard;qml/QtQuick/Timeline;qml/QtDataVisualization;qml/QtCharts;qml/Qt/labs/lottieqt;lib/libQt6Coap.prl;lib/libQt6Coap.so;lib/libQt6Coap.so.6;lib/libQt6Coap.so.6.5.3;lib/libQt6Mqtt.prl;lib/libQt6Mqtt.so;lib/libQt6Mqtt.so.6;lib/libQt6Mqtt.so.6.5.3;lib/Qt6VirtualKeyboard.debug;lib/Qt6QuickTimeline.debug;lib/Qt6Quick3DUtils.debug;lib/Qt6Quick3DSpatialAudio.debug;lib/Qt6Quick3DRuntimeRender.debug;lib/Qt6Quick3DPhysicsHelpers.debug;lib/Qt6Quick3DPhysics.debug;lib/Qt6Quick3DParticles.debug;lib/Qt6Quick3DParticleEffects.debug;lib/Qt6Quick3DIblBaker.debug;lib/Qt6Quick3DHelpersImpl.debug;lib/Qt6Quick3DHelpers.debug;lib/Qt6Quick3DGlslParser.debug;lib/Qt6Quick3DEffects.debug;lib/Qt6Quick3DAssetUtils.debug;lib/Qt6Quick3DAssetImport.debug;lib/Qt6Quick3D.debug;lib/Qt6NetworkAuth.debug;lib/Qt6DesignerComponents.debug;lib/Qt6Designer.debug;lib/Qt6DataVisualizationQml.debug;lib/Qt6DataVisualization.debug;lib/Qt6ChartsQml.debug;lib/Qt6Charts.debug'
+      exclude: ''
       target: "${pkg_version}"
 - type: nupkg
   nuspec_file: ${component_name}.nuspec
@@ -175,6 +175,21 @@ windows:
       exclude: ''
       target: "bin"
     dependencies: []
+  - id: ${component_name}-sym_${osName}_${config}_${compiler}_${toolchain}
+    sources:
+    - include: "${build_dir}\\${config}\\bin\\**\\*.pdb"
+      exclude: ''
+      target: "bin"
+    - include: "${build_dir}\\${config}\\lib\\**\\*.pdb"
+      exclude: ''
+      target: "libs"
+    - include: "${build_dir}\\${config}\\qml\\**\\*.pdb"
+      exclude: ''
+      target: "qml"
+    - include: "${build_dir}\\${config}\\plugins\\**\\*.pdb"
+      exclude: ''
+      target: "plugins"
+    dependencies: []  
   - id: ${component_name}-headers_${osName}_${compiler}
     sources:
     - include: "${build_dir}\\${config}\\include\\**\\*"
@@ -242,21 +257,6 @@ windows:
     dependencies: 
     - package_name: ${component_name}-resources_${osName}_${toolchain}
       version: "${pkg_version}"
-  - id: ${component_name}-sym_${osName}_${config}_${compiler}_${toolchain}
-    sources:
-    - include: "${build_dir}\\${config}\\bin\\**\\*.pdb"
-      exclude: ''
-      target: "bin"
-    - include: "${build_dir}\\${config}\\lib\\**\\*.pdb"
-      exclude: ''
-      target: "libs"
-    - include: "${build_dir}\\${config}\\qml\\**\\*.pdb"
-      exclude: ''
-      target: "qml"
-    - include: "${build_dir}\\${config}\\plugins\\**\\*.pdb"
-      exclude: ''
-      target: "plugins"
-    dependencies: []
 mac:
 - type: zip
   version: "${pkg_version}"
@@ -264,7 +264,7 @@ mac:
   packages:
   - id: ${component_name}_${osName}_${config}_${compiler}_${toolchain}
     sources:
-    - include: "${build_dir}/release/**/*"
+    - include: "${build_dir}/${config}/**/*"
       exclude: ''
       target: "${pkg_version}"
 - type: nupkg
