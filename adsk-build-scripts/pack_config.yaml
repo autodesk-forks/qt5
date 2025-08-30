@@ -107,6 +107,7 @@ linux:
     - include: "${build_dir}/${config}/bin/**/*"
       exclude: ''
       target: "bin"
+    preserve_symlink: false
     dependencies: 
     - package_name: ${component_name}-translations
       version: "${pkg_version}"
@@ -120,6 +121,7 @@ linux:
     - include: "${build_dir}/${config}/mkspecs/**/*"
       exclude: ''
       target: "mkspecs"
+    preserve_symlink: false
     dependencies: []
   - id: ${component_name}-lib_${osName}-${distro}_${config}_${compiler}_${toolchain}
     sources:
@@ -129,6 +131,7 @@ linux:
     - include: "${build_dir}/${config}/metatypes/**/*"
       exclude: ''
       target: "metatypes"
+    preserve_symlink: false
     dependencies: 
     - package_name: ${component_name}-headers_${osName}_${compiler}
       version: "${pkg_version}"
@@ -139,18 +142,21 @@ linux:
     - include: "${build_dir}/${config}/plugins/**/*"
       exclude: ''
       target: "plugins"
+    preserve_symlink: false
     dependencies: []
   - id: ${component_name}-qml_${osName}-${distro}_${config}_${compiler}_${toolchain}
     sources:
     - include: "${build_dir}/${config}/qml/**/*"
       exclude: ''
       target: "qml"
+    preserve_symlink: false
     dependencies: []
   - id: ${component_name}-webengine_${osName}-${distro}_${config}_${compiler}_${toolchain}
     sources:
     - include: "${build_dir}/${config}/libexec/QtWebEngineProcess*"
       exclude: ''
       target: "libexec"
+    preserve_symlink: false
     dependencies: 
     - package_name: ${component_name}-resources_${osName}-${distro}_${toolchain}
       version: "${pkg_version}"
@@ -175,21 +181,6 @@ windows:
       exclude: ''
       target: "bin"
     dependencies: []
-  - id: ${component_name}-sym_${osName}_${config}_${compiler}_${toolchain}
-    sources:
-    - include: "${build_dir}\\${config}\\bin\\**\\*.pdb"
-      exclude: ''
-      target: "bin"
-    - include: "${build_dir}\\${config}\\lib\\**\\*.pdb"
-      exclude: ''
-      target: "libs"
-    - include: "${build_dir}\\${config}\\qml\\**\\*.pdb"
-      exclude: ''
-      target: "qml"
-    - include: "${build_dir}\\${config}\\plugins\\**\\*.pdb"
-      exclude: ''
-      target: "plugins"
-    dependencies: []  
   - id: ${component_name}-headers_${osName}_${compiler}
     sources:
     - include: "${build_dir}\\${config}\\include\\**\\*"
@@ -204,7 +195,7 @@ windows:
     dependencies: []
   - id: ${component_name}_${osName}_${config}_${compiler}_${toolchain}
     sources:
-    - include: "${build_dir}\\${config}\\bin\\*.dll"
+    - include: "${build_dir}\\${config}\\bin\\**\\*.dll"
       exclude: ''
       target: "bin"
     dependencies: 
@@ -212,6 +203,15 @@ windows:
       version: "${pkg_version}"
     - package_name: ${component_name}-plugins_${osName}_${config}_${compiler}_${toolchain}
       version: "${pkg_version}"
+  - id: ${component_name}-sym_${osName}_${config}_${compiler}_${toolchain}
+    sources:
+    - include: "${build_dir}\\${config}\\bin\\**\\*.pdb"
+      exclude: ''
+      target: "bin"
+    - include: "${build_dir}\\${config}\\lib\\**\\*.pdb"
+      exclude: ''
+      target: "libs"
+    dependencies: []  
   - id: ${component_name}-compilers_${osName}_${config}_${compiler}_${toolchain}
     sources:
     - include: "${build_dir}\\${config}\\compilers\\**\\*"
@@ -226,7 +226,7 @@ windows:
     - include: "${build_dir}\\${config}\\lib\\cmake\\**\\*"
       exclude: ''
       target: "libs\\cmake"
-    - include: "${build_dir}\\${config}\\lib\\*.lib"
+    - include: "${build_dir}\\${config}\\lib\\**\\*.lib"
       exclude: ''
       target: "libs"
     - include: "${build_dir}\\${config}\\metatypes\\**\\*"
@@ -243,12 +243,24 @@ windows:
       exclude: ''
       target: "plugins"
     dependencies: []
+  - id: ${component_name}-plugins-sym_${osName}_${config}_${compiler}_${toolchain}
+    sources:
+    - include: "${build_dir}\\${config}\\plugins\\**\\*.pdb"
+      exclude: ''
+      target: "bin"
+    dependencies: []  
   - id: ${component_name}-qml_${osName}_${config}_${compiler}_${toolchain}
     sources:
     - include: "${build_dir}\\${config}\\qml\\**\\*"
       exclude: '*.pdb'
       target: "qml"
     dependencies: []
+  - id: ${component_name}-qml-sym_${osName}_${config}_${compiler}_${toolchain}
+    sources:
+    - include: "${build_dir}\\${config}\\qml\\**\\*.pdb"
+      exclude: ''
+      target: "bin"
+    dependencies: []  
   - id: ${component_name}-webengine_${osName}_${config}_${compiler}_${toolchain}
     sources:
     - include: "${build_dir}\\${config}\\bin\\QtWebEngineProcess*.exe"
