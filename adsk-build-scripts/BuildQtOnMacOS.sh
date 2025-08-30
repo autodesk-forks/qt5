@@ -78,6 +78,7 @@ execute() {
 verify_nuget_installation() {
   if command -v nuget >/dev/null 2>&1; then
     echo "✓ NuGet verification successful: $(nuget help | head -1)"
+    echo "NuGet location: $(which nuget)"
     return 0
   else
     warn "✗ NuGet verification failed"
