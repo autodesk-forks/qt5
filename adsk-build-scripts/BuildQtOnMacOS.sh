@@ -80,9 +80,43 @@ execute() {
 install_nuget() {
   ohai "Checking for NuGet installation..."
   
-  # Check if NuGet is already installed
+  # First check if NuGet already exists at common locations
+  local NUGET_PATHS=("/usr/local/bin/nuget" "/opt/homebrew/bin/nuget")
+  local FOUND_NUGET=""
+  
+  for nuget_path in "${NUGET_PATHS[@]}"; do
+    if [[ -f "$nuget_path" ]]; then
+      FOUND_NUGET="$nuget_path"
+      ohai "Found existing NuGet at $nuget_path"
+      break
+    fi
+  done
+  
+  if [[ -n "$FOUND_NUGET" ]]; then
+    # Check if it's executable
+    if [[ -x "$FOUND_NUGET" ]]; then
+      echo "NuGet is already executable at $FOUND_NUGET"
+      # Ensure its directory is in PATH
+      local NUGET_DIR=$(dirname "$FOUND_NUGET")
+      export PATH="$NUGET_DIR:$PATH"
+      return 0
+    else
+      ohai "Making NuGet executable..."
+      if chmod +x "$FOUND_NUGET"; then
+        echo "Successfully made NuGet executable"
+        # Ensure its directory is in PATH
+        local NUGET_DIR=$(dirname "$FOUND_NUGET")
+        export PATH="$NUGET_DIR:$PATH"
+        return 0
+      else
+        warn "Failed to make NuGet executable. Will try Homebrew installation..."
+      fi
+    fi
+  fi
+  
+  # Check if NuGet is already accessible in PATH
   if command -v nuget >/dev/null 2>&1; then
-    echo "NuGet is already installed: $(nuget version)"
+    echo "NuGet is already accessible: $(which nuget)"
     return 0
   fi
   
@@ -94,8 +128,19 @@ install_nuget() {
   
   ohai "Installing NuGet via Homebrew..."
   if brew install nuget; then
-    echo "NuGet installed successfully: $(nuget version)"
-    return 0
+    echo "NuGet installed successfully via Homebrew"
+    
+    # Ensure Homebrew paths are in PATH for current session
+    setup_homebrew_path
+    
+    # Verify NuGet is now accessible
+    if command -v nuget >/dev/null 2>&1; then
+      echo "NuGet is accessible: $(which nuget)"
+      return 0
+    else
+      warn "NuGet installed but not accessible. Trying to fix PATH..."
+      fix_nuget_path
+    fi
   else
     warn "Failed to install NuGet via Homebrew. Trying alternative method..."
     install_nuget_manual
@@ -156,7 +201,7 @@ EOF
 
 verify_nuget_installation() {
   if command -v nuget >/dev/null 2>&1; then
-    echo "✓ NuGet verification successful: $(nuget version)"
+    echo "✓ NuGet verification successful: $(nuget help | head -1)"
     return 0
   else
     warn "✗ NuGet verification failed"
