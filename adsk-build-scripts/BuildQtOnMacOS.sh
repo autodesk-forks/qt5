@@ -75,130 +75,6 @@ execute() {
   fi
 }
 
-#################################################
-# NuGet Installation Functions
-install_nuget() {
-  ohai "Checking for NuGet installation..."
-  
-  # First check if NuGet already exists at common locations
-  local NUGET_PATHS=("/usr/local/bin/nuget" "/opt/homebrew/bin/nuget")
-  local FOUND_NUGET=""
-  
-  for nuget_path in "${NUGET_PATHS[@]}"; do
-    if [[ -f "$nuget_path" ]]; then
-      FOUND_NUGET="$nuget_path"
-      ohai "Found existing NuGet at $nuget_path"
-      break
-    fi
-  done
-  
-  if [[ -n "$FOUND_NUGET" ]]; then
-    # Check if it's executable
-    if [[ -x "$FOUND_NUGET" ]]; then
-      echo "NuGet is already executable at $FOUND_NUGET"
-      # Ensure its directory is in PATH
-      local NUGET_DIR=$(dirname "$FOUND_NUGET")
-      export PATH="$NUGET_DIR:$PATH"
-      return 0
-    else
-      ohai "Making NuGet executable..."
-      if chmod +x "$FOUND_NUGET"; then
-        echo "Successfully made NuGet executable"
-        # Ensure its directory is in PATH
-        local NUGET_DIR=$(dirname "$FOUND_NUGET")
-        export PATH="$NUGET_DIR:$PATH"
-        return 0
-      else
-        warn "Failed to make NuGet executable. Will try Homebrew installation..."
-      fi
-    fi
-  fi
-  
-  # Check if NuGet is already accessible in PATH
-  if command -v nuget >/dev/null 2>&1; then
-    echo "NuGet is already accessible: $(which nuget)"
-    return 0
-  fi
-  
-  # Check if Homebrew is available
-  if ! command -v brew >/dev/null 2>&1; then
-    warn "Homebrew not found. Installing Homebrew first..."
-    install_homebrew
-  fi
-  
-  ohai "Installing NuGet via Homebrew..."
-  if brew install nuget; then
-    echo "NuGet installed successfully via Homebrew"
-    
-    # Ensure Homebrew paths are in PATH for current session
-    setup_homebrew_path
-    
-    # Verify NuGet is now accessible
-    if command -v nuget >/dev/null 2>&1; then
-      echo "NuGet is accessible: $(which nuget)"
-      return 0
-    else
-      warn "NuGet installed but not accessible. Trying to fix PATH..."
-      fix_nuget_path
-    fi
-  else
-    warn "Failed to install NuGet via Homebrew. Trying alternative method..."
-    install_nuget_manual
-  fi
-}
-
-install_homebrew() {
-  ohai "Installing Homebrew..."
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  
-  # Add Homebrew to PATH for current session
-  if [[ -f "/opt/homebrew/bin/brew" ]]; then
-    eval "$(/opt/homebrew/bin/brew shellenv)"
-  elif [[ -f "/usr/local/bin/brew" ]]; then
-    eval "$(/usr/local/bin/brew shellenv)"
-  fi
-}
-
-install_nuget_manual() {
-  ohai "Installing NuGet manually..."
-  
-  # Create directory for NuGet
-  local NUGET_DIR="$HOME/.nuget"
-  mkdir -p "$NUGET_DIR"
-  
-  # Download latest NuGet executable
-  local NUGET_URL="https://dist.nuget.org/win-x86-commandline/latest/nuget.exe"
-  local NUGET_PATH="$NUGET_DIR/nuget.exe"
-  
-  if curl -L -o "$NUGET_PATH" "$NUGET_URL"; then
-    # Make it executable
-    chmod +x "$NUGET_PATH"
-    
-    # Create a wrapper script
-    local NUGET_WRAPPER="$NUGET_DIR/nuget"
-    cat > "$NUGET_WRAPPER" << 'EOF'
-#!/bin/bash
-mono "$HOME/.nuget/nuget.exe" "$@"
-EOF
-    chmod +x "$NUGET_WRAPPER"
-    
-    # Add to PATH for current session
-    export PATH="$NUGET_DIR:$PATH"
-    
-    # Check if mono is available for running .exe
-    if ! command -v mono >/dev/null 2>&1; then
-      warn "Mono not found. Installing Mono via Homebrew..."
-      brew install mono
-    fi
-    
-    echo "NuGet installed manually: $NUGET_PATH"
-    return 0
-  else
-    warn "Failed to download NuGet manually"
-    return 1
-  fi
-}
-
 verify_nuget_installation() {
   if command -v nuget >/dev/null 2>&1; then
     echo "✓ NuGet verification successful: $(nuget help | head -1)"
@@ -223,7 +99,6 @@ CUR_SCRIPT_PATH=`dirname $0`
 #################################################
 # Install NuGet if not already present
 #################################################
-install_nuget
 verify_nuget_installation
 
 #################################################
