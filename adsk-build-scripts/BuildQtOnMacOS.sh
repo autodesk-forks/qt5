@@ -231,7 +231,7 @@ if [ $QT_BUILD_RELEASE_ENABLED -eq 1 ]; then
               -nomake examples -nomake tests -no-warnings-are-errors \
               -no-feature-designer \
               ${QT_MODULE_SKIPPED} \
-              -- -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -DCMAKE_OSX_DEPLOYMENT_TARGET="14.0" -DCMAKE_INSTALL_RPATH="@executable_path/../Frameworks" -DCMAKE_BUILD_WITH_INSTALL_RPATH=ON
+              -- -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -DCMAKE_OSX_DEPLOYMENT_TARGET="14.0" -DCMAKE_INSTALL_RPATH="@executable_path/../Frameworks" -DCMAKE_BUILD_WITH_INSTALL_RPATH=ON || exit 1
   popd
 fi
 
@@ -250,7 +250,7 @@ if [ $QT_BUILD_DEBUG_ENABLED -eq 1 ]; then
               -nomake examples -nomake tests -no-warnings-are-errors \
               -no-feature-designer \
               ${QT_MODULE_SKIPPED} \
-              -- -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -DCMAKE_OSX_DEPLOYMENT_TARGET="14.0" -DCMAKE_INSTALL_RPATH="@executable_path/../Frameworks" -DCMAKE_BUILD_WITH_INSTALL_RPATH=ON
+              -- -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -DCMAKE_OSX_DEPLOYMENT_TARGET="14.0" -DCMAKE_INSTALL_RPATH="@executable_path/../Frameworks" -DCMAKE_BUILD_WITH_INSTALL_RPATH=ON || exit 1
   popd
 fi
 #################################################
@@ -264,14 +264,14 @@ fi
 #Build for release version
 if [ $QT_BUILD_RELEASE_ENABLED -eq 1 ]; then
   pushd $QT_BUILD_PATH_RELEASE
-  cmake --build . --parallel
+  cmake --build . --parallel || exit 1
   popd
 fi
 
 #Build for debug version
 if [ $QT_BUILD_DEBUG_ENABLED -eq 1 ]; then
   pushd $QT_BUILD_PATH_DEBUG
-  cmake   --build . --parallel
+  cmake   --build . --parallel || exit 1
   popd
 fi
 #################################################
@@ -289,7 +289,7 @@ if [ $QT_BUILD_RELEASE_ENABLED -eq 1 ]; then
   rm -rf ${CONFIG_PREFIX_RELEASE}
 
   pushd $QT_BUILD_PATH_RELEASE
-  ninja install
+  ninja install || exit 1
   popd
 fi
 
@@ -299,7 +299,7 @@ if [ $QT_BUILD_DEBUG_ENABLED -eq 1 ]; then
   rm -rf ${CONFIG_PREFIX_DEBUG}
 
   pushd $QT_BUILD_PATH_DEBUG
-  ninja install
+  ninja install || exit 1
   popd
 fi
 #################################################

@@ -176,8 +176,7 @@ if [[ "${CONFIG_TYPE_PARAM}" == "debug" ]]; then
                           -no-feature-designer \
                           ${QT_MODULE_SKIPPED} \
                           -- -DCMAKE_PREFIX_PATH=${LLVM_INSTALL_DIR} -DFEATURE_webengine_jumbo_build=off -DCMAKE_BUILD_TYPE=Debug \
-                          -DCMAKE_CXX_FLAGS_DEBUG="-g -Os" -DOPENSSL_ROOT_DIR=${OPENSSL_ROOT_DIR} --log-level=STATUS \
-                          2>&1 | tee ${CUR_SCRIPT_PATH}/Qt.Configureation.Debug.Summary.txt
+                          -DCMAKE_CXX_FLAGS_DEBUG="-g -Os" -DOPENSSL_ROOT_DIR=${OPENSSL_ROOT_DIR} --log-level=STATUS || exit 1
 else
   ${QT_ROOT_PATH}/configure -opensource -confirm-license -prefix ${CONFIG_PREFIX} -icu -opengl desktop -sql-psql \
                             -openssl-runtime -qt-libjpeg -qt-zlib -qt-harfbuzz -qt-freetype -qt-doubleconversion -xcb -release -force-debug-info -separate-debug-info \
@@ -186,8 +185,7 @@ else
                             ${QT_MODULE_SKIPPED} \
                             -- -DCMAKE_PREFIX_PATH=${LLVM_INSTALL_DIR} -DFEATURE_webengine_jumbo_build=off -DCMAKE_BUILD_TYPE=RelWithDebInfo \
                             -DOPENSSL_ROOT_DIR=${OPENSSL_ROOT_DIR} \
-                            --log-level=STATUS \
-                            2>&1 | tee ${CUR_SCRIPT_PATH}/Qt.Configuration.Release.Summary.txt
+                            --log-level=STATUS || exit 1
 fi
 
 popd

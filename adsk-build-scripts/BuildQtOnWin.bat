@@ -198,7 +198,7 @@ if "%CONFIG_TYPE_PARAM%" == "debug" (
                    " %QT_MODULE_SKIPPED% " ^
                    " -- " ^
                    " -DOPENSSL_ROOT_DIR=%OPENSSL_ROOT_DIR%% --log-level=STATUS " ^
-                   " 2>&1 | tee %CONFIGURE_LOG% & exit "
+                   " || goto :error "
 ) else (
     call  %comspec% /k "configure -opensource -confirm-license -prefix %CONFIG_PREFIX%  -platform win32-msvc " ^
                    " -opengl dynamic -sql-psql -openssl-runtime -qt-libjpeg -qt-zlib "  ^
@@ -207,7 +207,7 @@ if "%CONFIG_TYPE_PARAM%" == "debug" (
                    " %QT_MODULE_SKIPPED% " ^
                    " -- " ^
                    " -DOPENSSL_ROOT_DIR=%OPENSSL_ROOT_DIR% --log-level=STATUS " ^
-                   " 2>&1 | tee %CONFIGURE_LOG% & exit "
+                   " || goto :error "
 )
 
 
@@ -220,7 +220,7 @@ if "%CONFIG_TYPE_PARAM%" == "debug" (
 @rem #################################################
 @rem Build all modules
 @echo Building Qt...
-cmake --build . --parallel %NUMBER_OF_PROCESSORS% 2>&1 | tee %BUILD_LOG%
+cmake --build . --parallel %NUMBER_OF_PROCESSORS% || goto :error
 
 @rem Build single module
 @rem cmake --build . --target qtmqtt
@@ -240,7 +240,7 @@ cmake --build . --parallel %NUMBER_OF_PROCESSORS% 2>&1 | tee %BUILD_LOG%
 @rem #################################################
 @rem Install Qt binary to %CONFIG_PREFIX% path
 @echo Installing Qt...
-ninja install 2>&1 | tee %INSTALL_LOG%
+ninja install || goto :error
 @rem #################################################
 
 :LabelPatchDll
@@ -308,3 +308,11 @@ echo F| xcopy /d /y /h "%QT_3RDPARTY_PATH%\*"  %QT_INSTALL_PATH%\bin\*
 @echo Qt building is over.
 wmic LOGICALDISK list brief
 @rem #################################################
+goto :end
+
+:error
+echo Failed with error %errorlevel%.
+popd
+exit /b %errorlevel%
+
+:end
