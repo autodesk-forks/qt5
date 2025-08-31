@@ -164,19 +164,19 @@ linux:
     sources:
     - include: "${build_dir}/${config}/bin/**/*.debug"
       exclude: ''
-      target: "bin/**"
+      target: "bin"
     - include: "${build_dir}/${config}/lib/**/*.debug"
       exclude: ''
-      target: "libs/**"
+      target: "libs"
     - include: "${build_dir}/${config}/libexec/**/*.debug"
       exclude: ''
-      target: "libexec/**"
+      target: "libexec"
     - include: "${build_dir}/${config}/plugins/**/*.debug"
       exclude: ''
-      target: "plugins/**"
+      target: "plugins"
     - include: "${build_dir}/${config}/qml/**/*.debug"
       exclude: ''
-      target: "qml/**"
+      target: "qml"
     dependencies: [] 
 windows:
 - type: zip
@@ -223,18 +223,18 @@ windows:
       version: "${pkg_version}"
   - id: ${component_name}-sym_${osName}_${config}_${compiler}_${toolchain}
     sources:
-    - include: "${build_dir}/${config}/bin/**/*.pdb"
-      exclude: ''
-      target: "bin/**"
-    - include: "${build_dir}/${config}/lib/**/*.pdb"
-      exclude: ''
-      target: "libs/**"
-    - include: "${build_dir}/${config}/plugins/**/*.pdb"
-      exclude: ''
-      target: "plugins/**"
-    - include: "${build_dir}/${config}/qml/**/*.pdb"
-      exclude: ''
-      target: "qml/**"
+      - include: "${build_dir}/${config}/bin/**/*.pdb"
+        exclude: ''
+        target: "bin"
+      - include: "${build_dir}/${config}/lib/**/*.pdb"
+        exclude: ''
+        target: "libs"
+      - include: "${build_dir}/${config}/plugins/**/*.pdb"
+        exclude: ''
+        target: "plugins"
+      - include: "${build_dir}/${config}/qml/**/*.pdb"
+        exclude: ''
+        target: "qml"
     dependencies: []  
   - id: ${component_name}-compilers_${osName}_${config}_${compiler}_${toolchain}
     sources:
@@ -356,15 +356,18 @@ mac:
     sources:
     - include: "${build_dir}/${config}/bin/**/*.dSYM/**"
       exclude: ''
-      target: "bin/**"
+      target: "bin"
     - include: "${build_dir}/${config}/lib/**/*.dSYM/**"
       exclude: ''
-      target: "libs/**"
+      target: "libs"
+    - include: "${build_dir}/${config}/libexec/**/*.dSYM/**"
+      exclude: ''
+      target: "libexec"
     - include: "${build_dir}/${config}/plugins/**/*.dSYM/**"
       exclude: ''
-      target: "plugins/**"
+      target: "plugins"
     - include: "${build_dir}/${config}/qml/**/*.dSYM/**"
       exclude: ''
-      target: "qml/**"
+      target: "qml"
     dependencies: [] 
 ...
