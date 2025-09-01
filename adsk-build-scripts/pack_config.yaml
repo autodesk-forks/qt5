@@ -214,7 +214,7 @@ windows:
   - id: ${component_name}_${osName}_${config}_${compiler}_${toolchain}
     sources:
     - include: "${build_dir}/${config}/bin/**/*"
-      exclude: ''
+      exclude: '*.pdb'
       target: "bin"
     dependencies: 
     - package_name: ${component_name}-translations
@@ -251,7 +251,7 @@ windows:
       exclude: ''
       target: "libs/cmake"
     - include: "${build_dir}/${config}/lib/**/*"
-      exclude: ''
+      exclude: '*.pdb'
       target: "libs"
     - include: "${build_dir}/${config}/metatypes/**/*"
       exclude: ''
@@ -264,7 +264,7 @@ windows:
   - id: ${component_name}-plugins_${osName}_${config}_${compiler}_${toolchain}
     sources:
     - include: "${build_dir}/${config}/plugins/**/*"
-      exclude: ''
+      exclude: '*.pdb'
       target: "plugins"
     dependencies: []
   - id: ${component_name}-qml_${osName}_${config}_${compiler}_${toolchain}
