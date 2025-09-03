@@ -88,7 +88,7 @@ echo "script dir: ${SCRIPT_DIR}"
 
 #################################################
 #Set Qt configuration option variables
-QT_BUILD_VERSION=6.8.0.0
+QT_BUILD_VERSION=6.8.3.0
 QT_ROOT_PATH="$CUR_SCRIPT_PATH/.."
 
 QT_BUILD_PATH="/build/${CONFIG_TYPE_PARAM}"
@@ -232,72 +232,69 @@ echo "Complete the install"
 
 #################################################
 # Copy some corresponding files to the Compilers folder
+for BUILD_PATH in ${QT_INSTALL_PATH}
+do
+    echo BUILD_PATH:${BUILD_PATH} ...
 
-# number=4
-# for k in $(seq 1 $number); do echo $k; donefor ()
-# for BUILD_PATH in ${QT_INSTALL_PATH}
-# do
-#     echo BUILD_PATH:${BUILD_PATH} ...
+    QT_INSTALL_COMPILER_PATH=${BUILD_PATH}/compilers
+    # Create compilers directory
+    mkdir ${QT_INSTALL_COMPILER_PATH}
+    echo QT_INSTALL_COMPILER_PATH:${QT_INSTALL_COMPILER_PATH} ...
 
-#     QT_INSTALL_COMPILER_PATH=${BUILD_PATH}/compilers
-#     # Create compilers directory
-#     mkdir ${QT_INSTALL_COMPILER_PATH}
-#     echo QT_INSTALL_COMPILER_PATH:${QT_INSTALL_COMPILER_PATH} ...
+    cp -rf ${BUILD_PATH}/bin/androiddeployqt ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/bin/androidtestrunner ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/bin/lconvert ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/bin/lrelease ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/bin/lupdate ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/bin/qmake ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/bin/qml ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/bin/qmldom ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/bin/qmlformat ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/bin/qmllint ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/bin/qmlplugindump ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/bin/qmlpreview ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/bin/qmlprofiler ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/bin/qmlscene ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/bin/qmltestrunner ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/bin/qmltime ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/bin/qtpaths ${QT_INSTALL_COMPILER_PATH}
 
-#     cp -rf ${BUILD_PATH}/bin/androiddeployqt ${QT_INSTALL_COMPILER_PATH}
-#     cp -rf ${BUILD_PATH}/bin/androidtestrunner ${QT_INSTALL_COMPILER_PATH}
-#     cp -rf ${BUILD_PATH}/bin/lconvert ${QT_INSTALL_COMPILER_PATH}
-#     cp -rf ${BUILD_PATH}/bin/lrelease ${QT_INSTALL_COMPILER_PATH}
-#     cp -rf ${BUILD_PATH}/bin/lupdate ${QT_INSTALL_COMPILER_PATH}
-#     cp -rf ${BUILD_PATH}/bin/qmake ${QT_INSTALL_COMPILER_PATH}
-#     cp -rf ${BUILD_PATH}/bin/qml ${QT_INSTALL_COMPILER_PATH}
-#     cp -rf ${BUILD_PATH}/bin/qmldom ${QT_INSTALL_COMPILER_PATH}
-#     cp -rf ${BUILD_PATH}/bin/qmlformat ${QT_INSTALL_COMPILER_PATH}
-#     cp -rf ${BUILD_PATH}/bin/qmllint ${QT_INSTALL_COMPILER_PATH}
-#     cp -rf ${BUILD_PATH}/bin/qmlplugindump ${QT_INSTALL_COMPILER_PATH}
-#     cp -rf ${BUILD_PATH}/bin/qmlpreview ${QT_INSTALL_COMPILER_PATH}
-#     cp -rf ${BUILD_PATH}/bin/qmlprofiler ${QT_INSTALL_COMPILER_PATH}
-#     cp -rf ${BUILD_PATH}/bin/qmlscene ${QT_INSTALL_COMPILER_PATH}
-#     cp -rf ${BUILD_PATH}/bin/qmltestrunner ${QT_INSTALL_COMPILER_PATH}
-#     cp -rf ${BUILD_PATH}/bin/qmltime ${QT_INSTALL_COMPILER_PATH}
-#     cp -rf ${BUILD_PATH}/bin/qtpaths ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/libexec/cmake_automoc_parser ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/libexec/lprodump ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/libexec/lrelease-pro ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/libexec/lupdate-pro ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/libexec/moc ${QT_INSTALL_COMPILER_PATH}
+    if [ -e "${BUILD_PATH}/libexec/qtmoc" ]; then
+      cp -rf ${BUILD_PATH}/libexec/qtmoc ${QT_INSTALL_COMPILER_PATH}
+    fi
 
-#     cp -rf ${BUILD_PATH}/libexec/cmake_automoc_parser ${QT_INSTALL_COMPILER_PATH}
-#     cp -rf ${BUILD_PATH}/libexec/lprodump ${QT_INSTALL_COMPILER_PATH}
-#     cp -rf ${BUILD_PATH}/libexec/lrelease-pro ${QT_INSTALL_COMPILER_PATH}
-#     cp -rf ${BUILD_PATH}/libexec/lupdate-pro ${QT_INSTALL_COMPILER_PATH}
-#     cp -rf ${BUILD_PATH}/libexec/moc ${QT_INSTALL_COMPILER_PATH}
-#     if [ -e "${BUILD_PATH}/libexec/qtmoc" ]; then
-#       cp -rf ${BUILD_PATH}/libexec/qtmoc ${QT_INSTALL_COMPILER_PATH}
-#     fi
+    cp -rf ${BUILD_PATH}/libexec/qlalr ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/libexec/qmlcachegen ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/libexec/qmlimportscanner ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/libexec/qmltyperegistrar ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/libexec/qvkgen ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/libexec/qwebengine_convert_dict ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/libexec/rcc ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/libexec/tracegen ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/libexec/uic ${QT_INSTALL_COMPILER_PATH}
 
-#     cp -rf ${BUILD_PATH}/libexec/qlalr ${QT_INSTALL_COMPILER_PATH}
-#     cp -rf ${BUILD_PATH}/libexec/qmlcachegen ${QT_INSTALL_COMPILER_PATH}
-#     cp -rf ${BUILD_PATH}/libexec/qmlimportscanner ${QT_INSTALL_COMPILER_PATH}
-#     cp -rf ${BUILD_PATH}/libexec/qmltyperegistrar ${QT_INSTALL_COMPILER_PATH}
-#     cp -rf ${BUILD_PATH}/libexec/qvkgen ${QT_INSTALL_COMPILER_PATH}
-#     cp -rf ${BUILD_PATH}/libexec/qwebengine_convert_dict ${QT_INSTALL_COMPILER_PATH}
-#     cp -rf ${BUILD_PATH}/libexec/rcc ${QT_INSTALL_COMPILER_PATH}
-#     cp -rf ${BUILD_PATH}/libexec/tracegen ${QT_INSTALL_COMPILER_PATH}
-#     cp -rf ${BUILD_PATH}/libexec/uic ${QT_INSTALL_COMPILER_PATH}
-
-#     cp -rf ${BUILD_PATH}/lib/libQt6Core.prl ${QT_INSTALL_COMPILER_PATH}
-#     cp -rf ${BUILD_PATH}/lib/libQt6Core.so ${QT_INSTALL_COMPILER_PATH}
-#     cp -rf ${BUILD_PATH}/lib/libQt6Core.so.6 ${QT_INSTALL_COMPILER_PATH}
-#     cp -rf ${BUILD_PATH}/lib/libQt6Core.so.6.* ${QT_INSTALL_COMPILER_PATH}
-#     cp -rf ${BUILD_PATH}/lib/libQt6WebEngineCore.prl ${QT_INSTALL_COMPILER_PATH}
-#     cp -rf ${BUILD_PATH}/lib/libQt6WebEngineCore.so ${QT_INSTALL_COMPILER_PATH}
-#     cp -rf ${BUILD_PATH}/lib/libQt6WebEngineCore.so.6 ${QT_INSTALL_COMPILER_PATH}
-#     cp -rf ${BUILD_PATH}/lib/libQt6WebEngineCore.so.6.* ${QT_INSTALL_COMPILER_PATH}
-#     cp -rf ${BUILD_PATH}/lib/libQt6Xml.prl ${QT_INSTALL_COMPILER_PATH}
-#     cp -rf ${BUILD_PATH}/lib/libQt6Xml.so ${QT_INSTALL_COMPILER_PATH}
-#     cp -rf ${BUILD_PATH}/lib/libQt6Xml.so.6 ${QT_INSTALL_COMPILER_PATH}
-#     cp -rf ${BUILD_PATH}/lib/libQt6Xml.so.6.* ${QT_INSTALL_COMPILER_PATH}
-#     cp -rf ${BUILD_PATH}/lib/libQt63DCore.prl ${QT_INSTALL_COMPILER_PATH}
-#     cp -rf ${BUILD_PATH}/lib/libQt63DCore.so ${QT_INSTALL_COMPILER_PATH}
-#     cp -rf ${BUILD_PATH}/lib/libQt63DCore.so.6 ${QT_INSTALL_COMPILER_PATH}
-#     cp -rf ${BUILD_PATH}/lib/libQt63DCore.so.6.* ${QT_INSTALL_COMPILER_PATH}
-# done
+    cp -rf ${BUILD_PATH}/lib/libQt6Core.prl ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/lib/libQt6Core.so ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/lib/libQt6Core.so.6 ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/lib/libQt6Core.so.6.* ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/lib/libQt6WebEngineCore.prl ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/lib/libQt6WebEngineCore.so ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/lib/libQt6WebEngineCore.so.6 ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/lib/libQt6WebEngineCore.so.6.* ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/lib/libQt6Xml.prl ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/lib/libQt6Xml.so ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/lib/libQt6Xml.so.6 ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/lib/libQt6Xml.so.6.* ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/lib/libQt63DCore.prl ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/lib/libQt63DCore.so ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/lib/libQt63DCore.so.6 ${QT_INSTALL_COMPILER_PATH}
+    cp -rf ${BUILD_PATH}/lib/libQt63DCore.so.6.* ${QT_INSTALL_COMPILER_PATH}
+done
 #################################################
 
 
