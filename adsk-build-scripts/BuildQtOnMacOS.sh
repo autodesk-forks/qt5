@@ -75,17 +75,6 @@ execute() {
   fi
 }
 
-verify_nuget_installation() {
-  if command -v nuget >/dev/null 2>&1; then
-    echo "✓ NuGet verification successful: $(nuget help | head -1)"
-    echo "NuGet location: $(which nuget)"
-    return 0
-  else
-    warn "✗ NuGet verification failed"
-    return 1
-  fi
-}
-
 #################################################
 
 
@@ -96,14 +85,6 @@ verify_nuget_installation() {
 #echo $srcpath
 CUR_SCRIPT_PATH=`dirname $0`
 #################################################
-
-#################################################
-# Install NuGet if not already present
-#################################################
-verify_nuget_installation
-
-#################################################
-
 
 #################################################
 #Set Qt configuration option variables
@@ -228,7 +209,7 @@ if [ $QT_BUILD_RELEASE_ENABLED -eq 1 ]; then
   pwd
   ${QT_ROOT_PATH}/configure -opensource -confirm-license -prefix ${CONFIG_PREFIX_RELEASE} -opengl desktop -sql-psql \
               -openssl-runtime -qt-libjpeg -qt-zlib -release -force-debug-info -separate-debug-info \
-              -nomake examples -nomake tests -no-warnings-are-errors \
+              -nomake examples -nomake tests -no-warnings-are-errors -DFEATURE_clangcpp=OFF \
               -no-feature-designer \
               ${QT_MODULE_SKIPPED} \
               -- -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -DCMAKE_OSX_DEPLOYMENT_TARGET="14.0" -DCMAKE_INSTALL_RPATH="@executable_path/../Frameworks" -DCMAKE_BUILD_WITH_INSTALL_RPATH=ON || exit 1
@@ -247,7 +228,7 @@ if [ $QT_BUILD_DEBUG_ENABLED -eq 1 ]; then
   pwd
   ${QT_ROOT_PATH}/configure -opensource -confirm-license -prefix ${CONFIG_PREFIX_DEBUG} -opengl desktop -sql-psql \
               -openssl-runtime -qt-libjpeg -qt-zlib -debug -force-debug-info -separate-debug-info \
-              -nomake examples -nomake tests -no-warnings-are-errors \
+              -nomake examples -nomake tests -no-warnings-are-errors -DFEATURE_clangcpp=OFF \
               -no-feature-designer \
               ${QT_MODULE_SKIPPED} \
               -- -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -DCMAKE_OSX_DEPLOYMENT_TARGET="14.0" -DCMAKE_INSTALL_RPATH="@executable_path/../Frameworks" -DCMAKE_BUILD_WITH_INSTALL_RPATH=ON || exit 1
