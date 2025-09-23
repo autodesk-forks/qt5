@@ -51,8 +51,46 @@ fi
 echo CMAKE_TOOL:$CMAKE_TOOL
 
 export LLVM_INSTALL_DIR=/usr/lib/llvm-10
-export LANG=en_US.UTF-8
-export LC_ALL=en_US.UTF-8
+
+# Set locale to UTF-8 to avoid Qt build warnings
+# Check if en_US.UTF-8 is available, otherwise use C.UTF-8 as fallback
+if locale -a | grep -q "en_US.utf8"; then
+    export LANG=en_US.UTF-8
+    export LC_ALL=en_US.UTF-8
+    echo "Using locale: en_US.UTF-8"
+elif locale -a | grep -q "C.utf8"; then
+    export LANG=C.UTF-8
+    export LC_ALL=C.UTF-8
+    echo "Using locale: C.UTF-8 (fallback)"
+else
+    # Try to generate en_US.UTF-8 locale if it doesn't exist
+    echo "Attempting to generate en_US.UTF-8 locale..."
+    if command -v locale-gen >/dev/null 2>&1; then
+        sudo locale-gen en_US.UTF-8 2>/dev/null || true
+        export LANG=en_US.UTF-8
+        export LC_ALL=en_US.UTF-8
+        echo "Generated and using locale: en_US.UTF-8"
+    else
+        # Last resort: use system default but ensure UTF-8
+        export LANG=C.UTF-8
+        export LC_ALL=C.UTF-8
+        echo "Using locale: C.UTF-8 (system default)"
+    fi
+fi
+
+# Additional locale environment variables for comprehensive UTF-8 support
+export LC_CTYPE=C.UTF-8
+export LC_NUMERIC=C.UTF-8
+export LC_TIME=C.UTF-8
+export LC_COLLATE=C.UTF-8
+export LC_MONETARY=C.UTF-8
+export LC_MESSAGES=C.UTF-8
+export LC_PAPER=C.UTF-8
+export LC_NAME=C.UTF-8
+export LC_ADDRESS=C.UTF-8
+export LC_TELEPHONE=C.UTF-8
+export LC_MEASUREMENT=C.UTF-8
+export LC_IDENTIFICATION=C.UTF-8
 
 #export PostgreSQL_ROOT=/usr/local/Cellar/postgresql@11/11.14_1
 #################################################
@@ -67,11 +105,26 @@ find / -name "libssl.so*" 2>/dev/null
 
 export OPENSSL_ROOT_DIR=/usr/local/openssl-3.5.1
 
+echo "Current locale settings:"
 locale
+echo "Available locales:"
+locale -a | grep -i utf
 
 
 #################################################
 #Common Functions
+
+# Function to ensure locale environment variables are properly set
+ensure_locale_env() {
+    # Export all locale variables to ensure they're available to subprocesses
+    export LANG LC_ALL LC_CTYPE LC_NUMERIC LC_TIME LC_COLLATE LC_MONETARY LC_MESSAGES LC_PAPER LC_NAME LC_ADDRESS LC_TELEPHONE LC_MEASUREMENT LC_IDENTIFICATION
+    
+    # Verify locale settings
+    echo "Locale environment verification:"
+    echo "LANG: $LANG"
+    echo "LC_ALL: $LC_ALL"
+    echo "LC_CTYPE: $LC_CTYPE"
+}
 
 #################################################
 
@@ -164,13 +217,16 @@ git submodule update --init --recursive
 #Configure the Qt options 
 echo "begin to configure"
 
+# Ensure locale environment is properly set before configure
+ensure_locale_env
+
 pushd $QT_BUILD_PATH
 ls $QT_BUILD_PATH
 
 df -h
 
 if [[ "${CONFIG_TYPE_PARAM}" == "debug" ]]; then
-  ${QT_ROOT_PATH}/configure -opensource -confirm-license -prefix ${CONFIG_PREFIX} -opengl desktop -sql-psql \
+  LANG=${LANG} LC_ALL=${LC_ALL} LC_CTYPE=${LC_CTYPE} ${QT_ROOT_PATH}/configure -opensource -confirm-license -prefix ${CONFIG_PREFIX} -opengl desktop -sql-psql \
                           -openssl-runtime -qt-libjpeg -qt-zlib -qt-harfbuzz -qt-freetype -xcb -debug -force-debug-info -separate-debug-info \
                           -nomake \examples -nomake tests -no-warnings-are-errors \
                           -no-feature-designer \
@@ -178,7 +234,7 @@ if [[ "${CONFIG_TYPE_PARAM}" == "debug" ]]; then
                           -- -DCMAKE_PREFIX_PATH=${LLVM_INSTALL_DIR} -DFEATURE_webengine_jumbo_build=off -DCMAKE_BUILD_TYPE=Debug \
                           -DCMAKE_CXX_FLAGS_DEBUG="-g -Os" -DOPENSSL_ROOT_DIR=${OPENSSL_ROOT_DIR} --log-level=STATUS || exit 1
 else
-  ${QT_ROOT_PATH}/configure -opensource -confirm-license -prefix ${CONFIG_PREFIX} -opengl desktop -sql-psql \
+  LANG=${LANG} LC_ALL=${LC_ALL} LC_CTYPE=${LC_CTYPE} ${QT_ROOT_PATH}/configure -opensource -confirm-license -prefix ${CONFIG_PREFIX} -opengl desktop -sql-psql \
                             -openssl-runtime -qt-libjpeg -qt-zlib -qt-harfbuzz -qt-freetype -xcb -release -force-debug-info -separate-debug-info \
                             -nomake examples -nomake tests -no-warnings-are-errors \
                             -no-feature-designer \
@@ -195,10 +251,14 @@ echo "Configure '$CONFIG_TYPE_PARAM' build complete!"
 
 #################################################
 echo "begin to build '${CONFIG_TYPE_PARAM}' version ..."
+
+# Ensure locale environment is properly set before build
+ensure_locale_env
+
 pushd $QT_BUILD_PATH
 
 error_code=1
-${CMAKE_TOOL} --build . -j2 || exit 1
+LANG=${LANG} LC_ALL=${LC_ALL} LC_CTYPE=${LC_CTYPE} ${CMAKE_TOOL} --build . -j2 || exit 1
 
 result=$(find . -type f -iname "libQt6WebEngineCore*")
 if [[ -n "$result" ]]; then
@@ -222,8 +282,11 @@ echo "Complete the build for '${CONFIG_TYPE_PARAM}' version"
 #################################################
 echo "begin to install ..."
 
+# Ensure locale environment is properly set before install
+ensure_locale_env
+
 pushd $QT_BUILD_PATH
-ninja install || exit 1
+LANG=${LANG} LC_ALL=${LC_ALL} LC_CTYPE=${LC_CTYPE} ninja install || exit 1
 popd
 
 echo "Complete the install"
