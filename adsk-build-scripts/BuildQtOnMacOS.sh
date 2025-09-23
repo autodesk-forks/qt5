@@ -152,7 +152,7 @@ QT_MODULE_SKIPPED=" -skip qtlocation -skip qtvirtualkeyboard -skip qtquicktimeli
 
 export OPENSSL_ROOT_DIR=/usr/local/Cellar/openssl@1.1/1.1.1m.universal
 export PostgreSQL_ROOT=/usr/local/Cellar/postgresql@11/11.14_1
-export LLVM_INSTALL_DIR=/Volumes/DATA/Qt6/CommonTools/libclang
+# export LLVM_INSTALL_DIR=/Volumes/DATA/Qt6/CommonTools/libclang  # Commented out to prevent clangcpp feature from being enabled
 
 echo QT_ROOT_PATH:$QT_ROOT_PATH
 echo CUR_SCRIPT_PATH:$CUR_SCRIPT_PATH
