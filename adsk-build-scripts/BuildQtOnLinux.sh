@@ -36,6 +36,34 @@ fi
 #Setup environment
 #Set the number of openning files' limit to 4096 
 ulimit -n 4096
+
+# Increase memory limits for Qt WebEngine build
+ulimit -v unlimited 2>/dev/null || true
+ulimit -m unlimited 2>/dev/null || true
+
+# Check swap space and provide recommendations
+echo "=== Swap Space Check ==="
+SWAP_TOTAL=$(free -m | awk 'NR==3{printf "%.0f", $2}')
+SWAP_USED=$(free -m | awk 'NR==3{printf "%.0f", $3}')
+SWAP_AVAILABLE=$(free -m | awk 'NR==3{printf "%.0f", $4}')
+
+echo "Swap Total: ${SWAP_TOTAL}MB"
+echo "Swap Used: ${SWAP_USED}MB" 
+echo "Swap Available: ${SWAP_AVAILABLE}MB"
+
+if [ "$SWAP_TOTAL" -lt 8192 ]; then
+    echo "WARNING: Total swap space (${SWAP_TOTAL}MB) is less than 8GB."
+    echo "Qt WebEngine build requires substantial swap space."
+    echo "Recommendations:"
+    echo "1. Add more swap space: sudo fallocate -l 8G /swapfile && sudo chmod 600 /swapfile && sudo mkswap /swapfile && sudo swapon /swapfile"
+    echo "2. Or use a machine with more RAM (16GB+ recommended)"
+    echo "Continuing with current configuration..."
+fi
+echo "=========================="
+
+# Set compiler memory limits
+export CXXFLAGS="-pipe -fno-optimize-sibling-calls"
+export CFLAGS="-pipe -fno-optimize-sibling-calls"
 #################################################
 
 
@@ -225,6 +253,16 @@ ls $QT_BUILD_PATH
 
 df -h
 
+# Check system resources
+echo "=== System Resource Check ==="
+echo "Available memory:"
+free -h
+echo "Swap usage:"
+swapon -s
+echo "Current ulimits:"
+ulimit -a
+echo "============================="
+
 if [[ "${CONFIG_TYPE_PARAM}" == "debug" ]]; then
   LANG=${LANG} LC_ALL=${LC_ALL} LC_CTYPE=${LC_CTYPE} ${QT_ROOT_PATH}/configure -opensource -confirm-license -prefix ${CONFIG_PREFIX} -opengl desktop -sql-psql \
                           -openssl-runtime -qt-libjpeg -qt-zlib -qt-harfbuzz -qt-freetype -xcb -debug -force-debug-info -separate-debug-info \
@@ -232,7 +270,9 @@ if [[ "${CONFIG_TYPE_PARAM}" == "debug" ]]; then
                           -no-feature-designer \
                           ${QT_MODULE_SKIPPED} \
                           -- -DCMAKE_PREFIX_PATH=${LLVM_INSTALL_DIR} -DFEATURE_webengine_jumbo_build=off -DCMAKE_BUILD_TYPE=Debug \
-                          -DCMAKE_CXX_FLAGS_DEBUG="-g -Os" -DOPENSSL_ROOT_DIR=${OPENSSL_ROOT_DIR} --log-level=STATUS || exit 1
+                          -DCMAKE_CXX_FLAGS_DEBUG="-g -Os -fno-optimize-sibling-calls -fno-tree-loop-optimize" \
+                          -DCMAKE_C_FLAGS_DEBUG="-g -Os -fno-optimize-sibling-calls -fno-tree-loop-optimize" \
+                          -DOPENSSL_ROOT_DIR=${OPENSSL_ROOT_DIR} --log-level=STATUS || exit 1
 else
   LANG=${LANG} LC_ALL=${LC_ALL} LC_CTYPE=${LC_CTYPE} ${QT_ROOT_PATH}/configure -opensource -confirm-license -prefix ${CONFIG_PREFIX} -opengl desktop -sql-psql \
                             -openssl-runtime -qt-libjpeg -qt-zlib -qt-harfbuzz -qt-freetype -xcb -release -force-debug-info -separate-debug-info \
@@ -240,8 +280,9 @@ else
                             -no-feature-designer \
                             ${QT_MODULE_SKIPPED} \
                             -- -DCMAKE_PREFIX_PATH=${LLVM_INSTALL_DIR} -DFEATURE_webengine_jumbo_build=off -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-                            -DOPENSSL_ROOT_DIR=${OPENSSL_ROOT_DIR} \
-                            --log-level=STATUS || exit 1
+                            -DCMAKE_CXX_FLAGS_RELEASE="-O2 -fno-optimize-sibling-calls -fno-tree-loop-optimize" \
+                            -DCMAKE_C_FLAGS_RELEASE="-O2 -fno-optimize-sibling-calls -fno-tree-loop-optimize" \
+                            -DOPENSSL_ROOT_DIR=${OPENSSL_ROOT_DIR} --log-level=STATUS || exit 1
 fi
 
 popd
@@ -258,7 +299,68 @@ ensure_locale_env
 pushd $QT_BUILD_PATH
 
 error_code=1
-LANG=${LANG} LC_ALL=${LC_ALL} LC_CTYPE=${LC_CTYPE} ${CMAKE_TOOL} --build . -j2 || exit 1
+
+# Set memory limits and reduce parallel jobs for WebEngine
+export MAKEFLAGS="-j1"
+export CMAKE_BUILD_PARALLEL_LEVEL=1
+
+# Check available memory before starting build
+echo "=== Pre-build Memory Check ==="
+TOTAL_MEM=$(free -m | awk 'NR==2{printf "%.0f", $2}')
+AVAILABLE_MEM=$(free -m | awk 'NR==2{printf "%.0f", $7}')
+echo "Total Memory: ${TOTAL_MEM}MB"
+echo "Available Memory: ${AVAILABLE_MEM}MB"
+
+# If available memory is less than 4GB, warn user
+if [ "$AVAILABLE_MEM" -lt 4096 ]; then
+    echo "WARNING: Available memory (${AVAILABLE_MEM}MB) is less than 4GB."
+    echo "Qt WebEngine build may fail due to insufficient memory."
+    echo "Consider:"
+    echo "1. Closing other applications to free memory"
+    echo "2. Adding more swap space"
+    echo "3. Using a machine with more RAM"
+    echo "Continuing with build anyway..."
+fi
+echo "=============================="
+
+# Try the main build first
+echo "Starting main build with single job..."
+LANG=${LANG} LC_ALL=${LC_ALL} LC_CTYPE=${LC_CTYPE} ${CMAKE_TOOL} --build . -j1 || {
+    echo "Main build failed. Trying alternative WebEngine build strategy..."
+    
+    # Alternative: Build WebEngine separately with even more conservative settings
+    echo "Building WebEngine separately with minimal resources..."
+    
+    # Reset any failed build artifacts
+    find . -name "*.o" -path "*/qtwebengine/*" -delete 2>/dev/null || true
+    
+    # Build WebEngine components one by one
+    echo "Building WebEngine Core..."
+    LANG=${LANG} LC_ALL=${LC_ALL} LC_CTYPE=${LC_CTYPE} ${CMAKE_TOOL} --build . --target Qt6::WebEngineCore -j1 || {
+        echo "WebEngine Core build failed. Trying with even more conservative settings..."
+        
+        # Ultra-conservative: Build with no parallel jobs and specific memory flags
+        export CMAKE_BUILD_PARALLEL_LEVEL=1
+        export MAKEFLAGS="-j1"
+        export CXXFLAGS="$CXXFLAGS -fno-optimize-sibling-calls -fno-tree-loop-optimize -pipe"
+        export CFLAGS="$CFLAGS -fno-optimize-sibling-calls -fno-tree-loop-optimize -pipe"
+        
+        echo "Attempting ultra-conservative WebEngine build..."
+        LANG=${LANG} LC_ALL=${LC_ALL} LC_CTYPE=${LC_CTYPE} ${CMAKE_TOOL} --build . --target Qt6::WebEngineCore -j1 || {
+            echo "WebEngine build failed even with ultra-conservative settings."
+            echo "This indicates severe memory constraints or system issues."
+            echo "Please check:"
+            echo "1. Available RAM (need at least 8GB)"
+            echo "2. Swap space (need at least 8GB)"
+            echo "3. Disk space (need at least 20GB free)"
+            echo "4. System stability"
+            exit 1
+        }
+    }
+    
+    echo "WebEngine Core built successfully. Continuing with full build..."
+    LANG=${LANG} LC_ALL=${LC_ALL} LC_CTYPE=${LC_CTYPE} ${CMAKE_TOOL} --build . -j1 || exit 1
+}
 
 result=$(find . -type f -iname "libQt6WebEngineCore*")
 if [[ -n "$result" ]]; then
@@ -357,6 +459,58 @@ do
     cp -rf ${BUILD_PATH}/lib/libQt63DCore.so ${QT_INSTALL_COMPILER_PATH}
     cp -rf ${BUILD_PATH}/lib/libQt63DCore.so.6 ${QT_INSTALL_COMPILER_PATH}
     cp -rf ${BUILD_PATH}/lib/libQt63DCore.so.6.* ${QT_INSTALL_COMPILER_PATH}
+    
+    # Fix rpath for copied executables to ensure they can find Qt libraries
+    echo "Fixing rpath for copied executables..."
+    
+    # List of executables that need rpath adjustment
+    EXECUTABLES=(
+        "androiddeployqt"
+        "androidtestrunner" 
+        "lconvert"
+        "lrelease"
+        "lupdate"
+        "qmake"
+        "qml"
+        "qmldom"
+        "qmlformat"
+        "qmllint"
+        "qmlplugindump"
+        "qmlpreview"
+        "qmlprofiler"
+        "qmlscene"
+        "qmltestrunner"
+        "qmltime"
+        "qtpaths"
+        "cmake_automoc_parser"
+        "lprodump"
+        "lrelease-pro"
+        "lupdate-pro"
+        "moc"
+        "qtmoc"
+        "qlalr"
+        "qmlcachegen"
+        "qmlimportscanner"
+        "qmltyperegistrar"
+        "qvkgen"
+        "qwebengine_convert_dict"
+        "rcc"
+        "tracegen"
+        "uic"
+    )
+    
+    # Fix rpath for each executable
+    for exe in "${EXECUTABLES[@]}"; do
+        if [ -f "${QT_INSTALL_COMPILER_PATH}/${exe}" ]; then
+            echo "Fixing rpath for ${exe}..."
+            # Set rpath to point to the lib directory relative to compilers directory
+            patchelf --set-rpath '$ORIGIN/../lib' "${QT_INSTALL_COMPILER_PATH}/${exe}" 2>/dev/null || {
+                echo "Warning: patchelf not available... rpath may need manual adjustment."
+                }
+        fi
+    done
+    
+    echo "rpath adjustment complete."
 done
 #################################################
 
