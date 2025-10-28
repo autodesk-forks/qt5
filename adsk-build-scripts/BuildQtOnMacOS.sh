@@ -1,4 +1,9 @@
 #!/bin/sh
+
+export PATH="/Applications/CMake.app/Contents/bin:$PATH"
+export PATH="/usr/local/opt/node@20/bin:$PATH"
+export PATH="/usr/local/bin:$PATH"
+
 #################################################
 #@file BuildQtOnMacOS.sh
 #@brief Build script for Qt 6.5.3 universal version on macOS
@@ -150,8 +155,8 @@ QT_MODULE_SKIPPED=" -skip qtlocation -skip qtvirtualkeyboard -skip qtquicktimeli
                    -skip qtdatavis3d -skip qtcharts -skip qtquick3dphysics \
                    -skip qtlottie -skip qtcoap -skip qtmqtt -skip qtgraphs"
 
-export OPENSSL_ROOT_DIR=/usr/local/Cellar/openssl@1.1/1.1.1m.universal
-export PostgreSQL_ROOT=/usr/local/Cellar/postgresql@11/11.14_1
+export OPENSSL_ROOT_DIR=/usr/local/Cellar/openssl@3.0/3.0.18
+export PostgreSQL_ROOT=/Applications/Postgres.app/Contents/Versions/18
 # export LLVM_INSTALL_DIR=/Volumes/DATA/Qt6/CommonTools/libclang  # Commented out to prevent clangcpp feature from being enabled
 
 echo QT_ROOT_PATH:$QT_ROOT_PATH
