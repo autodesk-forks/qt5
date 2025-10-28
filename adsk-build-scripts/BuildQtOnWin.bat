@@ -196,7 +196,7 @@ if "%CONFIG_TYPE_PARAM%" == "debug" (
                    " -debug -force-debug-info -nomake examples -nomake tests -no-warnings-are-errors " ^
                    " -no-feature-designer " ^
                    " %QT_MODULE_SKIPPED% " ^
-                   " -- " ^
+                   " -- -G Ninja " ^
                    " -DOPENSSL_ROOT_DIR=%OPENSSL_ROOT_DIR%% --log-level=STATUS " ^
                    " || goto :error "
 ) else (
@@ -205,7 +205,7 @@ if "%CONFIG_TYPE_PARAM%" == "debug" (
                    " -release -force-debug-info -nomake examples -nomake tests -no-warnings-are-errors " ^
                    " -no-feature-designer " ^
                    " %QT_MODULE_SKIPPED% " ^
-                   " -- " ^
+                   " -- -G Ninja " ^
                    " -DOPENSSL_ROOT_DIR=%OPENSSL_ROOT_DIR% --log-level=STATUS " ^
                    " || goto :error "
 )

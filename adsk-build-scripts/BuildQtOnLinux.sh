@@ -269,7 +269,7 @@ if [[ "${CONFIG_TYPE_PARAM}" == "debug" ]]; then
                           -nomake \examples -nomake tests -no-warnings-are-errors \
                           -no-feature-designer \
                           ${QT_MODULE_SKIPPED} \
-                          -- -DCMAKE_PREFIX_PATH=${LLVM_INSTALL_DIR} -DFEATURE_webengine_jumbo_build=off -DCMAKE_BUILD_TYPE=Debug \
+                          -- -G "Ninja" -DCMAKE_PREFIX_PATH=${LLVM_INSTALL_DIR} -DFEATURE_webengine_jumbo_build=off -DCMAKE_BUILD_TYPE=Debug \
                           -DCMAKE_CXX_FLAGS_DEBUG="-g -Os -fno-optimize-sibling-calls -fno-tree-loop-optimize" \
                           -DCMAKE_C_FLAGS_DEBUG="-g -Os -fno-optimize-sibling-calls -fno-tree-loop-optimize" \
                           -DOPENSSL_ROOT_DIR=${OPENSSL_ROOT_DIR} --log-level=STATUS || exit 1
@@ -279,7 +279,7 @@ else
                             -nomake examples -nomake tests -no-warnings-are-errors \
                             -no-feature-designer \
                             ${QT_MODULE_SKIPPED} \
-                            -- -DCMAKE_PREFIX_PATH=${LLVM_INSTALL_DIR} -DFEATURE_webengine_jumbo_build=off -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+                            -- -G "Ninja" -DCMAKE_PREFIX_PATH=${LLVM_INSTALL_DIR} -DFEATURE_webengine_jumbo_build=off -DCMAKE_BUILD_TYPE=RelWithDebInfo \
                             -DCMAKE_CXX_FLAGS_RELEASE="-O2 -fno-optimize-sibling-calls -fno-tree-loop-optimize" \
                             -DCMAKE_C_FLAGS_RELEASE="-O2 -fno-optimize-sibling-calls -fno-tree-loop-optimize" \
                             -DOPENSSL_ROOT_DIR=${OPENSSL_ROOT_DIR} --log-level=STATUS || exit 1
