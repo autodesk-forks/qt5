@@ -76,6 +76,99 @@ platforms:
 ---
 # Nuspec Definition
 linux:
+- type: nupkg
+  nuspec_file: ${component_name}.nuspec
+  version: "${pkg_version}"
+  adsk_xml_template: "adsk.xml.tpl"
+  packages:
+  - id: ${component_name}-headers_${osName}_${compiler}
+    sources:
+    - include: "${build_dir}/${config}/include/**/*"
+      exclude: ''
+      target: "inc"
+    dependencies: []
+  - id: ${component_name}-resources_${osName}-${distro}_${toolchain}
+    sources:
+    - include: "${build_dir}/${config}/resources/**/*"
+      exclude: ''
+      target: "resources"
+    dependencies: []
+  - id: ${component_name}_${osName}-${distro}_${config}_${compiler}_${toolchain}
+    sources:
+    - include: "${build_dir}/${config}/bin/**/*"
+      exclude: '*.debug'
+      target: "bin"
+    preserve_symlink: false
+    dependencies: 
+    - package_name: ${component_name}-translations
+      version: "${pkg_version}"
+    - package_name: ${component_name}-plugins_${osName}-${distro}_${config}_${compiler}_${toolchain}
+      version: "${pkg_version}"
+  - id: ${component_name}-compilers_${osName}-${distro}_${config}_${compiler}_${toolchain}
+    sources:
+    - include: "${build_dir}/${config}/compilers/**/*"
+      exclude: ''
+      target: "compilers"
+    - include: "${build_dir}/${config}/mkspecs/**/*"
+      exclude: ''
+      target: "mkspecs"
+    preserve_symlink: false
+    dependencies: []
+  - id: ${component_name}-lib_${osName}-${distro}_${config}_${compiler}_${toolchain}
+    sources:
+    - include: "${build_dir}/${config}/lib/**/*"
+      exclude: '*.debug'
+      target: "libs"
+    - include: "${build_dir}/${config}/metatypes/**/*"
+      exclude: ''
+      target: "metatypes"
+    preserve_symlink: false
+    dependencies: 
+    - package_name: ${component_name}-headers_${osName}_${compiler}
+      version: "${pkg_version}"
+    - package_name: ${component_name}_${osName}-${distro}_${config}_${compiler}_${toolchain}
+      version: "${pkg_version}"
+  - id: ${component_name}-plugins_${osName}-${distro}_${config}_${compiler}_${toolchain}
+    sources:
+    - include: "${build_dir}/${config}/plugins/**/*"
+      exclude: '*.debug'
+      target: "plugins"
+    preserve_symlink: false
+    dependencies: []
+  - id: ${component_name}-qml_${osName}-${distro}_${config}_${compiler}_${toolchain}
+    sources:
+    - include: "${build_dir}/${config}/qml/**/*"
+      exclude: ''
+      target: "qml"
+    preserve_symlink: false
+    dependencies: []
+  - id: ${component_name}-webengine_${osName}-${distro}_${config}_${compiler}_${toolchain}
+    sources:
+    - include: "${build_dir}/${config}/libexec/QtWebEngineProcess*"
+      exclude: ''
+      target: "libexec"
+    preserve_symlink: false
+    dependencies: 
+    - package_name: ${component_name}-resources_${osName}-${distro}_${toolchain}
+      version: "${pkg_version}"
+  - id: ${component_name}-sym_${osName}_${config}_${compiler}_${toolchain}
+    sources:
+    - include: "${build_dir}/${config}/bin/**/*.debug"
+      exclude: ''
+      target: "bin"
+    - include: "${build_dir}/${config}/lib/**/*.debug"
+      exclude: ''
+      target: "libs"
+    - include: "${build_dir}/${config}/libexec/**/*.debug"
+      exclude: ''
+      target: "libexec"
+    - include: "${build_dir}/${config}/plugins/**/*.debug"
+      exclude: ''
+      target: "plugins"
+    - include: "${build_dir}/${config}/qml/**/*.debug"
+      exclude: ''
+      target: "qml"
+    dependencies: [] 
 - type: zip
   version: "${pkg_version}"
   adsk_xml_template: "adsk.xml.tpl"
@@ -86,6 +179,99 @@ linux:
       exclude: ''
       target: "${pkg_version}"
 windows:
+- type: nupkg
+  nuspec_file: ${component_name}.nuspec
+  version: "${pkg_version}"
+  adsk_xml_template: "adsk.xml.tpl"
+  packages:
+  - id: ${component_name}-translations
+    sources:
+    - include: "${build_dir}/${config}/translations/**/*"
+      exclude: ''
+      target: "bin"
+    dependencies: []
+  - id: ${component_name}-headers_${osName}_${compiler}
+    sources:
+    - include: "${build_dir}/${config}/include/**/*"
+      exclude: ''
+      target: "inc"
+    dependencies: []
+  - id: ${component_name}-resources_${osName}_${toolchain}
+    sources:
+    - include: "${build_dir}/${config}/resources/**/*"
+      exclude: ''
+      target: "resources"
+    dependencies: []
+  - id: ${component_name}_${osName}_${config}_${compiler}_${toolchain}
+    sources:
+    - include: "${build_dir}/${config}/bin/**/*"
+      exclude: '*.pdb'
+      target: "bin"
+    dependencies: 
+    - package_name: ${component_name}-translations
+      version: "${pkg_version}"
+    - package_name: ${component_name}-plugins_${osName}_${config}_${compiler}_${toolchain}
+      version: "${pkg_version}"
+  - id: ${component_name}-sym_${osName}_${config}_${compiler}_${toolchain}
+    sources:
+    - include: "${build_dir}/${config}/bin/**/*.pdb"
+      exclude: ''
+      target: "bin"
+    - include: "${build_dir}/${config}/lib/**/*.pdb"
+      exclude: ''
+      target: "libs"
+    - include: "${build_dir}/${config}/plugins/**/*.pdb"
+      exclude: ''
+      target: "plugins"
+    - include: "${build_dir}/${config}/qml/**/*.pdb"
+      exclude: ''
+      target: "qml"
+    dependencies: []  
+  - id: ${component_name}-compilers_${osName}_${config}_${compiler}_${toolchain}
+    sources:
+    - include: "${build_dir}/${config}/compilers/**/*"
+      exclude: ''
+      target: "compilers"
+    - include: "${build_dir}/${config}/mkspecs/**/*"
+      exclude: ''
+      target: "mkspecs"
+    dependencies: []
+  - id: ${component_name}-lib_${osName}_${config}_${compiler}_${toolchain}
+    sources:
+    - include: "${build_dir}/${config}/lib/cmake/**/*"
+      exclude: ''
+      target: "libs/cmake"
+    - include: "${build_dir}/${config}/lib/**/*"
+      exclude: '*.pdb'
+      target: "libs"
+    - include: "${build_dir}/${config}/metatypes/**/*"
+      exclude: ''
+      target: "metatypes"
+    dependencies: 
+    - package_name: ${component_name}-headers_${osName}_${compiler}
+      version: "${pkg_version}"
+    - package_name: ${component_name}_${osName}_${config}_${compiler}_${toolchain}
+      version: "${pkg_version}"
+  - id: ${component_name}-plugins_${osName}_${config}_${compiler}_${toolchain}
+    sources:
+    - include: "${build_dir}/${config}/plugins/**/*"
+      exclude: '*.pdb'
+      target: "plugins"
+    dependencies: []
+  - id: ${component_name}-qml_${osName}_${config}_${compiler}_${toolchain}
+    sources:
+    - include: "${build_dir}/${config}/qml/**/*"
+      exclude: '*.pdb'
+      target: "qml"
+    dependencies: []
+  - id: ${component_name}-webengine_${osName}_${config}_${compiler}_${toolchain}
+    sources:
+    - include: "${build_dir}/${config}/bin/QtWebEngineProcess*.exe"
+      exclude: ''
+      target: "bin"
+    dependencies: 
+    - package_name: ${component_name}-resources_${osName}_${toolchain}
+      version: "${pkg_version}"
 - type: zip
   version: "${pkg_version}"
   adsk_xml_template: "adsk.xml.tpl"
@@ -94,8 +280,87 @@ windows:
     sources:
     - include: "${build_dir}/${config}/**/*"
       exclude: ''
-      target: "${pkg_version}"
+      target: "${pkg_version}"      
 mac:
+- type: nupkg
+  nuspec_file: ${component_name}.nuspec
+  version: "${pkg_version}"
+  adsk_xml_template: "adsk.xml.tpl"
+  packages:
+  - id: ${component_name}-headers_${osName}_${compiler}
+    sources:
+    - include: "${build_dir}/${config}/include/**/*"
+      exclude: ''
+      target: "inc"
+    dependencies: []
+  - id: ${component_name}_${osName}_${config}_${compiler}_${toolchain}
+    sources:
+    - include: "${build_dir}/${config}/bin/**/*"
+      exclude: '*.dSYM'
+      target: "bin"
+    dependencies: 
+    - package_name: ${component_name}-translations
+      version: "${pkg_version}"
+    - package_name: ${component_name}-plugins_${osName}_${config}_${compiler}_${toolchain}
+      version: "${pkg_version}"
+  - id: ${component_name}-compilers_${osName}_${config}_${compiler}_${toolchain}
+    sources:
+    - include: "${build_dir}/${config}/compilers/**/*"
+      exclude: ''
+      target: "compilers"
+    - include: "${build_dir}/${config}/mkspecs/**/*"
+      exclude: ''
+      target: "mkspecs"
+    dependencies: []
+  - id: ${component_name}-lib_${osName}_${config}_${compiler}_${toolchain}
+    sources:
+    - include: "${build_dir}/${config}/lib/**/*"
+      exclude: '*.dSYM'
+      target: "libs"
+    - include: "${build_dir}/${config}/metatypes/**/*"
+      exclude: ''
+      target: "metatypes"
+    dependencies: 
+    - package_name: ${component_name}-headers_${osName}_${compiler}
+      version: "${pkg_version}"
+    - package_name: ${component_name}_${osName}_${config}_${compiler}_${toolchain}
+      version: "${pkg_version}"
+  - id: ${component_name}-plugins_${osName}_${config}_${compiler}_${toolchain}
+    sources:
+    - include: "${build_dir}/${config}/plugins/**/*"
+      exclude: '*.dSYM'
+      target: "plugins"
+    dependencies: []
+  - id: ${component_name}-qml_${osName}_${config}_${compiler}_${toolchain}
+    sources:
+    - include: "${build_dir}/${config}/qml/**/*"
+      exclude: '*.dSYM'
+      target: "qml"
+    dependencies: []
+  - id: ${component_name}-webengine_${osName}_${config}_${compiler}_${toolchain}
+    sources:
+    - include: "${build_dir}/${config}/lib/QtWebEngine*.framework/**/*"
+      exclude: '*.dSYM'
+      target: "libs"
+    dependencies: []
+  - id: ${component_name}-sym_${osName}_${config}_${compiler}_${toolchain}
+    sources:
+    - include: "${build_dir}/${config}/bin/**/*.dSYM/**"
+      exclude: ''
+      target: "bin"
+    - include: "${build_dir}/${config}/lib/**/*.dSYM/**"
+      exclude: ''
+      target: "libs"
+    - include: "${build_dir}/${config}/libexec/**/*.dSYM/**"
+      exclude: ''
+      target: "libexec"
+    - include: "${build_dir}/${config}/plugins/**/*.dSYM/**"
+      exclude: ''
+      target: "plugins"
+    - include: "${build_dir}/${config}/qml/**/*.dSYM/**"
+      exclude: ''
+      target: "qml"
+    dependencies: [] 
 - type: zip
   version: "${pkg_version}"
   adsk_xml_template: "adsk.xml.tpl"
@@ -104,5 +369,5 @@ mac:
     sources:
     - include: "${build_dir}/${config}/**/*"
       exclude: ''
-      target: "${pkg_version}"
+      target: "${pkg_version}"    
 ...
