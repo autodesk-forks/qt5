@@ -138,7 +138,7 @@ linux:
   - id: ${component_name}-qml_${osName}-${distro}_${config}_${compiler}_${toolchain}
     sources:
     - include: "${build_dir}/${config}/qml/**/*"
-      exclude: ''
+      exclude: '*.debug'
       target: "qml"
     preserve_symlink: false
     dependencies: []
@@ -151,7 +151,7 @@ linux:
     dependencies: 
     - package_name: ${component_name}-resources_${osName}-${distro}_${toolchain}
       version: "${pkg_version}"
-  - id: ${component_name}-sym_${osName}_${config}_${compiler}_${toolchain}
+  - id: ${component_name}-sym_${osName}-${distro}_${config}_${compiler}_${toolchain}
     sources:
     - include: "${build_dir}/${config}/bin/**/*.debug"
       exclude: ''
