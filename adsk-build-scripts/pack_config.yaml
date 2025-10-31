@@ -131,14 +131,14 @@ linux:
   - id: ${component_name}-plugins_${osName}-${distro}_${config}_${compiler}_${toolchain}
     sources:
     - include: "${build_dir}/${config}/plugins/**/*"
-      exclude: '*.debug'
+      exclude: ''
       target: "plugins"
     preserve_symlink: false
     dependencies: []
   - id: ${component_name}-qml_${osName}-${distro}_${config}_${compiler}_${toolchain}
     sources:
     - include: "${build_dir}/${config}/qml/**/*"
-      exclude: '*.debug'
+      exclude: ''
       target: "qml"
     preserve_symlink: false
     dependencies: []
@@ -162,12 +162,6 @@ linux:
     - include: "${build_dir}/${config}/libexec/**/*.debug"
       exclude: ''
       target: "libexec"
-    - include: "${build_dir}/${config}/plugins/**/*.debug"
-      exclude: ''
-      target: "plugins"
-    - include: "${build_dir}/${config}/qml/**/*.debug"
-      exclude: ''
-      target: "qml"
     dependencies: [] 
 - type: zip
   version: "${pkg_version}"
@@ -220,12 +214,6 @@ windows:
     - include: "${build_dir}/${config}/lib/**/*.pdb"
       exclude: ''
       target: "libs"
-    - include: "${build_dir}/${config}/plugins/**/*.pdb"
-      exclude: ''
-      target: "plugins"
-    - include: "${build_dir}/${config}/qml/**/*.pdb"
-      exclude: ''
-      target: "qml"
     dependencies: []  
   - id: ${component_name}-compilers_${osName}_${config}_${compiler}_${toolchain}
     sources:
@@ -255,13 +243,13 @@ windows:
   - id: ${component_name}-plugins_${osName}_${config}_${compiler}_${toolchain}
     sources:
     - include: "${build_dir}/${config}/plugins/**/*"
-      exclude: '*.pdb'
+      exclude: ''
       target: "plugins"
     dependencies: []
   - id: ${component_name}-qml_${osName}_${config}_${compiler}_${toolchain}
     sources:
     - include: "${build_dir}/${config}/qml/**/*"
-      exclude: '*.pdb'
+      exclude: ''
       target: "qml"
     dependencies: []
   - id: ${component_name}-webengine_${osName}_${config}_${compiler}_${toolchain}
@@ -328,13 +316,13 @@ mac:
   - id: ${component_name}-plugins_${osName}_${config}_${compiler}_${toolchain}
     sources:
     - include: "${build_dir}/${config}/plugins/**/*"
-      exclude: '*.dSYM'
+      exclude: ''
       target: "plugins"
     dependencies: []
   - id: ${component_name}-qml_${osName}_${config}_${compiler}_${toolchain}
     sources:
     - include: "${build_dir}/${config}/qml/**/*"
-      exclude: '*.dSYM'
+      exclude: ''
       target: "qml"
     dependencies: []
   - id: ${component_name}-webengine_${osName}_${config}_${compiler}_${toolchain}
@@ -354,12 +342,6 @@ mac:
     - include: "${build_dir}/${config}/libexec/**/*.dSYM/**"
       exclude: ''
       target: "libexec"
-    - include: "${build_dir}/${config}/plugins/**/*.dSYM/**"
-      exclude: ''
-      target: "plugins"
-    - include: "${build_dir}/${config}/qml/**/*.dSYM/**"
-      exclude: ''
-      target: "qml"
     dependencies: [] 
 - type: zip
   version: "${pkg_version}"
