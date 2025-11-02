@@ -2,6 +2,7 @@
 
 export PATH="/Applications/CMake.app/Contents/bin:$PATH"
 export PATH="/usr/local/opt/node@20/bin:$PATH"
+export PATH="/usr/local/opt/zlib:$PATH"
 export PATH="/usr/local/bin:$PATH"
 
 #################################################
@@ -157,6 +158,7 @@ QT_MODULE_SKIPPED=" -skip qtlocation -skip qtvirtualkeyboard -skip qtquicktimeli
 
 export OPENSSL_ROOT_DIR=/usr/local/Cellar/openssl@3.0/3.0.18
 export PostgreSQL_ROOT=/Applications/Postgres.app/Contents/Versions/18
+export ZLIB_ROOT=/usr/local/opt/zlib
 # export LLVM_INSTALL_DIR=/Volumes/DATA/Qt6/CommonTools/libclang  # Commented out to prevent clangcpp feature from being enabled
 
 echo QT_ROOT_PATH:$QT_ROOT_PATH
@@ -213,7 +215,7 @@ if [ $QT_BUILD_RELEASE_ENABLED -eq 1 ]; then
   pushd $QT_BUILD_PATH_RELEASE
   pwd
   ${QT_ROOT_PATH}/configure -opensource -confirm-license -prefix ${CONFIG_PREFIX_RELEASE} -opengl desktop -sql-psql \
-              -openssl-runtime -qt-libjpeg -qt-zlib -release -force-debug-info -separate-debug-info \
+              -openssl-runtime -qt-libjpeg -system-zlib -release -force-debug-info -separate-debug-info \
               -nomake examples -nomake tests -no-warnings-are-errors -DFEATURE_clangcpp=OFF \
               -no-feature-designer \
               ${QT_MODULE_SKIPPED} \
@@ -232,7 +234,7 @@ if [ $QT_BUILD_DEBUG_ENABLED -eq 1 ]; then
   pushd $QT_BUILD_PATH_DEBUG
   pwd
   ${QT_ROOT_PATH}/configure -opensource -confirm-license -prefix ${CONFIG_PREFIX_DEBUG} -opengl desktop -sql-psql \
-              -openssl-runtime -qt-libjpeg -qt-zlib -debug -force-debug-info -separate-debug-info \
+              -openssl-runtime -qt-libjpeg -system-zlib -debug -force-debug-info -separate-debug-info \
               -nomake examples -nomake tests -no-warnings-are-errors -DFEATURE_clangcpp=OFF \
               -no-feature-designer \
               ${QT_MODULE_SKIPPED} \
