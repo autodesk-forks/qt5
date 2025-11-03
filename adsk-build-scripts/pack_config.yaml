@@ -327,8 +327,8 @@ mac:
     dependencies: []
   - id: ${component_name}-webengine_${osName}_${config}_${compiler}_${toolchain}
     sources:
-    - include: "${build_dir}/${config}/lib/QtWebEngine*.framework/**/*"
-      exclude: '*.dSYM'
+    - include: "${build_dir}/${config}/lib/QtWebEngineCore.framework/**/*;${build_dir}/${config}/lib/QtWebEngineWidgets.framework/**/*;${build_dir}/${config}/lib/QtWebEngineQuick.framework/**/*;${build_dir}/${config}/lib/QtWebEngineQuickDelegatesQml.framework/**/*"
+      exclude: ''
       target: "libs"
     dependencies: []
   - id: ${component_name}-sym_${osName}_${config}_${compiler}_${toolchain}
