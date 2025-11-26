@@ -27,7 +27,7 @@ RUN powershell $ProgressPreference='SilentlyContinue';wget -OutFile postgresql.e
     && setx /M PATH "%PATH%C:\Program Files\PostgreSQL\15\bin" `
     && del /q postgresql.exe
 
-RUN powershell $ProgressPreference='SilentlyContinue';wget -OutFile node.msi https://nodejs.org/dist/v18.20.4/node-v18.20.4-x64.msi `
+RUN powershell $ProgressPreference='SilentlyContinue';wget -OutFile node.msi https://nodejs.org/dist/v20.19.6/node-v20.19.6-x64.msi `
     && msiexec /i node.msi /quiet /norestart `
     && del /q node.msi
 
