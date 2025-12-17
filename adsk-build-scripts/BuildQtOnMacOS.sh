@@ -381,6 +381,19 @@ popd
   install_name_tool -add_rpath @loader_path qwebengine_convert_dict
   popd
 
+
+# Copy some corresponding files to the webengine folder
+QT_INSTALL_WEBENGINE_PATH=${CONFIG_PREFIX_RELEASE}/webengine
+if  [  -d  "${QT_INSTALL_WEBENGINE_PATH}"  ]; then
+	rm -rf "${QT_INSTALL_WEBENGINE_PATH}"
+fi
+mkdir -p $QT_INSTALL_WEBENGINE_PATH
+
+cp -R $CONFIG_PREFIX_RELEASE/lib/QtWebEngineCore.framework $QT_INSTALL_WEBENGINE_PATH/QtWebEngineCore.framework
+cp -R $CONFIG_PREFIX_RELEASE/lib/QtWebEngineWidgets.framework $QT_INSTALL_WEBENGINE_PATH/QtWebEngineWidgets.framework
+cp -R $CONFIG_PREFIX_RELEASE/lib/QtWebEngineQuick.framework $QT_INSTALL_WEBENGINE_PATH/QtWebEngineQuick.framework
+cp -R $CONFIG_PREFIX_RELEASE/lib/QtWebEngineQuickDelegatesQml.framework $QT_INSTALL_WEBENGINE_PATH/QtWebEngineQuickDelegatesQml.framework
+
 #################################################
 echo Building is done. You should check whether there exist errors.
 #################################################
