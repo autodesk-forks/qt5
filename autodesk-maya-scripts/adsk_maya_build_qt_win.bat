@@ -128,7 +128,7 @@ set COMMERCIAL_MODULES_TO_SKIP=-skip qtcharts -skip qtdatavis3d -skip qtlottie ^
 -skip qtmqtt -skip qtnetworkauth -skip qtquick3d -skip qtquicktimeline ^
 -skip qtvirtualkeyboard -skip qtwayland
 set MODULES_TO_SKIP=%COMMERCIAL_MODULES_TO_SKIP% -skip qtactiveqt ^
--skip qtconnectivity -skip qtcoap -skip qtopcua -skip qtpdf ^
+-skip qtconnectivity -skip qtcoap -skip qtopcua ^
 -skip qtquick3dphysics -skip qtquickeffectmaker -skip qtgraphs
 if %DO_CONFIGURE%==1 (
     REM Define the modules to skip (because they are under commercial license)
@@ -137,7 +137,7 @@ if %DO_CONFIGURE%==1 (
     REM Configure options: https://wiki.qt.io/Qt_6.8_Tools_and_Versions (doesn't presently match since cmake is used directly there)
     call %SOURCE_DIR%\configure -opensource -confirm-license ^
 -prefix %INSTALL_DIR% -debug-and-release -nomake tests -nomake examples ^
--force-debug-info -optimized-tools -opengl desktop -feature-qtwebengine-build ^
+-force-debug-info -optimized-tools -opengl desktop -feature-qtwebengine-build -no-feature-qtpdf-build ^
 %MODULES_TO_SKIP% -openssl-runtime -- ^
 -DOPENSSL_ROOT_DIR=%OPENSSL_ROOT_DIR% ^
 -D_SILENCE_ALL_CXX23_DEPRECATION_WARNINGS=1 || ^

@@ -315,7 +315,7 @@ if [ -n "$DO_CONFIGURE" ]; then
 "-skip qtlottie -skip qtmqtt -skip qtnetworkauth -skip qtquick3d "\
 "-skip qtquicktimeline -skip qtvirtualkeyboard"
     export MODULES_TO_SKIP="${COMMERCIAL_MODULES_TO_SKIP} -skip qtconnectivity -skip qtgraphs"\
-" -skip qtcoap -skip qtopcua -skip qtpdf -skip qtquick3dphysics -skip qtquickeffectmaker"
+" -skip qtcoap -skip qtopcua -skip qtquick3dphysics -skip qtquickeffectmaker"
 
     PLAT_ARGS=""
     PLAT_CMAKE_DEFS=""
@@ -325,7 +325,7 @@ if [ -n "$DO_CONFIGURE" ]; then
         #PLAT_CMAKE_DEFS='-DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -DCMAKE_OSX_DEPLOYMENT_TARGET=13.0'
         $SOURCE_DIR/configure -opensource -confirm-license -prefix $INSTALL_DIR\
  -nomake tests -nomake examples -force-debug-info -separate-debug-info -opengl \
-desktop -feature-qtwebengine-build $PLAT_ARGS \
+desktop -feature-qtwebengine-build -no-feature-qtpdf-build $PLAT_ARGS \
 $MODULES_TO_SKIP -- -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" \
 -DCMAKE_OSX_DEPLOYMENT_TARGET=13.0 -DQT_FORCE_WARN_APPLE_SDK_AND_XCODE_CHECK=ON
         CONFIGURE_RETURNCODE=$?
@@ -345,7 +345,7 @@ $MODULES_TO_SKIP -- -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" \
     if [[ $isMacOS -ne 1 ]]; then
         $SOURCE_DIR/configure -opensource -confirm-license -prefix $INSTALL_DIR\
  -nomake tests -nomake examples -force-debug-info -separate-debug-info -opengl \
-desktop -feature-qtwebengine-build $PLAT_ARGS \
+desktop -feature-qtwebengine-build -no-feature-qtpdf-build $PLAT_ARGS \
 $MODULES_TO_SKIP -- $PLAT_CMAKE_DEFS
         CONFIGURE_RETURNCODE=$?
     fi
