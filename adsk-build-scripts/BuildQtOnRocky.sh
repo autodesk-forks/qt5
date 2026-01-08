@@ -224,7 +224,7 @@ df -h
 
 if [[ "${CONFIG_TYPE_PARAM}" == "debug" ]]; then
    LANG=${LANG} LC_ALL=${LC_ALL} LC_CTYPE=${LC_CTYPE} ${QT_ROOT_PATH}/configure -opensource -confirm-license -prefix ${CONFIG_PREFIX} -icu -opengl desktop -sql-psql \
-                          -openssl-runtime -qt-libjpeg -qt-zlib -qt-harfbuzz -qt-freetype -qt-doubleconversion -xcb -debug -force-debug-info -separate-debug-info \
+                          -openssl-runtime -qt-libjpeg -system-zlib -feature-webengine-system-zlib -qt-harfbuzz -qt-freetype -qt-doubleconversion -xcb -debug -force-debug-info -separate-debug-info \
                           -nomake \examples -nomake tests -no-warnings-are-errors \
                           -no-feature-designer \
                           ${QT_MODULE_SKIPPED} \
@@ -232,7 +232,7 @@ if [[ "${CONFIG_TYPE_PARAM}" == "debug" ]]; then
                           -DCMAKE_CXX_FLAGS_DEBUG="-g -Os" -DOPENSSL_ROOT_DIR=${OPENSSL_ROOT_DIR} --log-level=STATUS || exit 1
 else
    LANG=${LANG} LC_ALL=${LC_ALL} LC_CTYPE=${LC_CTYPE} ${QT_ROOT_PATH}/configure -opensource -confirm-license -prefix ${CONFIG_PREFIX} -icu -opengl desktop -sql-psql \
-                            -openssl-runtime -qt-libjpeg -qt-zlib -qt-harfbuzz -qt-freetype -qt-doubleconversion -xcb -release -force-debug-info -separate-debug-info \
+                            -openssl-runtime -qt-libjpeg -system-zlib -feature-webengine-system-zlib -qt-harfbuzz -qt-freetype -qt-doubleconversion -xcb -release -force-debug-info -separate-debug-info \
                             -nomake examples -nomake tests -no-warnings-are-errors \
                             -no-feature-designer \
                             ${QT_MODULE_SKIPPED} \
