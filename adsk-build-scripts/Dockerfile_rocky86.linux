@@ -58,6 +58,18 @@ RUN wget https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-li
     && mv ninja /usr/local/bin \
     && rm -rf ninja-linux.zip
 
+# Download the new version of zlib from artifactory
+RUN wget -O zlib-headers.zip https://art-bobcat.autodesk.com:443/artifactory/autodesk-3p-nuget/External/zlib/1.1301.2/gec/zlib-headers.1.1301.2.nupkg && \
+    unzip zlib-headers.zip -d zlib-headers && \
+    mkdir -p /usr/local/zlib-1.3.1/include && \
+    mv zlib-headers/inc/* /usr/local/zlib-1.3.1/include/ && \
+    rm -rf zlib-headers.zip zlib-headers
+RUN wget -O zlib-lib.zip https://art-bobcat.autodesk.com:443/artifactory/autodesk-3p-nuget/External/zlib/1.1301.2/gec/zlib-lib_linux-rocky8_release_intel64_gcc1121_static.1.1301.2.nupkg && \
+    unzip zlib-lib.zip -d zlib-libs && \
+    mkdir -p /usr/local/zlib-1.3.1/lib64 && \
+    mv zlib-libs/libs/* /usr/local/zlib-1.3.1/lib64/ && \
+    rm -rf zlib-lib.zip zlib-libs
+
 # Create a symbolic link for python3 to point to python3.9
 RUN ln -sf /usr/bin/python3.9 /usr/bin/python3
 RUN python3 -m pip install html5lib dataclasses
