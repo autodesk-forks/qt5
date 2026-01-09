@@ -70,6 +70,18 @@ RUN wget -O zlib-lib.zip https://art-bobcat.autodesk.com:443/artifactory/autodes
     mv zlib-libs/libs/* /usr/local/zlib-1.3.1/lib64/ && \
     rm -rf zlib-lib.zip zlib-libs
 
+# Download minizip
+RUN wget -O minizip-headers.zip https://art-bobcat.autodesk.com:443/artifactory/autodesk-3p-nuget/External/zlib/1.1301.2/gec/minizip-headers.1.1301.2.nupkg && \
+    unzip minizip-headers.zip -d minizip-headers && \
+    mkdir -p /usr/local/zlib-1.3.1/include && \
+    mv minizip-headers/inc/* /usr/local/zlib-1.3.1/include/ && \
+    rm -rf minizip-headers.zip minizip-headers
+RUN wget -O minizip-lib.zip https://art-bobcat.autodesk.com:443/artifactory/autodesk-3p-nuget/External/zlib/1.1301.2/gec/minizip-lib_linux-rocky8_release_intel64_gcc1121_static.1.1301.2.nupkg && \
+    unzip minizip-lib.zip -d minizip-libs && \
+    mkdir -p /usr/local/zlib-1.3.1/lib64 && \
+    mv minizip-libs/libs/* /usr/local/zlib-1.3.1/lib64/ && \
+    rm -rf minizip-lib.zip minizip-libs
+
 # Create a symbolic link for python3 to point to python3.9
 RUN ln -sf /usr/bin/python3.9 /usr/bin/python3
 RUN python3 -m pip install html5lib dataclasses

@@ -230,8 +230,8 @@ if [[ "${CONFIG_TYPE_PARAM}" == "debug" ]]; then
                           -no-feature-designer \
                           ${QT_MODULE_SKIPPED} \
                           -- -G "Ninja" -DCMAKE_PREFIX_PATH=${LLVM_INSTALL_DIR} -DFEATURE_webengine_jumbo_build=off -DCMAKE_BUILD_TYPE=Debug \
-                          -DQT_FEATURE_webengine_system_zlib=ON -DQT_FEATURE_webengine_system_minizip=ON \
-                          -DZLIB_ROOT=${ZLIB_ROOT_DIR} -DZLIB_ROOT_DIR=${ZLIB_ROOT_DIR} -DOPENSSL_ROOT_DIR=${OPENSSL_ROOT_DIR} \
+                          -DQT_FEATURE_system_zlib=ON \
+                          -DZLIB_ROOT=${ZLIB_ROOT_DIR} -Dminizip_ROOT=${ZLIB_ROOT_DIR} -DOPENSSL_ROOT_DIR=${OPENSSL_ROOT_DIR} \
                           -DCMAKE_CXX_FLAGS_DEBUG="-g -Os" --log-level=STATUS || exit 1
 else
    LANG=${LANG} LC_ALL=${LC_ALL} LC_CTYPE=${LC_CTYPE} ${QT_ROOT_PATH}/configure -opensource -confirm-license -prefix ${CONFIG_PREFIX} -icu -opengl desktop -sql-psql \
@@ -240,8 +240,8 @@ else
                             -no-feature-designer \
                             ${QT_MODULE_SKIPPED} \
                             -- -G "Ninja" -DCMAKE_PREFIX_PATH=${LLVM_INSTALL_DIR} -DFEATURE_webengine_jumbo_build=off -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-                            -DQT_FEATURE_webengine_system_zlib=ON -DQT_FEATURE_webengine_system_minizip=ON \
-                            -DZLIB_ROOT=${ZLIB_ROOT_DIR} -DZLIB_ROOT_DIR=${ZLIB_ROOT_DIR} -DOPENSSL_ROOT_DIR=${OPENSSL_ROOT_DIR} \
+                            -DQT_FEATURE_system_zlib=ON \
+                            -DZLIB_ROOT=${ZLIB_ROOT_DIR} -Dminizip_ROOT=${ZLIB_ROOT_DIR} -DOPENSSL_ROOT_DIR=${OPENSSL_ROOT_DIR} \
                             --log-level=STATUS || exit 1
 fi
 
