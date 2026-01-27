@@ -1,13 +1,13 @@
 [submodule "qtbase"]
 	path = qtbase
 	url = ../qtbase.git
-	branch = 6.8.3
+	branch = adsk-contrib/gec/6.8.3
 	status = essential
 [submodule "qtsvg"]
 	depends = qtbase
 	path = qtsvg
 	url = ../qtsvg.git
-	branch = 6.8.3
+	branch = adsk-contrib/gec/6.8.3
 	status = addon
 [submodule "qtdeclarative"]
 	depends = qtbase
@@ -137,7 +137,7 @@
 	depends = qtbase
 	path = qtimageformats
 	url = ../qtimageformats.git
-	branch = 6.8.3
+	branch = adsk-contrib/gec/6.8.3
 	status = addon
 [submodule "qtserialbus"]
 	depends = qtbase
