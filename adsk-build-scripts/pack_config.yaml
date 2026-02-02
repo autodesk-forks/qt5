@@ -180,9 +180,51 @@ windows:
   packages:
   - id: ${component_name}-translations
     sources:
-    - include: "${build_dir}/${config}/translations/**/*"
+    - include: "${build_dir}/${config}/translations/*_cs.qm"
       exclude: ''
-      target: "bin"
+      target: "bin/cs-CZ"
+    - include: "${build_dir}/${config}/translations/*_de.qm"
+      exclude: ''
+      target: "bin/de-DE"
+    - include: "${build_dir}/${config}/translations/*_es.qm"
+      exclude: ''
+      target: "bin/es-ES"
+    - include: "${build_dir}/${config}/translations/*_fr.qm"
+      exclude: ''
+      target: "bin/fr-FR"
+    - include: "${build_dir}/${config}/translations/*_hu.qm"
+      exclude: ''
+      target: "bin/hu-HU"
+    - include: "${build_dir}/${config}/translations/*_it.qm"
+      exclude: ''
+      target: "bin/it-IT"
+    - include: "${build_dir}/${config}/translations/*_ja.qm"
+      exclude: ''
+      target: "bin/ja-JP"
+    - include: "${build_dir}/${config}/translations/*_ko.qm"
+      exclude: ''
+      target: "bin/ko-KR"
+    - include: "${build_dir}/${config}/translations/*_pl.qm"
+      exclude: ''
+      target: "bin/pl-PL"
+    - include: "${build_dir}/${config}/translations/*_pt_BR.qm"
+      exclude: ''
+      target: "bin/pt-BR"
+    - include: "${build_dir}/${config}/translations/*_pt_PT.qm"
+      exclude: ''
+      target: "bin/pt-BR"
+    - include: "${build_dir}/${config}/translations/*_ru.qm"
+      exclude: ''
+      target: "bin/ru-RU"
+    - include: "${build_dir}/${config}/translations/*_zh_CN.qm"
+      exclude: ''
+      target: "bin/zh-CN"
+    - include: "${build_dir}/${config}/translations/*_zh_TW.qm"
+      exclude: ''
+      target: "bin/zh-TW"
+    - include: "${build_dir}/${config}/translations/qtwebengine_locales/**/*"
+      exclude: ''
+      target: "bin/qtwebengine_locales"
     dependencies: []
   - id: ${component_name}-headers_${osName}_${compiler}
     sources:
