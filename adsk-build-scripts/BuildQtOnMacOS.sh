@@ -217,7 +217,9 @@ if [ $QT_BUILD_RELEASE_ENABLED -eq 1 ]; then
               -nomake examples -nomake tests -no-warnings-are-errors -DFEATURE_clangcpp=OFF \
               -no-feature-designer \
               ${QT_MODULE_SKIPPED} \
-              -- -G "Ninja" -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -DCMAKE_OSX_DEPLOYMENT_TARGET="14.0" -DCMAKE_INSTALL_RPATH="@executable_path/../Frameworks" -DCMAKE_BUILD_WITH_INSTALL_RPATH=ON || exit 1
+              -- -G "Ninja" -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -DCMAKE_OSX_DEPLOYMENT_TARGET="14.0" \
+              -DCMAKE_INSTALL_RPATH="@executable_path/../Frameworks" -DCMAKE_BUILD_WITH_INSTALL_RPATH=ON \
+              -DQT_NO_PACKAGE_VERSION_CHECK=TRUE || exit 1
   popd
 fi
 
@@ -236,7 +238,9 @@ if [ $QT_BUILD_DEBUG_ENABLED -eq 1 ]; then
               -nomake examples -nomake tests -no-warnings-are-errors -DFEATURE_clangcpp=OFF \
               -no-feature-designer \
               ${QT_MODULE_SKIPPED} \
-              -- -G "Ninja" -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -DCMAKE_OSX_DEPLOYMENT_TARGET="14.0" -DCMAKE_INSTALL_RPATH="@executable_path/../Frameworks" -DCMAKE_BUILD_WITH_INSTALL_RPATH=ON || exit 1
+              -- -G "Ninja" -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -DCMAKE_OSX_DEPLOYMENT_TARGET="14.0" \
+              -DCMAKE_INSTALL_RPATH="@executable_path/../Frameworks" -DCMAKE_BUILD_WITH_INSTALL_RPATH=ON \
+              -DQT_NO_PACKAGE_VERSION_CHECK=TRUE || exit 1
   popd
 fi
 #################################################
