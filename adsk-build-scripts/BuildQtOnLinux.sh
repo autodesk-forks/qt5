@@ -232,8 +232,7 @@ if [[ "${CONFIG_TYPE_PARAM}" == "debug" ]]; then
                           -no-feature-designer \
                           ${QT_MODULE_SKIPPED} \
                           -- -G "Ninja" -DCMAKE_PREFIX_PATH=${LLVM_INSTALL_DIR} -DFEATURE_webengine_jumbo_build=off -DCMAKE_BUILD_TYPE=Debug \
-                          -DCMAKE_CXX_FLAGS_DEBUG="-g -Os" -DOPENSSL_ROOT_DIR=${OPENSSL_ROOT_DIR} \
-                          -DQT_NO_PACKAGE_VERSION_CHECK=TRUE --log-level=STATUS || exit 1
+                          -DCMAKE_CXX_FLAGS_DEBUG="-g -Os" -DOPENSSL_ROOT_DIR=${OPENSSL_ROOT_DIR} --log-level=STATUS || exit 1
 else
   LANG=${LANG} LC_ALL=${LC_ALL} LC_CTYPE=${LC_CTYPE} ${QT_ROOT_PATH}/configure -opensource -confirm-license -prefix ${CONFIG_PREFIX} -opengl desktop -sql-psql \
                             -openssl-runtime -qt-libjpeg -qt-zlib -qt-harfbuzz -qt-freetype -xcb -release -force-debug-info -separate-debug-info \
@@ -242,7 +241,7 @@ else
                             ${QT_MODULE_SKIPPED} \
                             -- -G "Ninja" -DCMAKE_PREFIX_PATH=${LLVM_INSTALL_DIR} -DFEATURE_webengine_jumbo_build=off -DCMAKE_BUILD_TYPE=RelWithDebInfo \
                             -DOPENSSL_ROOT_DIR=${OPENSSL_ROOT_DIR} \
-                            -DQT_NO_PACKAGE_VERSION_CHECK=TRUE --log-level=STATUS || exit 1
+                            --log-level=STATUS || exit 1
 fi
 
 popd

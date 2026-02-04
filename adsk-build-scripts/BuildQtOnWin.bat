@@ -197,7 +197,7 @@ if "%CONFIG_TYPE_PARAM%" == "debug" (
                    " -no-feature-designer " ^
                    " %QT_MODULE_SKIPPED% " ^
                    " -- -G Ninja " ^
-                   " -DOPENSSL_ROOT_DIR=%OPENSSL_ROOT_DIR%% --log-level=STATUS -DQT_NO_PACKAGE_VERSION_CHECK=TRUE " ^
+                   " -DOPENSSL_ROOT_DIR=%OPENSSL_ROOT_DIR%% --log-level=STATUS " ^
                    " || goto :error "
 ) else (
     call  %comspec% /k "configure -opensource -confirm-license -prefix %CONFIG_PREFIX%  -platform win32-msvc " ^
@@ -206,7 +206,7 @@ if "%CONFIG_TYPE_PARAM%" == "debug" (
                    " -no-feature-designer " ^
                    " %QT_MODULE_SKIPPED% " ^
                    " -- -G Ninja " ^
-                   " -DOPENSSL_ROOT_DIR=%OPENSSL_ROOT_DIR% --log-level=STATUS -DQT_NO_PACKAGE_VERSION_CHECK=TRUE " ^
+                   " -DOPENSSL_ROOT_DIR=%OPENSSL_ROOT_DIR% --log-level=STATUS " ^
                    " || goto :error "
 )
 
