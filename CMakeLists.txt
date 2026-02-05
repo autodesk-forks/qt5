@@ -1,6 +1,12 @@
 # The real minimum version will be checked by the qtbase project.
 # 3.16 is the absolute minimum though.
 cmake_minimum_required(VERSION 3.16...3.21)
+
+# Override Qt module version for binary compatibility
+# This must be set as a FORCE cache variable to override submodule .cmake.conf files
+set(QT_REPO_MODULE_VERSION "6.8.100" CACHE STRING "Qt module version for binaries" FORCE)
+
+# Set up post-project() hook to fix installation paths
 set(CMAKE_PROJECT_INCLUDE "${CMAKE_CURRENT_SOURCE_DIR}/version-override.cmake" CACHE INTERNAL "")
 
 # set QT_SUPERBUILD early, so that qtbase/.cmake.conf can check it
