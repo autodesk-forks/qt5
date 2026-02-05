@@ -1,7 +1,7 @@
 # The real minimum version will be checked by the qtbase project.
 # 3.16 is the absolute minimum though.
-set(CMAKE_PROJECT_INCLUDE_BEFORE "${CMAKE_CURRENT_SOURCE_DIR}/version-override.cmake")
 cmake_minimum_required(VERSION 3.16...3.21)
+set(CMAKE_PROJECT_INCLUDE "${CMAKE_CURRENT_SOURCE_DIR}/version-override.cmake" CACHE INTERNAL "")
 
 # set QT_SUPERBUILD early, so that qtbase/.cmake.conf can check it
 set(QT_SUPERBUILD TRUE)

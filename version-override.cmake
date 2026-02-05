@@ -1,10 +1,12 @@
 # Version override for all Qt submodules
-# This file is included before each project() command via CMAKE_PROJECT_INCLUDE_BEFORE
+# This file is included by each project() command
 
-if(DEFINED QT_REPO_MODULE_VERSION)
-    # Map old versions to new versions
-    if(QT_REPO_MODULE_VERSION STREQUAL "6.8.3")
-        set(QT_REPO_MODULE_VERSION "6.8.33")
-        message(STATUS "Overriding module version: 6.8.3 -> 6.8.33")
-    endif()
+# Override PROJECT_VERSION if it's 6.8.3
+if(PROJECT_VERSION STREQUAL "6.8.3")
+    set(PROJECT_VERSION "6.8.33")
+    set(PROJECT_VERSION_MAJOR 6)
+    set(PROJECT_VERSION_MINOR 8)
+    set(PROJECT_VERSION_PATCH 33)
+    set(PROJECT_VERSION_TWEAK "")
+    message(STATUS "Overriding ${PROJECT_NAME} version: 6.8.3 -> 6.8.33")
 endif()
