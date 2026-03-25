@@ -19,7 +19,7 @@
 [submodule "qtactiveqt"]
 	depends = qtbase
 	path = qtactiveqt
-	url = ../qtactiveqt.git
+	url = https://code.qt.io/qt/qtactiveqt.git
 	branch = 6.8.3
 	status = addon
 [submodule "qtmultimedia"]
@@ -54,7 +54,7 @@
 	depends = qtdeclarative qttools
 	recommends = qtmultimedia qtshadertools qtwebengine
 	path = qtdoc
-	url = ../qtdoc.git
+	url = https://code.qt.io/qt/qtdoc.git
 	branch = 6.8.3
 	status = essential
 	priority = 40
@@ -191,21 +191,21 @@
 	depends = qtbase
 	recommends = qtdeclarative qtmultimedia
 	path = qtcharts
-	url = ../qtcharts.git
+	url = https://code.qt.io/qt/qtcharts.git
 	branch = 6.8.3
 	status = addon
 [submodule "qtdatavis3d"]
 	depends = qtbase
 	recommends = qtdeclarative qtmultimedia
 	path = qtdatavis3d
-	url = ../qtdatavis3d.git
+	url = https://code.qt.io/qt/qtdatavis3d.git
 	branch = 6.8.3
 	status = addon
 [submodule "qtvirtualkeyboard"]
 	depends = qtbase qtdeclarative qtsvg
 	recommends = qtmultimedia
 	path = qtvirtualkeyboard
-	url = ../qtvirtualkeyboard.git
+	url = https://code.qt.io/qt/qtvirtualkeyboard.git
 	branch = 6.8.3
 	status = addon
 [submodule "qtgamepad"]
@@ -231,7 +231,7 @@
 [submodule "qtnetworkauth"]
 	depends = qtbase
 	path = qtnetworkauth
-	url = ../qtnetworkauth.git
+	url = https://code.qt.io/qt/qtnetworkauth.git
 	branch = 6.8.3
 	status = addon
 [submodule "qtremoteobjects"]
@@ -245,26 +245,26 @@
 	depends = qtbase qtwebsockets
 	recommends = qtdeclarative
 	path = qtwebglplugin
-	url = ../qtwebglplugin.git
+	url = https://code.qt.io/qt/qtwebglplugin.git
 	branch = dev
 	status = ignore
 [submodule "qtlottie"]
 	depends = qtbase qtdeclarative
 	path = qtlottie
-	url = ../qtlottie.git
+	url = https://code.qt.io/qt/qtlottie.git
 	branch = 6.8.3
 	status = addon
 [submodule "qtquicktimeline"]
 	depends = qtbase qtdeclarative
 	path = qtquicktimeline
-	url = ../qtquicktimeline
+	url = https://code.qt.io/qt/qtquicktimeline.git
 	branch = 6.8.3
 	status = addon
 [submodule "qtquick3d"]
 	depends = qtbase qtdeclarative qtshadertools
 	recommends = qtquicktimeline
 	path = qtquick3d
-	url = ../qtquick3d.git
+	url = https://code.qt.io/qt/qtquick3d.git
 	branch = 6.8.3
 	status = addon
 [submodule "qtshadertools"]
@@ -282,13 +282,13 @@
 [submodule "qtcoap"]
 	depends = qtbase
 	path = qtcoap
-	url = ../qtcoap.git
+	url = https://code.qt.io/qt/qtcoap.git
 	branch = 6.8.3
 	status = addon
 [submodule "qtmqtt"]
 	depends = qtbase qtdeclarative
 	path = qtmqtt
-	url = ../qtmqtt.git
+	url = https://code.qt.io/qt/qtmqtt.git
 	branch = 6.8.3
 	status = addon
 [submodule "qtopcua"]
@@ -307,13 +307,13 @@
 	depends = qtbase
 	recommends = qtwebsockets
 	path = qthttpserver
-	url = ../qthttpserver.git
+	url = https://code.qt.io/qt/qthttpserver.git
 	branch = 6.8.3
 	status = addon
 [submodule "qtquick3dphysics"]
 	depends = qtbase qtdeclarative qtquick3d qtshadertools
 	path = qtquick3dphysics
-	url = ../qtquick3dphysics.git
+	url = https://code.qt.io/qt/qtquick3dphysics.git
 	branch = 6.8.3
 	status = addon
 [submodule "qtgrpc"]
@@ -327,12 +327,12 @@
 	depends = qtbase qtdeclarative qtshadertools
 	recommends = qtquick3d
 	path = qtquickeffectmaker
-	url = ../qtquickeffectmaker.git
+	url = https://code.qt.io/qt/qtquickeffectmaker.git
 	branch = 6.8.3
 	status = addon
 [submodule "qtgraphs"]
 	depends = qtbase qtdeclarative qtquick3d
 	path = qtgraphs
-	url = ../qtgraphs.git
+	url = https://code.qt.io/qt/qtgraphs.git
 	branch = 6.8.3
 	status = addon
