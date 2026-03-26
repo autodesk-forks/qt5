@@ -105,14 +105,16 @@ set OPENSSL_ROOT_DIR="C:\Program Files\OpenSSL-Win64\"
 @rem - -no-feature-designer: Disables Qt Designer (GPL components)
 @rem
 @rem The modules in QT_MODULE_EXCLUDED will be excluded from git syncing (GPL modules)
-set QT_MODULE_EXCLUDED=-qtlocation,-qtvirtualkeyboard,-qtquicktimeline,-qtquick3d,-qtnetworkauth,-qtdatavis3d,-qtcharts,^
--qtquick3dphysics,-qtlottie,-qtcoap,-qtmqtt,-qtgraphs
+set QT_MODULE_EXCLUDED=-qtactiveqt,-qtvirtualkeyboard,-qtquicktimeline,-qtquick3d,-qtnetworkauth,-qtdatavis3d,-qtcharts,^
+-qtquick3dphysics,-qtlottie,-qtcoap,-qtmqtt,-qtgraphs,-qthttpserver,-qtquickeffectmaker,-qtwebglplugin,-qtdoc
 
 @rem The modules in QT_MODULE_SKIPPED will be skipped from building (GPL modules)
 @rem Complete list of GPL modules to skip during build
-set QT_MODULE_SKIPPED= -skip qtlocation -skip qtvirtualkeyboard -skip qtquicktimeline -skip qtquick3d -skip qtnetworkauth ^
+set QT_MODULE_SKIPPED= -skip qtactiveqt -skip qtvirtualkeyboard -skip qtquicktimeline -skip qtquick3d -skip qtnetworkauth ^
                        -skip qtdatavis3d -skip qtcharts -skip qtquick3dphysics ^
-                       -skip qtlottie -skip qtcoap -skip qtmqtt -skip qtgraphs
+                       -skip qtlottie -skip qtcoap -skip qtmqtt -skip qtgraphs -skip qthttpserver ^
+                       -skip qtquickeffectmaker -skip qtwebglplugin -skip qtdoc
+
 
 @rem Step into the Qt root directory
 cd /d %QT_ROOT_PATH%
@@ -147,48 +149,10 @@ git submodule sync
 git submodule update --init --recursive
 @rem #################################################
 
-
-@rem #################################################
-@rem Preparation for configuration
-@rem Delete some unnecessary folders which will block the configuration
-@rem rd /s /q  %QT_ROOT_PATH%\qtlocation
-@rem #################################################
-
-
 :LabelConfigure
 @rem #################################################
 @rem Configure Qt build options ----set -prefix -extprefix options
 @echo Configuring Qt...
-
-@rem We should use start to call configure.bat, for there exist exit statements in the bat.
-@rem start configure -opensource -confirm-license -prefix %CONFIG_PREFIX% -extprefix  %CONFIG_EXT_PREFIX%	^
-@rem 		-platform win32-msvc -opengl dynamic -plugin-sql-sqlite -qt-libjpeg -qt-zlib		^
-@rem 		-debug-and-release -force-debug-info -developer-build -nomake examples		^
-@rem 		-nomake tests -no-warnings-are-errors
-
-@rem call  %comspec% /k "configure -opensource -confirm-license -prefix %CONFIG_PREFIX% -extprefix  %CONFIG_EXT_PREFIX% -platform win32-msvc -opengl dynamic -plugin-sql-sqlite -qt-libjpeg -qt-zlib -debug-and-release -force-debug-info -developer-build -nomake examples -nomake tests -no-warnings-are-errors  & exit"
-
-@rem call  %comspec% /k "configure -opensource -confirm-license -prefix %CONFIG_PREFIX% -extprefix  %CONFIG_EXT_PREFIX% -platform win32-msvc " ^
-@rem                    " -opengl dynamic -plugin-sql-sqlite  -sql-psql -plugin-sql-psql -openssl-linked -qt-libjpeg -qt-zlib  " ^
-@rem                    " -debug-and-release -force-debug-info -developer-build -nomake examples -nomake tests -no-warnings-are-errors  & exit "
-
-@rem call  %comspec% /k configure -opensource -confirm-license -prefix %CONFIG_PREFIX%  -platform win32-msvc  -opengl dynamic -plugin-sql-sqlite  -sql-psql -plugin-sql-psql -openssl-runtime -qt-libjpeg -qt-zlib   -debug-and-release -force-debug-info -nomake examples -nomake tests -no-warnings-are-errors %QT_MODULE_SKIPPED% -- -DCMAKE_CXX_FLAGS_DEBUG="-g -Os" --log-level=STATUS 1>%CONFIGURE_LOG% 2>%CONFIGURE_ERR_LOG% & exit 
-
-@rem call  %comspec% /k "configure -opensource -confirm-license -prefix %CONFIG_PREFIX%  -platform win32-msvc " ^
-@rem                    " -opengl dynamic -plugin-sql-sqlite  -sql-psql -plugin-sql-psql -openssl-runtime -qt-libjpeg -qt-zlib  " ^
-@rem                    " -debug-and-release -force-debug-info -nomake examples -nomake tests -no-warnings-are-errors " ^
-@rem                    " %QT_MODULE_SKIPPED% " ^
-@rem 				    " -- " ^
-@rem                    " -DCMAKE_CXX_FLAGS_DEBUG=^"-g -Os^" --log-level=STATUS " ^
-@rem                    " 1>%CONFIGURE_LOG% 2>%CONFIGURE_ERR_LOG% & exit "
-
-@rem call  %comspec% /k configure -opensource -confirm-license -prefix %CONFIG_PREFIX%  -platform win32-msvc  ^
-@rem                     -opengl dynamic -plugin-sql-sqlite  -sql-psql -plugin-sql-psql -openssl-runtime -qt-libjpeg -qt-zlib   ^
-@rem                     -debug-and-release -force-debug-info -nomake examples -nomake tests -no-warnings-are-errors  ^
-@rem                     %QT_MODULE_SKIPPED%  ^
-@rem 				     -- ^
-@rem                     -DCMAKE_CXX_FLAGS_DEBUG="/Zi /RTC1" --log-level=STATUS  ^
-@rem                     1>%CONFIGURE_LOG% 2>%CONFIGURE_ERR_LOG% & exit 
 
 if "%CONFIG_TYPE_PARAM%" == "debug" (
     call  %comspec% /k "configure -opensource -confirm-license -prefix %CONFIG_PREFIX%  -platform win32-msvc " ^
@@ -210,11 +174,8 @@ if "%CONFIG_TYPE_PARAM%" == "debug" (
                    " || goto :error "
 )
 
-
-
 @rem #################################################
 @rem goto :eof
-
 
 :LabelBuild
 @rem #################################################
@@ -222,25 +183,19 @@ if "%CONFIG_TYPE_PARAM%" == "debug" (
 @echo Building Qt...
 cmake --build . --parallel %NUMBER_OF_PROCESSORS% || goto :error
 
-@rem Build single module
-@rem cmake --build . --target qtmqtt
-@rem #################################################
-
-
-:LabelBuildDocs
-@rem #################################################
-@rem Build Qt document
-@echo Building Qt documents...
-@rem If you want to generate the docs, you shoude uncomment the next statement
-@rem ninja docs 1>%BUILD_DOC_LOG% 2>%BUILD_DOC_ERR_LOG%
-@rem #################################################
-
 
 :LabelInstall
 @rem #################################################
 @rem Install Qt binary to %CONFIG_PREFIX% path
 @echo Installing Qt...
 ninja install || goto :error
+
+@rem Remove GPL-licensed tool translations (designer, assistant, linguist, qt_help)
+@rem These are generated by qttranslations regardless of -no-feature-designer
+del /q %QT_INSTALL_PATH%\translations\assistant_*.qm
+del /q %QT_INSTALL_PATH%\translations\designer_*.qm
+del /q %QT_INSTALL_PATH%\translations\linguist_*.qm
+del /q %QT_INSTALL_PATH%\translations\qt_help_*.qm
 @rem #################################################
 
 :LabelPatchDll
@@ -286,7 +241,6 @@ echo F| xcopy /d /y /h "%QT_INSTALL_PATH%\bin\lupdate.exe"  %QT_INSTALL_COMPILER
 echo F| xcopy /d /y /h "%QT_INSTALL_PATH%\bin\lrelease.exe"  %QT_INSTALL_COMPILER_PATH%
 echo F| xcopy /d /y /h "%QT_INSTALL_PATH%\bin\lprodump.exe"  %QT_INSTALL_COMPILER_PATH%
 echo F| xcopy /d /y /h "%QT_INSTALL_PATH%\bin\lconvert.exe"  %QT_INSTALL_COMPILER_PATH%
-echo F| xcopy /d /y /h "%QT_INSTALL_PATH%\bin\idc.exe"  %QT_INSTALL_COMPILER_PATH%
 
 echo F| xcopy /d /y /h "%QT_INSTALL_PATH%\bin\androiddeployqt.exe"  %QT_INSTALL_COMPILER_PATH%
 echo F| xcopy /d /y /h "%QT_INSTALL_PATH%\bin\androidtestrunner.exe"  %QT_INSTALL_COMPILER_PATH%
