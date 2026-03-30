@@ -183,14 +183,14 @@ mkdir -p $QT_INSTALL_PATH
 
 # The modules in QT_MODULE_EXCLUDED will be excluded from git syncing (GPL modules)
 QT_MODULE_EXCLUDED=-qtactiveqt,-qtvirtualkeyboard,-qtquicktimeline,-qtquick3d,-qtnetworkauth,-qtdatavis3d,-qtcharts,\
--qtquick3dphysics,-qtlottie,-qtcoap,-qtmqtt,-qtgraphs,-qthttpserver,-qtquickeffectmaker,-qtwebglplugin,-qtdoc
+-qtquick3dphysics,-qtlottie,-qtcoap,-qtmqtt,-qtgraphs,-qthttpserver,-qtquickeffectmaker,-qtwebglplugin,-qtdoc,-qtgrpc
 
 # The modules in QT_MODULE_SKIPPED will be skipped from building (GPL modules)
 # Complete list of GPL modules to skip during build
 QT_MODULE_SKIPPED=" -skip qtactiveqt -skip qtvirtualkeyboard -skip qtquicktimeline -skip qtquick3d -skip qtnetworkauth \
                     -skip qtdatavis3d -skip qtcharts -skip qtquick3dphysics \
                     -skip qtlottie -skip qtcoap -skip qtmqtt -skip qtgraphs -skip qthttpserver \
-                    -skip qtquickeffectmaker -skip qtwebglplugin -skip qtdoc"
+                    -skip qtquickeffectmaker -skip qtwebglplugin -skip qtdoc -skip qtgrpc"
 
 echo QT_ROOT_PATH:$QT_ROOT_PATH
 echo CUR_SCRIPT_PATH:$CUR_SCRIPT_PATH

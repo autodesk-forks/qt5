@@ -100,20 +100,21 @@ set OPENSSL_ROOT_DIR="C:\Program Files\OpenSSL-Win64\"
 @rem - qtcoap: CoAP protocol support (GPL)
 @rem - qtmqtt: MQTT protocol support (GPL)
 @rem - qtgraphs: Graph visualization (GPL)
+@rem - qtgrpc: gRPC/Protobuf protocol support (GPL)
 @rem
 @rem Additional configuration options:
 @rem - -no-feature-designer: Disables Qt Designer (GPL components)
 @rem
 @rem The modules in QT_MODULE_EXCLUDED will be excluded from git syncing (GPL modules)
 set QT_MODULE_EXCLUDED=-qtactiveqt,-qtvirtualkeyboard,-qtquicktimeline,-qtquick3d,-qtnetworkauth,-qtdatavis3d,-qtcharts,^
--qtquick3dphysics,-qtlottie,-qtcoap,-qtmqtt,-qtgraphs,-qthttpserver,-qtquickeffectmaker,-qtwebglplugin,-qtdoc
+-qtquick3dphysics,-qtlottie,-qtcoap,-qtmqtt,-qtgraphs,-qthttpserver,-qtquickeffectmaker,-qtwebglplugin,-qtdoc,-qtgrpc
 
 @rem The modules in QT_MODULE_SKIPPED will be skipped from building (GPL modules)
 @rem Complete list of GPL modules to skip during build
 set QT_MODULE_SKIPPED= -skip qtactiveqt -skip qtvirtualkeyboard -skip qtquicktimeline -skip qtquick3d -skip qtnetworkauth ^
                        -skip qtdatavis3d -skip qtcharts -skip qtquick3dphysics ^
                        -skip qtlottie -skip qtcoap -skip qtmqtt -skip qtgraphs -skip qthttpserver ^
-                       -skip qtquickeffectmaker -skip qtwebglplugin -skip qtdoc
+                       -skip qtquickeffectmaker -skip qtwebglplugin -skip qtdoc -skip qtgrpc
 
 
 @rem Step into the Qt root directory
