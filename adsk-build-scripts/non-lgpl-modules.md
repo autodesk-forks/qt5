@@ -5,7 +5,7 @@ Complete list across all 50 submodules. Verified by inspecting each module's `LI
 
 ---
 
-## 1. Commercial + GPL only (no LGPL) — 16 modules
+## 1. Commercial + GPL only (no LGPL) — 15 modules
 
 These require a Qt commercial license for use in proprietary/closed-source software.
 Modules marked **(skipped)** are excluded from the Autodesk Windows build via `QT_MODULE_SKIPPED`.
@@ -13,7 +13,6 @@ Modules marked **(skipped)** are excluded from the Autodesk Windows build via `Q
 | Module | Licenses | Notes |
 |---|---|---|
 | `qtactiveqt` | GPL-3.0, Commercial | ActiveX/COM support on Windows |
-| `qttranslations` | GPL-3.0, Commercial | Translation files |
 | `qthttpserver` | GPL-3.0, Commercial | HTTP server module |
 | `qtquickeffectmaker` | GPL-3.0, Commercial | Visual effect editor |
 | `qtgrpc` | GPL-3.0, Commercial | gRPC/Protobuf protocol support |
