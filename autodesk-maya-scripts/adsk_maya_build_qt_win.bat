@@ -129,7 +129,9 @@ set COMMERCIAL_MODULES_TO_SKIP=-skip qtcharts -skip qtdatavis3d -skip qtlottie ^
 -skip qtvirtualkeyboard -skip qtwayland
 set MODULES_TO_SKIP=%COMMERCIAL_MODULES_TO_SKIP% -skip qtactiveqt ^
 -skip qtconnectivity -skip qtcoap -skip qtopcua ^
--skip qtquick3dphysics -skip qtquickeffectmaker -skip qtgraphs
+-skip qtquick3dphysics -skip qtquickeffectmaker -skip qtgraphs ^
+-skip qthttpserver -skip qtgrpc
+
 if %DO_CONFIGURE%==1 (
     REM Define the modules to skip (because they are under commercial license)
 

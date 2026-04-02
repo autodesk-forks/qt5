@@ -315,7 +315,8 @@ if [ -n "$DO_CONFIGURE" ]; then
 "-skip qtlottie -skip qtmqtt -skip qtnetworkauth -skip qtquick3d "\
 "-skip qtquicktimeline -skip qtvirtualkeyboard"
     export MODULES_TO_SKIP="${COMMERCIAL_MODULES_TO_SKIP} -skip qtconnectivity -skip qtgraphs"\
-" -skip qtcoap -skip qtopcua -skip qtquick3dphysics -skip qtquickeffectmaker"
+" -skip qtcoap -skip qtopcua -skip qtquick3dphysics -skip qtquickeffectmaker"\
+" -skip qthttpserver -skip qtgrpc"
 
     PLAT_ARGS=""
     PLAT_CMAKE_DEFS=""
