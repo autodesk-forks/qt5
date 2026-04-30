@@ -1,17 +1,58 @@
-FROM autodesk-docker.art-bobcat.autodesk.com/engops/gecoss/qt5/ubuntu-2204-gcc11:nightly
+FROM ubuntu:22.04
 
-# Download and extract OpenSSL 3.5.1 source code
-RUN wget https://www.openssl.org/source/openssl-3.5.1.tar.gz && \
-    tar -xf openssl-3.5.1.tar.gz && \
-    cd openssl-3.5.1 && \
-    ./config --prefix=/usr/local/openssl-3.5.1 --openssldir=/usr/local/openssl-3.5.1 && \
-    make > /dev/null 2>&1 && \
-    make install_sw && \
-    rm -rf openssl-3.5.1 openssl-3.5.1.tar.gz
+RUN apt update -y && apt install -y software-properties-common curl
+RUN add-apt-repository ppa:ubuntu-toolchain-r/test
+RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash -
+RUN apt update -y \
+    && DEBIAN_FRONTEND=noninteractive TZ=Etc/utc apt-get -y install tzdata
+RUN apt install -y gcc-11 make g++-11 build-essential libtool autoconf unzip wget \
+    git libssl-dev libpq-dev libgl1-mesa-dev \
+    nodejs flex bison gperf libicu-dev libxslt-dev ruby \
+    clang libclang-dev ninja-build \
+    '^libxcb.*-dev' libx11-xcb-dev libglu1-mesa-dev libxrender-dev libxi-dev \
+    libxkbcommon-dev libxkbcommon-x11-dev libxcursor-dev libxcomposite-dev \
+    libxdamage-dev libxrandr-dev libxtst-dev libxss-dev libdbus-1-dev libevent-dev \
+    libfontconfig1-dev libcap-dev libpulse-dev libudev-dev libpci-dev libnss3-dev \
+    libasound2-dev libegl1-mesa-dev gperf \
+    libavcodec-dev libavformat-dev libavutil-dev libjpeg-dev libxshmfence-dev libdrm-dev \
+    libmtdev-dev libts-dev libice-dev libatspi2.0-dev libcups2-dev libtiff-dev libswscale-dev libbluetooth-dev \
+    libsm-dev libsmdev-dev libsmdev-utils \
+    libxkbfile-dev
+RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 60 \
+    --slave /usr/bin/g++ g++ /usr/bin/g++-11
+RUN wget -o cmake.tar.gz https://cmake.org/files/v3.26/cmake-3.26.4.tar.gz && \
+    tar -xzvf cmake-3.26.4.tar.gz && \
+    cd cmake-3.26.4 && \
+    ./bootstrap && \
+    make -j$(nproc) && \
+    make install
+
+# Build and install Python 3.13.12 from source
+RUN wget -q -O /tmp/python.tar.xz https://www.python.org/ftp/python/3.13.12/Python-3.13.12.tar.xz \
+    && tar -xf /tmp/python.tar.xz -C /tmp \
+    && cd /tmp/Python-3.13.12 \
+    && ./configure --enable-optimizations --with-lto --prefix=/usr/local \
+    && make -j$(nproc) \
+    && make altinstall \
+    && ln -sf /usr/local/bin/python3.13 /usr/local/bin/python3 \
+    && ln -sf /usr/local/bin/pip3.13 /usr/local/bin/pip3 \
+    && cd / && rm -rf /tmp/python.tar.xz /tmp/Python-3.13.12 \
+    && python3 -m pip install --no-cache-dir html5lib
+
+# Build and install OpenSSL 3.5.1 from source
+RUN wget -q https://www.openssl.org/source/openssl-3.5.1.tar.gz \
+    && tar -xf openssl-3.5.1.tar.gz \
+    && cd openssl-3.5.1 \
+    && ./config --prefix=/usr/local/openssl-3.5.1 --openssldir=/usr/local/openssl-3.5.1 \
+    && make -j$(nproc) > /dev/null 2>&1 \
+    && make install_sw \
+    && cd .. \
+    && rm -rf openssl-3.5.1 openssl-3.5.1.tar.gz
 
 RUN git config --system credential.helper store \
     && mkdir /root/.ssh \
     && ssh-keyscan git.autodesk.com > /root/.ssh/known_hosts
+
 COPY .git-credentials /root/
 WORKDIR /src
 COPY . /src

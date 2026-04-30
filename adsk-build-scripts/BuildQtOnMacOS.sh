@@ -91,10 +91,49 @@ execute() {
 CUR_SCRIPT_PATH=`dirname $0`
 #################################################
 
+
+#################################################
+# Ensure Python 3.13.12 is installed and capture its explicit path so
+# CMake cannot accidentally pick up a different version from PATH.
+REQUIRED_PYTHON_VERSION="3.13.12"
+
+# Verify Python 3.13.12 is installed via the python.org pkg installer; abort if not.
+# The python.org installer places the binary at this canonical framework path.
+PYTHON3_FRAMEWORK="/Library/Frameworks/Python.framework/Versions/3.13/bin/python3.13"
+if [ ! -x "${PYTHON3_FRAMEWORK}" ]; then
+  echo "Error: Python ${REQUIRED_PYTHON_VERSION} not found at ${PYTHON3_FRAMEWORK}."
+  echo "Please install Python ${REQUIRED_PYTHON_VERSION} from https://www.python.org/downloads/ before building."
+  exit 1
+fi
+INSTALLED_VERSION=$("${PYTHON3_FRAMEWORK}" --version 2>&1 | awk '{print $2}')
+if [ "${INSTALLED_VERSION}" != "${REQUIRED_PYTHON_VERSION}" ]; then
+  echo "Error: Expected Python ${REQUIRED_PYTHON_VERSION} but found ${INSTALLED_VERSION} at ${PYTHON3_FRAMEWORK}."
+  exit 1
+fi
+ohai "Using Python: ${PYTHON3_FRAMEWORK} (${INSTALLED_VERSION})"
+#################################################
+
+
 #################################################
 #Set Qt configuration option variables
 QT_BUILD_VERSION=6.8.0.0
-QT_ROOT_PATH=`pwd`
+QT_ROOT_PATH=$(cd "${CUR_SCRIPT_PATH}/.." && pwd)
+
+# Create an isolated venv for the build (QT_ROOT_PATH now available).
+# Python 3.12+ (PEP 668) blocks pip from installing into the framework Python
+# directly, so a venv is required to install build-time dependencies.
+QT_PYTHON_VENV="${QT_ROOT_PATH}/.venv-qt-build"
+if [ ! -d "${QT_PYTHON_VENV}" ]; then
+  ohai "Creating Python venv at ${QT_PYTHON_VENV}..."
+  "${PYTHON3_FRAMEWORK}" -m venv "${QT_PYTHON_VENV}" || exit 1
+fi
+ohai "Installing Python build dependencies into venv..."
+"${QT_PYTHON_VENV}/bin/pip" install --quiet --upgrade pip || exit 1
+"${QT_PYTHON_VENV}/bin/pip" install --quiet html5lib || exit 1
+
+# Point PYTHON3_EXECUTABLE at the venv interpreter so CMake uses it.
+PYTHON3_EXECUTABLE="${QT_PYTHON_VENV}/bin/python3"
+ohai "Build will use: ${PYTHON3_EXECUTABLE}"
 
 QT_BUILD_DEBUG_ENABLED=0
 QT_BUILD_RELEASE_ENABLED=1
@@ -219,7 +258,8 @@ if [ $QT_BUILD_RELEASE_ENABLED -eq 1 ]; then
               -nomake examples -nomake tests -no-warnings-are-errors -DFEATURE_clangcpp=OFF \
               -no-feature-designer \
               ${QT_MODULE_SKIPPED} \
-              -- -G "Ninja" -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -DCMAKE_OSX_DEPLOYMENT_TARGET="14.0" -DCMAKE_INSTALL_RPATH="@executable_path/../Frameworks" -DCMAKE_BUILD_WITH_INSTALL_RPATH=ON || exit 1
+              -- -G "Ninja" -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -DCMAKE_OSX_DEPLOYMENT_TARGET="14.0" -DCMAKE_INSTALL_RPATH="@executable_path/../Frameworks" -DCMAKE_BUILD_WITH_INSTALL_RPATH=ON \
+              -DPython3_EXECUTABLE="${PYTHON3_EXECUTABLE}" || exit 1
   popd
 fi
 
@@ -238,7 +278,8 @@ if [ $QT_BUILD_DEBUG_ENABLED -eq 1 ]; then
               -nomake examples -nomake tests -no-warnings-are-errors -DFEATURE_clangcpp=OFF \
               -no-feature-designer \
               ${QT_MODULE_SKIPPED} \
-              -- -G "Ninja" -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -DCMAKE_OSX_DEPLOYMENT_TARGET="14.0" -DCMAKE_INSTALL_RPATH="@executable_path/../Frameworks" -DCMAKE_BUILD_WITH_INSTALL_RPATH=ON || exit 1
+              -- -G "Ninja" -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -DCMAKE_OSX_DEPLOYMENT_TARGET="14.0" -DCMAKE_INSTALL_RPATH="@executable_path/../Frameworks" -DCMAKE_BUILD_WITH_INSTALL_RPATH=ON \
+              -DPython3_EXECUTABLE="${PYTHON3_EXECUTABLE}" || exit 1
   popd
 fi
 #################################################
