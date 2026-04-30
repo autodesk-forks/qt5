@@ -53,8 +53,10 @@ RUN source /opt/rh/gcc-toolset-14/enable \
     && ./config --prefix=/usr/local/openssl-3.5.1 --openssldir=/usr/local/openssl-3.5.1 \
     && make -j$(nproc) > /dev/null 2>&1 \
     && make install_sw \
-    && rm -rf openssl-3.5.1 openssl-3.5.1.tar.gz
-    
+    && rm -rf openssl-3.5.1 openssl-3.5.1.tar.gz \
+    && echo "/usr/local/openssl-3.5.1/lib64" > /etc/ld.so.conf.d/openssl35.conf \
+    && ldconfig
+
 RUN wget https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-linux.zip \
     && unzip ninja-linux.zip \
     && mv ninja /usr/local/bin \
@@ -89,7 +91,10 @@ RUN source /opt/rh/gcc-toolset-14/enable \
     && wget -q -O /tmp/python.tar.xz https://www.python.org/ftp/python/3.13.12/Python-3.13.12.tar.xz \
     && tar -xf /tmp/python.tar.xz -C /tmp \
     && cd /tmp/Python-3.13.12 \
-    && ./configure --prefix=/usr/local \
+    && PKG_CONFIG_PATH="/usr/local/openssl-3.5.1/lib64/pkgconfig" \
+       CPPFLAGS="-I/usr/local/zlib-1.3.2/include -I/usr/local/openssl-3.5.1/include" \
+       LDFLAGS="-L/usr/local/zlib-1.3.2/lib64 -L/usr/local/openssl-3.5.1/lib64 -Wl,-rpath,/usr/local/zlib-1.3.2/lib64 -Wl,-rpath,/usr/local/openssl-3.5.1/lib64" \
+       ./configure --prefix=/usr/local --with-openssl=/usr/local/openssl-3.5.1 --with-openssl-rpath=auto \
     && make -j$(nproc) \
     && make altinstall \
     && ln -sf /usr/local/bin/python3.13 /usr/local/bin/python3 \
