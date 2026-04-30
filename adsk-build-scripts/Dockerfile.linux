@@ -20,12 +20,13 @@ RUN apt install -y gcc-11 make g++-11 build-essential libtool autoconf unzip wge
     libxkbfile-dev
 RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 60 \
     --slave /usr/bin/g++ g++ /usr/bin/g++-11
-RUN wget -o cmake.tar.gz https://cmake.org/files/v3.26/cmake-3.26.4.tar.gz && \
-    tar -xzvf cmake-3.26.4.tar.gz && \
-    cd cmake-3.26.4 && \
+RUN wget -O /tmp/cmake.tar.gz https://cmake.org/files/v3.26/cmake-3.26.4.tar.gz && \
+    tar -xzf /tmp/cmake.tar.gz -C /tmp && \
+    cd /tmp/cmake-3.26.4 && \
     ./bootstrap && \
     make -j$(nproc) && \
-    make install
+    make install && \
+    cd / && rm -rf /tmp/cmake-3.26.4 /tmp/cmake.tar.gz
 
 # Build and install OpenSSL 3.5.1 from source
 RUN wget -q https://www.openssl.org/source/openssl-3.5.1.tar.gz \
