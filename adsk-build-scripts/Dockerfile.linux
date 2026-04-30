@@ -35,13 +35,18 @@ RUN wget -q https://www.openssl.org/source/openssl-3.5.1.tar.gz \
     && make -j$(nproc) > /dev/null 2>&1 \
     && make install_sw \
     && cd .. \
-    && rm -rf openssl-3.5.1 openssl-3.5.1.tar.gz
+    && rm -rf openssl-3.5.1 openssl-3.5.1.tar.gz \
+    && echo "/usr/local/openssl-3.5.1/lib64" > /etc/ld.so.conf.d/openssl35.conf \
+    && ldconfig
 
 # Build and install Python 3.13.12 from source
 RUN wget -q -O /tmp/python.tar.xz https://www.python.org/ftp/python/3.13.12/Python-3.13.12.tar.xz \
     && tar -xf /tmp/python.tar.xz -C /tmp \
     && cd /tmp/Python-3.13.12 \
-    && ./configure --enable-optimizations --with-lto --prefix=/usr/local \
+    && PKG_CONFIG_PATH="/usr/local/openssl-3.5.1/lib64/pkgconfig" \
+       CPPFLAGS="-I/usr/local/openssl-3.5.1/include" \
+       LDFLAGS="-L/usr/local/openssl-3.5.1/lib64 -Wl,-rpath,/usr/local/openssl-3.5.1/lib64" \
+       ./configure --enable-optimizations --with-lto --prefix=/usr/local \
        --with-openssl=/usr/local/openssl-3.5.1 --with-openssl-rpath=auto \
     && make -j$(nproc) \
     && make altinstall \
