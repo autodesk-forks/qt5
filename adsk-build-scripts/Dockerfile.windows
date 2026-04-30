@@ -57,7 +57,7 @@ RUN powershell $ProgressPreference='SilentlyContinue';wget -OutFile vulkan.exe h
     && del /q vulkan.exe
 
 
-RUN python -m pip install html5lib
+RUN c:\Python313\python.exe -m pip install html5lib
 
 ENV ICU_ROOT="C:\Utils\icu"
 ENV ICU_INCLUDE_DIR="C:\Utils\icu\include"

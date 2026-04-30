@@ -104,7 +104,13 @@ openssl version
 find / -name "libssl.so*" 2>/dev/null
 
 export OPENSSL_ROOT_DIR=/usr/local/openssl-3.5.1
-export ZLIB_ROOT_DIR=/usr/local/zlib-1.3.1
+export ZLIB_ROOT_DIR=/usr/local/zlib-1.3.2
+export MINIZIP_ROOT_DIR=/usr/local/minizip-1.3.2
+export PYTHON3_EXECUTABLE=/usr/local/bin/python3.13
+if [ ! -x "${PYTHON3_EXECUTABLE}" ]; then
+  echo "Error: Python not found at ${PYTHON3_EXECUTABLE}. Ensure the Docker image was built from Dockerfile_rocky86.linux."
+  exit 1
+fi
 
 locale
 
@@ -233,7 +239,7 @@ if [[ "${CONFIG_TYPE_PARAM}" == "debug" ]]; then
                           ${QT_MODULE_SKIPPED} \
                           -- -G "Ninja" -DCMAKE_PREFIX_PATH=${LLVM_INSTALL_DIR} -DFEATURE_webengine_jumbo_build=off -DCMAKE_BUILD_TYPE=Debug \
                           -DQT_FEATURE_system_zlib=ON \
-                          -DZLIB_ROOT=${ZLIB_ROOT_DIR} -Dminizip_ROOT=${ZLIB_ROOT_DIR} -DOPENSSL_ROOT_DIR=${OPENSSL_ROOT_DIR} \
+                          -DZLIB_ROOT=${ZLIB_ROOT_DIR} -Dminizip_ROOT=${MINIZIP_ROOT_DIR} -DOPENSSL_ROOT_DIR=${OPENSSL_ROOT_DIR} -DPython3_EXECUTABLE=${PYTHON3_EXECUTABLE} \
                           -DCMAKE_CXX_FLAGS_DEBUG="-g -Os" --log-level=STATUS || exit 1
 else
    LANG=${LANG} LC_ALL=${LC_ALL} LC_CTYPE=${LC_CTYPE} ${QT_ROOT_PATH}/configure -opensource -confirm-license -prefix ${CONFIG_PREFIX} -icu -opengl desktop -sql-psql \
@@ -243,7 +249,7 @@ else
                             ${QT_MODULE_SKIPPED} \
                             -- -G "Ninja" -DCMAKE_PREFIX_PATH=${LLVM_INSTALL_DIR} -DFEATURE_webengine_jumbo_build=off -DCMAKE_BUILD_TYPE=RelWithDebInfo \
                             -DQT_FEATURE_system_zlib=ON \
-                            -DZLIB_ROOT=${ZLIB_ROOT_DIR} -Dminizip_ROOT=${ZLIB_ROOT_DIR} -DOPENSSL_ROOT_DIR=${OPENSSL_ROOT_DIR} \
+                            -DZLIB_ROOT=${ZLIB_ROOT_DIR} -Dminizip_ROOT=${MINIZIP_ROOT_DIR} -DOPENSSL_ROOT_DIR=${OPENSSL_ROOT_DIR} -DPython3_EXECUTABLE=${PYTHON3_EXECUTABLE} \
                             --log-level=STATUS || exit 1
 fi
 
