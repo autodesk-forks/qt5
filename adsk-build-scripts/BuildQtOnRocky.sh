@@ -240,6 +240,7 @@ if [[ "${CONFIG_TYPE_PARAM}" == "debug" ]]; then
                           -- -G "Ninja" -DCMAKE_PREFIX_PATH=${LLVM_INSTALL_DIR} -DFEATURE_webengine_jumbo_build=off -DCMAKE_BUILD_TYPE=Debug \
                           -DQT_FEATURE_system_zlib=ON \
                           -DZLIB_ROOT=${ZLIB_ROOT_DIR} -Dminizip_ROOT=${MINIZIP_ROOT_DIR} -DOPENSSL_ROOT_DIR=${OPENSSL_ROOT_DIR} -DPython3_EXECUTABLE=${PYTHON3_EXECUTABLE} \
+                          -DCMAKE_C_FLAGS="-Wno-implicit-function-declaration" \
                           -DCMAKE_CXX_FLAGS_DEBUG="-g -Os" --log-level=STATUS || exit 1
 else
    LANG=${LANG} LC_ALL=${LC_ALL} LC_CTYPE=${LC_CTYPE} ${QT_ROOT_PATH}/configure -opensource -confirm-license -prefix ${CONFIG_PREFIX} -icu -opengl desktop -sql-psql \
@@ -250,6 +251,7 @@ else
                             -- -G "Ninja" -DCMAKE_PREFIX_PATH=${LLVM_INSTALL_DIR} -DFEATURE_webengine_jumbo_build=off -DCMAKE_BUILD_TYPE=RelWithDebInfo \
                             -DQT_FEATURE_system_zlib=ON \
                             -DZLIB_ROOT=${ZLIB_ROOT_DIR} -Dminizip_ROOT=${MINIZIP_ROOT_DIR} -DOPENSSL_ROOT_DIR=${OPENSSL_ROOT_DIR} -DPython3_EXECUTABLE=${PYTHON3_EXECUTABLE} \
+                            -DCMAKE_C_FLAGS="-Wno-implicit-function-declaration" \
                             --log-level=STATUS || exit 1
 fi
 
