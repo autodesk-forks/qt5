@@ -231,6 +231,17 @@ ls $QT_BUILD_PATH
 
 df -h
 
+# GCC14 on Rocky8 promotes implicit-function-declaration to an error by default.
+# CMAKE_C_FLAGS handles Qt's own C code, but Chromium's embedded GN build ignores it.
+# Qt WebEngine maps CMAKE_CXX_COMPILER_LAUNCHER -> GN's cc_wrapper, which GN prepends
+# to every compiler invocation (both C and C++), so the wrapper reaches Chromium.
+CC_WRAPPER_PATH=/tmp/gec-cc-wrapper.sh
+cat > "${CC_WRAPPER_PATH}" << 'WRAPPER_SCRIPT'
+#!/bin/bash
+exec "$1" -Wno-implicit-function-declaration "${@:2}"
+WRAPPER_SCRIPT
+chmod +x "${CC_WRAPPER_PATH}"
+
 if [[ "${CONFIG_TYPE_PARAM}" == "debug" ]]; then
    LANG=${LANG} LC_ALL=${LC_ALL} LC_CTYPE=${LC_CTYPE} ${QT_ROOT_PATH}/configure -opensource -confirm-license -prefix ${CONFIG_PREFIX} -icu -opengl desktop -sql-psql \
                           -openssl-runtime -qt-libjpeg -system-zlib -feature-webengine-system-zlib -qt-harfbuzz -qt-freetype -qt-doubleconversion -xcb -debug -force-debug-info -separate-debug-info \
@@ -241,6 +252,7 @@ if [[ "${CONFIG_TYPE_PARAM}" == "debug" ]]; then
                           -DQT_FEATURE_system_zlib=ON \
                           -DZLIB_ROOT=${ZLIB_ROOT_DIR} -Dminizip_ROOT=${MINIZIP_ROOT_DIR} -DOPENSSL_ROOT_DIR=${OPENSSL_ROOT_DIR} -DPython3_EXECUTABLE=${PYTHON3_EXECUTABLE} \
                           -DCMAKE_C_FLAGS="-Wno-implicit-function-declaration" \
+                          -DCMAKE_CXX_COMPILER_LAUNCHER="${CC_WRAPPER_PATH}" \
                           -DCMAKE_CXX_FLAGS_DEBUG="-g -Os" --log-level=STATUS || exit 1
 else
    LANG=${LANG} LC_ALL=${LC_ALL} LC_CTYPE=${LC_CTYPE} ${QT_ROOT_PATH}/configure -opensource -confirm-license -prefix ${CONFIG_PREFIX} -icu -opengl desktop -sql-psql \
@@ -252,6 +264,7 @@ else
                             -DQT_FEATURE_system_zlib=ON \
                             -DZLIB_ROOT=${ZLIB_ROOT_DIR} -Dminizip_ROOT=${MINIZIP_ROOT_DIR} -DOPENSSL_ROOT_DIR=${OPENSSL_ROOT_DIR} -DPython3_EXECUTABLE=${PYTHON3_EXECUTABLE} \
                             -DCMAKE_C_FLAGS="-Wno-implicit-function-declaration" \
+                            -DCMAKE_CXX_COMPILER_LAUNCHER="${CC_WRAPPER_PATH}" \
                             --log-level=STATUS || exit 1
 fi
 
