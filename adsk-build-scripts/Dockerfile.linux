@@ -9,6 +9,21 @@ RUN wget https://www.openssl.org/source/openssl-3.5.1.tar.gz && \
     make install_sw && \
     rm -rf openssl-3.5.1 openssl-3.5.1.tar.gz
 
+# Build and install Python 3.13.12 from source
+RUN wget -q -O /tmp/python.tar.xz https://www.python.org/ftp/python/3.13.12/Python-3.13.12.tar.xz \
+    && tar -xf /tmp/python.tar.xz -C /tmp \
+    && cd /tmp/Python-3.13.12 \
+    && PKG_CONFIG_PATH="/usr/local/openssl-3.5.1/lib64/pkgconfig" \
+       CPPFLAGS="-I/usr/local/openssl-3.5.1/include" \
+       LDFLAGS="-L/usr/local/openssl-3.5.1/lib64 -Wl,-rpath,/usr/local/openssl-3.5.1/lib64" \
+       ./configure --prefix=/usr/local --with-openssl=/usr/local/openssl-3.5.1 --with-openssl-rpath=auto \
+    && make -j$(nproc) \
+    && make altinstall \
+    && ln -sf /usr/local/bin/python3.13 /usr/local/bin/python3 \
+    && ln -sf /usr/local/bin/pip3.13 /usr/local/bin/pip3 \
+    && cd / && rm -rf /tmp/python.tar.xz /tmp/Python-3.13.12 \
+    && python3 -m pip install --no-cache-dir html5lib
+
 RUN git config --system credential.helper store \
     && mkdir /root/.ssh \
     && ssh-keyscan git.autodesk.com > /root/.ssh/known_hosts

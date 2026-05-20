@@ -117,6 +117,29 @@ set QT_MODULE_SKIPPED= -skip qtactiveqt -skip qtvirtualkeyboard -skip qtquicktim
                        -skip qtquickeffectmaker -skip qtwebglplugin -skip qtdoc -skip qtgrpc
 
 
+@rem #################################################
+@rem Verify Python 3.13.12 is installed; abort if not.
+@rem Uses the Python Launcher (py.exe) which is installed by all python.org packages.
+set REQUIRED_PYTHON_VERSION=3.13.12
+
+@rem Python 3.13.12 is installed to C:\Python313\ by Dockerfile.windows.
+set PYTHON3_EXECUTABLE=C:\Python313\python.exe
+
+if not exist "%PYTHON3_EXECUTABLE%" (
+    echo Error: Python not found at %PYTHON3_EXECUTABLE%. Ensure the Docker image was built from Dockerfile.windows.
+    goto :error
+)
+
+for /f "tokens=2" %%v in ('"%PYTHON3_EXECUTABLE%" --version 2^>^&1') do set INSTALLED_PYTHON_VERSION=%%v
+if not "%INSTALLED_PYTHON_VERSION%" == "%REQUIRED_PYTHON_VERSION%" (
+    echo Error: Expected Python %REQUIRED_PYTHON_VERSION% but found %INSTALLED_PYTHON_VERSION% at %PYTHON3_EXECUTABLE%.
+    goto :error
+)
+
+echo Using Python: %PYTHON3_EXECUTABLE% ^(%INSTALLED_PYTHON_VERSION%^)
+@rem #################################################
+
+
 @rem Step into the Qt root directory
 cd /d %QT_ROOT_PATH%
 
@@ -162,7 +185,8 @@ if "%CONFIG_TYPE_PARAM%" == "debug" (
                    " -no-feature-designer " ^
                    " %QT_MODULE_SKIPPED% " ^
                    " -- -G Ninja " ^
-                   " -DOPENSSL_ROOT_DIR=%OPENSSL_ROOT_DIR%% --log-level=STATUS " ^
+                   " -DOPENSSL_ROOT_DIR=%OPENSSL_ROOT_DIR% --log-level=STATUS " ^
+                   " -DPython3_EXECUTABLE=%PYTHON3_EXECUTABLE% " ^
                    " || goto :error "
 ) else (
     call  %comspec% /k "configure -opensource -confirm-license -prefix %CONFIG_PREFIX%  -platform win32-msvc " ^
@@ -172,6 +196,7 @@ if "%CONFIG_TYPE_PARAM%" == "debug" (
                    " %QT_MODULE_SKIPPED% " ^
                    " -- -G Ninja " ^
                    " -DOPENSSL_ROOT_DIR=%OPENSSL_ROOT_DIR% --log-level=STATUS " ^
+                   " -DPython3_EXECUTABLE=%PYTHON3_EXECUTABLE% " ^
                    " || goto :error "
 )
 

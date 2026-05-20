@@ -18,8 +18,8 @@ RUN powershell $ProgressPreference='SilentlyContinue';wget -OutFile python.msi h
     && msiexec /i python.msi /quiet TARGETDIR=c:\Python27\ ALLUSERS=1 ALLLOCAL=DefaultFeature,Extensions,TclTk,Tools,pip_feature,PrependPath `
     && del /q python.msi
 
-RUN powershell $ProgressPreference='SilentlyContinue';wget -OutFile python.exe https://www.python.org/ftp/python/3.11.9/python-3.11.9-amd64.exe `
-    && python.exe /quiet TargetDir=c:\Python311\ InstallAllUsers=1 PrependPath=1 Shortcuts=0 Include_doc=0 Include_test=0 `
+RUN powershell $ProgressPreference='SilentlyContinue';wget -OutFile python.exe https://www.python.org/ftp/python/3.13.12/python-3.13.12-amd64.exe `
+    && python.exe /quiet TargetDir=c:\Python313\ InstallAllUsers=1 PrependPath=1 Shortcuts=0 Include_doc=0 Include_test=0 `
     && del /q python.exe
 
 RUN powershell $ProgressPreference='SilentlyContinue';wget -OutFile postgresql.exe https://get.enterprisedb.com/postgresql/postgresql-15.8-1-windows-x64.exe `
@@ -57,7 +57,7 @@ RUN powershell $ProgressPreference='SilentlyContinue';wget -OutFile vulkan.exe h
     && del /q vulkan.exe
 
 
-RUN python -m pip install html5lib
+RUN c:\Python313\python.exe -m pip install html5lib
 
 ENV ICU_ROOT="C:\Utils\icu"
 ENV ICU_INCLUDE_DIR="C:\Utils\icu\include"

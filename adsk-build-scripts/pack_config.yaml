@@ -18,9 +18,9 @@ linux:
   qt5.lnx.ubuntu22.release:
   - ubuntu22 release gcc11
   qt5.lnx.rocky86.debug:
-  - rocky86 debug gcc10
+  - rocky86 debug gcc14
   qt5.lnx.rocky86.release:
-  - rocky86 release gcc10
+  - rocky86 release gcc14
 ---
 # Variables
 variables:
@@ -69,10 +69,10 @@ platforms:
         variables:
           compiler: intel64
           toolchain: gcc11
-      gcc10:
+      gcc14:
         variables:
           compiler: intel64
-          toolchain: gcc10
+          toolchain: gcc14
 ---
 # Nuspec Definition
 linux:
