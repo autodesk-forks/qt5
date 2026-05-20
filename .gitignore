@@ -11,3 +11,5 @@ build-*
 init-repository.opt
 init-repository.opt.in
 config.tl.opt
+
+.claude/settings.local.json
