@@ -101,9 +101,9 @@ linux:
     preserve_symlink: false
     dependencies: 
     - package_name: ${component_name}-translations
-      version: "${pkg_version}"
+      version: "[${pkg_version}]"
     - package_name: ${component_name}-plugins_${osName}-${distro}_${config}_${compiler}_${toolchain}
-      version: "${pkg_version}"
+      version: "[${pkg_version}]"
   - id: ${component_name}-compilers_${osName}-${distro}_${config}_${compiler}_${toolchain}
     sources:
     - include: "${build_dir}/${config}/compilers/**/*"
@@ -125,9 +125,9 @@ linux:
     preserve_symlink: false
     dependencies: 
     - package_name: ${component_name}-headers_${osName}_${compiler}
-      version: "${pkg_version}"
+      version: "[${pkg_version}]"
     - package_name: ${component_name}_${osName}-${distro}_${config}_${compiler}_${toolchain}
-      version: "${pkg_version}"
+      version: "[${pkg_version}]"
   - id: ${component_name}-plugins_${osName}-${distro}_${config}_${compiler}_${toolchain}
     sources:
     - include: "${build_dir}/${config}/plugins/**/*"
@@ -150,7 +150,7 @@ linux:
     preserve_symlink: false
     dependencies: 
     - package_name: ${component_name}-resources_${osName}-${distro}_${config}_${compiler}_${toolchain}
-      version: "${pkg_version}"
+      version: "[${pkg_version}]"
   - id: ${component_name}-sym_${osName}-${distro}_${config}_${compiler}_${toolchain}
     sources:
     - include: "${build_dir}/${config}/bin/**/*.debug"
@@ -245,9 +245,9 @@ windows:
       target: "bin"
     dependencies: 
     - package_name: ${component_name}-translations
-      version: "${pkg_version}"
+      version: "[${pkg_version}]"
     - package_name: ${component_name}-plugins_${osName}_${config}_${compiler}_${toolchain}
-      version: "${pkg_version}"
+      version: "[${pkg_version}]"
   - id: ${component_name}-sym_${osName}_${config}_${compiler}_${toolchain}
     sources:
     - include: "${build_dir}/${config}/bin/**/*.pdb"
@@ -279,9 +279,9 @@ windows:
       target: "metatypes"
     dependencies: 
     - package_name: ${component_name}-headers_${osName}_${compiler}
-      version: "${pkg_version}"
+      version: "[${pkg_version}]"
     - package_name: ${component_name}_${osName}_${config}_${compiler}_${toolchain}
-      version: "${pkg_version}"
+      version: "[${pkg_version}]"
   - id: ${component_name}-plugins_${osName}_${config}_${compiler}_${toolchain}
     sources:
     - include: "${build_dir}/${config}/plugins/**/*"
@@ -301,7 +301,7 @@ windows:
       target: "bin"
     dependencies: 
     - package_name: ${component_name}-resources_${osName}_${config}_${compiler}_${toolchain}
-      version: "${pkg_version}"
+      version: "[${pkg_version}]"
 - type: zip
   version: "${pkg_version}"
   adsk_xml_template: "adsk.xml.tpl"
@@ -330,9 +330,9 @@ mac:
       target: "bin"
     dependencies: 
     - package_name: ${component_name}-translations
-      version: "${pkg_version}"
+      version: "[${pkg_version}]"
     - package_name: ${component_name}-plugins_${osName}_${config}_${compiler}_${toolchain}
-      version: "${pkg_version}"
+      version: "[${pkg_version}]"
   - id: ${component_name}-compilers_${osName}_${config}_${compiler}_${toolchain}
     sources:
     - include: "${build_dir}/${config}/compilers/**/*"
@@ -352,9 +352,9 @@ mac:
       target: "metatypes"
     dependencies: 
     - package_name: ${component_name}-headers_${osName}_${compiler}
-      version: "${pkg_version}"
+      version: "[${pkg_version}]"
     - package_name: ${component_name}_${osName}_${config}_${compiler}_${toolchain}
-      version: "${pkg_version}"
+      version: "[${pkg_version}]"
   - id: ${component_name}-plugins_${osName}_${config}_${compiler}_${toolchain}
     sources:
     - include: "${build_dir}/${config}/plugins/**/*"
