@@ -57,7 +57,9 @@ RUN powershell $ProgressPreference='SilentlyContinue';wget -OutFile vulkan.exe h
     && del /q vulkan.exe
 
 
-RUN c:\Python313\python.exe -m pip install html5lib
+RUN c:\Python313\python.exe -m pip install html5lib `
+    --index-url https://art-toucan.autodesk.com/artifactory/api/pypi/autodesk-pypi-virtual/simple `
+    --extra-index-url https://ue1.artifactory.autodesk.com/artifactory/api/pypi/autodesk-pypi-virtual/simple
 
 ENV ICU_ROOT="C:\Utils\icu"
 ENV ICU_INCLUDE_DIR="C:\Utils\icu\include"

@@ -102,7 +102,9 @@ RUN source /opt/rh/gcc-toolset-14/enable \
     && ln -sf /usr/local/bin/python3.13 /usr/local/bin/python3 \
     && ln -sf /usr/local/bin/pip3.13 /usr/local/bin/pip3 \
     && cd / && rm -rf /tmp/python.tar.xz /tmp/Python-3.13.12 \
-    && python3 -m pip install --no-cache-dir html5lib dataclasses
+    && python3 -m pip install --no-cache-dir html5lib dataclasses \
+        --index-url https://art-toucan.autodesk.com/artifactory/api/pypi/autodesk-pypi-virtual/simple \
+        --extra-index-url https://ue1.artifactory.autodesk.com/artifactory/api/pypi/autodesk-pypi-virtual/simple
 
 # when install libatomic, the libatomic.so cannot be created which cause link error due to libatomic missing
 RUN ln -sf /usr/lib64/libatomic.so.1 /usr/lib64/libatomic.so
