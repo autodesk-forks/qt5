@@ -3,8 +3,15 @@
 # Image Detail: https://git.autodesk.com/EngOps/container-image
 FROM autodesk-docker.art-bobcat.autodesk.com/engops/windows/servercore-ltsc2019/vs17-full-vctools-cmake:nightly
 
+ARG ART_USER
+ARG ART_PASSWORD
+
 # Split installations to avoid hard link issues
-RUN powershell $ProgressPreference='SilentlyContinue';wget -OutFile openssl.msi https://art-bobcat.autodesk.com:443/artifactory/team-gec-nuget/3P/OpenSSL30/Win64OpenSSL-3_5_3.msi `
+RUN powershell $ProgressPreference='SilentlyContinue'; `
+    $pair = \"%ART_USER%:%ART_PASSWORD%\"; `
+    $encodedCreds = [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes($pair)); `
+    $basicAuthValue = \"Basic $encodedCreds\"; `
+    Invoke-WebRequest -Uri \"https://art-bobcat.autodesk.com:443/artifactory/team-gec-nuget/3P/OpenSSL30/Win64OpenSSL-3_5_3.msi\" -OutFile openssl.msi -Headers @{Authorization = $basicAuthValue}; `
     && msiexec /i openssl.msi /quiet /norestart `
     && setx /M PATH "%PATH%C:\Program Files\OpenSSL-Win64\bin" `
     && del /q openssl.msi `

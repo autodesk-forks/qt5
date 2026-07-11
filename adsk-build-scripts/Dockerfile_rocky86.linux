@@ -1,5 +1,8 @@
 FROM rockylinux/rockylinux:8.6
 
+ARG ART_USER
+ARG ART_PASSWORD
+
 SHELL ["/usr/bin/bash", "-c"]
 
 RUN yum update -y \
@@ -65,24 +68,24 @@ RUN wget https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-li
     && rm -rf ninja-linux.zip
 
 # Download the new version of zlib from artifactory
-RUN wget -O zlib-headers.zip https://art-bobcat.autodesk.com:443/artifactory/autodesk-3p-nuget/External/zlib/1.1302.1/gec/zlib-headers.1.1302.1.nupkg && \
+RUN wget --user="$ART_USER" --password="$ART_PASSWORD" -O zlib-headers.zip https://art-bobcat.autodesk.com:443/artifactory/autodesk-3p-nuget/External/zlib/1.1302.1/gec/zlib-headers.1.1302.1.nupkg && \
     unzip zlib-headers.zip -d zlib-headers && \
     mkdir -p /usr/local/zlib-1.3.2/include && \
     mv zlib-headers/inc/* /usr/local/zlib-1.3.2/include/ && \
     rm -rf zlib-headers.zip zlib-headers
-RUN wget -O zlib-lib.zip https://art-bobcat.autodesk.com:443/artifactory/autodesk-3p-nuget/External/zlib/1.1302.1/gec/zlib-lib_linux-rocky8_release_intel64_gcc1121_static.1.1302.1.nupkg && \
+RUN wget --user="$ART_USER" --password="$ART_PASSWORD" -O zlib-lib.zip https://art-bobcat.autodesk.com:443/artifactory/autodesk-3p-nuget/External/zlib/1.1302.1/gec/zlib-lib_linux-rocky8_release_intel64_gcc1121_static.1.1302.1.nupkg && \
     unzip zlib-lib.zip -d zlib-libs && \
     mkdir -p /usr/local/zlib-1.3.2/lib64 && \
     mv zlib-libs/libs/* /usr/local/zlib-1.3.2/lib64/ && \
     rm -rf zlib-lib.zip zlib-libs
 
 # Download minizip
-RUN wget -O minizip-headers.zip https://art-bobcat.autodesk.com:443/artifactory/autodesk-3p-nuget/External/zlib/1.1302.1/gec/minizip-headers.1.1302.1.nupkg && \
+RUN wget --user="$ART_USER" --password="$ART_PASSWORD" -O minizip-headers.zip https://art-bobcat.autodesk.com:443/artifactory/autodesk-3p-nuget/External/zlib/1.1302.1/gec/minizip-headers.1.1302.1.nupkg && \
     unzip minizip-headers.zip -d minizip-headers && \
     mkdir -p /usr/local/minizip-1.3.2/include && \
     mv minizip-headers/inc/* /usr/local/minizip-1.3.2/include/ && \
     rm -rf minizip-headers.zip minizip-headers
-RUN wget -O minizip-lib.zip https://art-bobcat.autodesk.com:443/artifactory/autodesk-3p-nuget/External/zlib/1.1302.1/gec/minizip-lib_linux-rocky8_release_intel64_gcc1121_static.1.1302.1.nupkg && \
+RUN wget --user="$ART_USER" --password="$ART_PASSWORD" -O minizip-lib.zip https://art-bobcat.autodesk.com:443/artifactory/autodesk-3p-nuget/External/zlib/1.1302.1/gec/minizip-lib_linux-rocky8_release_intel64_gcc1121_static.1.1302.1.nupkg && \
     unzip minizip-lib.zip -d minizip-libs && \
     mkdir -p /usr/local/minizip-1.3.2/lib64 && \
     mv minizip-libs/libs/* /usr/local/minizip-1.3.2/lib64/ && \
