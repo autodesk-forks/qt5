@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.16...3.21)
 
 # Set custom binary version for libraries while keeping installation paths at 6.8.3
 # QT_BINARY_VERSION is used by patched QtModuleHelpers.cmake and QtTargetHelpers.cmake
-set(QT_BINARY_VERSION "6.8.101" CACHE INTERNAL "Qt binary version" FORCE)
+set(QT_BINARY_VERSION "6.8.102" CACHE INTERNAL "Qt binary version" FORCE)
 set(QT_BINARY_VERSION_MAJOR "6" CACHE INTERNAL "Qt binary major version (for SOVERSION)" FORCE)
 
 # set QT_SUPERBUILD early, so that qtbase/.cmake.conf can check it
