@@ -246,14 +246,24 @@ set QT_INSTALL_COMPILER_PATH=%CONFIG_PREFIX%\compilers
 @rem Create compilers directory
 mkdir %QT_INSTALL_COMPILER_PATH%
 
+@rem Qt's CMake build appends a "d" postfix to debug shared libraries on Windows
+@rem (CMAKE_DEBUG_POSTFIX), but not to host tool executables (uic, rcc, moc, ...).
+set QT_DLL_DEBUG_SUFFIX=
+if "%CONFIG_TYPE_PARAM%" == "debug" (
+    set QT_DLL_DEBUG_SUFFIX=d
+)
+
 @rem Copy files...
 @rem echo F|xcopy /d /y /h "Update\QtCored.dll" "%PackageDir%\QtCored.dll"
 @rem echo D|xcopy /d /y /h /e "MsvcDll\*" "%PackageDir%\bin\*"
 
 echo F| xcopy /d /y /h "%QT_INSTALL_PATH%\bin\uic.exe"  %QT_INSTALL_COMPILER_PATH%
 echo F| xcopy /d /y /h "%QT_INSTALL_PATH%\bin\rcc.exe"  %QT_INSTALL_COMPILER_PATH%
-echo F| xcopy /d /y /h "%QT_INSTALL_PATH%\bin\Qt6Xml.dll"  %QT_INSTALL_COMPILER_PATH%
-echo F| xcopy /d /y /h "%QT_INSTALL_PATH%\bin\Qt6Core.dll"  %QT_INSTALL_COMPILER_PATH%
+echo F| xcopy /d /y /h "%QT_INSTALL_PATH%\bin\Qt6Xml%QT_DLL_DEBUG_SUFFIX%.dll"  %QT_INSTALL_COMPILER_PATH%
+echo F| xcopy /d /y /h "%QT_INSTALL_PATH%\bin\Qt6Core%QT_DLL_DEBUG_SUFFIX%.dll"  %QT_INSTALL_COMPILER_PATH%
+echo F| xcopy /d /y /h "%QT_INSTALL_PATH%\bin\Qt6Network%QT_DLL_DEBUG_SUFFIX%.dll"  %QT_INSTALL_COMPILER_PATH%
+echo F| xcopy /d /y /h "%QT_INSTALL_PATH%\bin\Qt6QmlCompiler%QT_DLL_DEBUG_SUFFIX%.dll"  %QT_INSTALL_COMPILER_PATH%
+echo F| xcopy /d /y /h "%QT_INSTALL_PATH%\bin\Qt6Qml%QT_DLL_DEBUG_SUFFIX%.dll"  %QT_INSTALL_COMPILER_PATH%
 echo F| xcopy /d /y /h "%QT_INSTALL_PATH%\bin\qmlcachegen.exe"  %QT_INSTALL_COMPILER_PATH%
 echo F| xcopy /d /y /h "%QT_INSTALL_PATH%\bin\qmake.exe"  %QT_INSTALL_COMPILER_PATH%
 echo F| xcopy /d /y /h "%QT_INSTALL_PATH%\bin\moc.exe"  %QT_INSTALL_COMPILER_PATH%
