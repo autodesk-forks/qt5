@@ -4,7 +4,7 @@
   * Document: https://wiki.autodesk.com/display/ENGOPS/GEC-OSS+Build+Framework
   * Maintainer: EngOps Team Stark <engops.team.stark@autodesk.com>
   */
-@Library(["oss-psl@cer", "PSL"]) _
+@Library(["oss-psl@main", "PSL"]) _
 
 buildPipeline {
     /**********************************************************
