@@ -44,7 +44,7 @@ buildPipeline {
             ],
         ],
         'mac': [
-            'GEC-QT68-MAC': [
+            'OSSM4MAC-QT': [
                 'qt5.mac': [
                     'build_script': './adsk-build-scripts/BuildQtOnMacOS.sh',
                 ],
